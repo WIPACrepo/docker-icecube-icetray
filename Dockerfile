@@ -19,10 +19,12 @@ RUN mkdir /home/icecube/combo && mkdir /home/icecube/combo/build && \
 # build icetray
 WORKDIR /home/icecube/combo/build
 RUN cmake /home/icecube/combo/src \
-      -DCMAKE_CXX_STANDARD_REQUIRED=True \
-      -DCMAKE_CXX_STANDARD=14 \
       -DCMAKE_BUILD_TYPE=Release \
     && make -j`nproc`
+# these two options seem to conflict with the way C++11/14 is
+# being enabled in cmake/config.cmake
+#      -DCMAKE_CXX_STANDARD_REQUIRED=True \
+#      -DCMAKE_CXX_STANDARD=14 \
 
 # build icetray test binaries
 RUN make test-bins -j`nproc`
