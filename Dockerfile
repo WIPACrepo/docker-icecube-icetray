@@ -2,7 +2,7 @@
 # Dockerfile to build the combo icetray meta-project
 ###############################################################
 
-FROM icecube/ubuntu_with_i3data:2017.09.06
+FROM icecube/ubuntu_with_i3data:2018.02.20
 
 MAINTAINER Claudio Kopper <ckopper@icecube.wisc.edu>
 
