@@ -12,11 +12,7 @@ jobs:
             - run: |
                 . env/bin/activate &&
                 pytest tests
-    deploy_combo:
-        parameters:
-            release:
-                type: boolean
-                default: false
+    deploy:
         docker:
             - image: circleci/buildpack-deps:stretch
         steps:
@@ -29,15 +25,14 @@ workflows:
     version: 2
     build_and_test:
         jobs:
-            - deploy_combo:
+            - deploy:
                 context: docker
                 filters:
                     branches:
                         only: master
     release:
         jobs:
-            - deploy_combo:
-                release: true
+            - deploy:
                 context: docker
                 filters:
                     branches:
