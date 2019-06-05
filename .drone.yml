@@ -1,0 +1,24 @@
+kind: pipeline
+name: default
+
+steps:
+- name: deploy
+  image: docker:dind
+  privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run/docker.sock
+  environment:
+    IMAGE_NAME: wipac/monitoring-scripts
+    DOCKERHUB_USER:
+      from_secret: DOCKERHUB_USER
+    DOCKERHUB_PASS:
+      from_secret: DOCKERHUB_PASS
+  commands:
+  - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
+  - python deploy.py
+
+volumes:
+- name: dockersock
+  host:
+    path: /var/run/docker.sock
