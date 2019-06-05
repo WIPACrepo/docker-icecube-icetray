@@ -51,7 +51,7 @@ RUN cmake /root/combo/src \
       -DINSTALL_TOOL_LIBS=OFF \
       -DUSE_GFILT=OFF \
       -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
-    && make -j2
+    && make -j4
 
 # install icetray
 RUN make install
