@@ -3,7 +3,7 @@ name: default
 
 steps:
 - name: deploy
-  image: docker:dind
+  image: wipac/docker:dind-python
   privileged: true
   volumes:
   - name: dockersock
