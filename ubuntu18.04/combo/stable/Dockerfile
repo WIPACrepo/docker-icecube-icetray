@@ -149,6 +149,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   libcfitsio5 libhdf5-100 \
   python-numexpr cython python-cffi \
   python-healpy python-urllib3 python-jsonschema \
+  ipython \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
   libzmq5 libzmqpp4 python-zmq \
@@ -213,6 +214,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   libcfitsio-dev libhdf5-serial-dev \
   python-numexpr cython python-cffi \
   python-healpy python-urllib3 python-jsonschema \
+  ipython \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
   libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq \
@@ -269,6 +271,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   libcfitsio-dev libhdf5-serial-dev \
   python-numexpr cython python-cffi \
   python-healpy python-urllib3 python-jsonschema \
+  ipython \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
   libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq \
