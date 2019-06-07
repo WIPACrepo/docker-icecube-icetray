@@ -116,7 +116,7 @@ RUN mkdir -p /scratch
 
 # provide the entry point to run commands
 ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
-CMD []
+CMD ["/bin/bash"]
 
 
 ##################################################################
@@ -183,7 +183,7 @@ RUN mkdir -p /scratch
 
 # provide the entry point to run commands
 ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
-CMD []
+CMD ["/bin/bash"]
 
 
 ##################################################################
@@ -239,7 +239,7 @@ RUN mkdir -p /scratch
 
 # provide the entry point to run commands
 ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
-CMD []
+CMD ["/bin/bash"]
 
 
 ##################################################################
@@ -292,4 +292,4 @@ RUN mkdir -p /scratch
 
 # provide the entry point to run commands
 ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
-CMD []
+CMD ["/bin/bash"]
