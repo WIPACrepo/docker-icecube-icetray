@@ -115,7 +115,7 @@ ENV TMPDIR /scratch
 RUN mkdir -p /scratch
 
 # provide the entry point to run commands
-ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec", "/root/entrypoint.py"]
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
 CMD []
 
 
@@ -182,7 +182,7 @@ RUN python -c 'from matplotlib import pyplot'
 RUN mkdir -p /scratch
 
 # provide the entry point to run commands
-ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec", "/root/entrypoint.py"]
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
 CMD []
 
 
@@ -238,7 +238,7 @@ RUN python -c 'from matplotlib import pyplot'
 RUN mkdir -p /scratch
 
 # provide the entry point to run commands
-ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec", "/root/entrypoint.py"]
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
 CMD []
 
 
@@ -291,5 +291,5 @@ RUN python -c 'from matplotlib import pyplot'
 RUN mkdir -p /scratch
 
 # provide the entry point to run commands
-ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec", "/root/entrypoint.py"]
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
 CMD []

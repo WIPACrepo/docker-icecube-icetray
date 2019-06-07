@@ -1,8 +1,11 @@
 import os
 import subprocess
+from datetime import datetime
 
 image_name = 'icecube/icetray'
 
+def get_date():
+    return datetime.utcnow().strftime("%Y%m%d-%H%M%S")
 
 def call(*args, **kwargs):
     print('call: '+' '.join(str(a) for a in args))
@@ -30,17 +33,21 @@ def retag(old, new):
 def build_metaproject(metaproject, version, base_os):
     print('now working on '+metaproject+'-'+version+'-XXX-'+base_os)
 
+    date = get_date()
+
     build_docker(metaproject, version, 'base', base_os)
 
     build_docker(metaproject, version, 'slim', base_os)
     retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim')
     if metaproject == 'combo' and version == 'stable':
         retag(metaproject+'-'+version+'-slim-'+base_os, version+'-slim')
+        retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim-'+base_os+'-'+date)
 
     build_docker(metaproject, version, 'prod', base_os)
     retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod')
     if metaproject == 'combo' and version == 'stable':
         retag(metaproject+'-'+version+'-prod-'+base_os, version+'-prod')
+        retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod-'+base_os+'-'+date)
 
     build_docker(metaproject, version, 'devel', base_os)
     retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version+'-devel')
@@ -49,6 +56,7 @@ def build_metaproject(metaproject, version, base_os):
         retag(metaproject+'-'+version+'-devel-'+base_os, version+'-devel')
         retag(metaproject+'-'+version+'-devel-'+base_os, version)
         retag(metaproject+'-'+version+'-devel-'+base_os, 'latest')
+        retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version+'-devel-'+base_os+'-'+date)
 
     build_docker(metaproject, version, 'cuda10.1', base_os)
     retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda10.1')
@@ -56,6 +64,7 @@ def build_metaproject(metaproject, version, base_os):
     if metaproject == 'combo' and version == 'stable':
         retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-cuda10.1')
         retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-cuda')
+        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda10.1-'+base_os+'-'+date)
 
 
 for base_os in ('ubuntu18.04',):
