@@ -80,11 +80,11 @@ WORKDIR /root
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   tar wget rsync gzip bzip2 xz-utils liblzma5 zlib1g libzstd1 \
   less \
-  libboost-python1.62 \
-  libboost-system1.62 libboost-signals1.62 libboost-thread1.62 \
-  libboost-date-time1.62 libboost-serialization1.62 \
-  libboost-filesystem1.62 libboost-program-options1.62 \
-  libboost-regex1.62 libboost-iostreams1.62 libgsl23 \
+  libboost-python1.65 \
+  libboost-system1.65 libboost-signals1.65 libboost-thread1.65 \
+  libboost-date-time1.65 libboost-serialization1.65 \
+  libboost-filesystem1.65 libboost-program-options1.65 \
+  libboost-regex1.65 libboost-iostreams1.65 libgsl23 \
   libcdk5 libarchive13 python-scipy \
   python-urwid python-numpy python-matplotlib \
   libz-dev libstarlink-pal0 \
@@ -133,11 +133,11 @@ WORKDIR /root
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   tar wget rsync gzip bzip2 xz-utils liblzma5 zlib1g libzstd1 \
   less \
-  libboost-python1.62 \
-  libboost-system1.62 libboost-signals1.62 libboost-thread1.62 \
-  libboost-date-time1.62 libboost-serialization1.62 \
-  libboost-filesystem1.62 libboost-program-options1.62 \
-  libboost-regex1.62 libboost-iostreams1.62 libgsl23 \
+  libboost-python1.65 \
+  libboost-system1.65 libboost-signals1.65 libboost-thread1.65 \
+  libboost-date-time1.65 libboost-serialization1.65 \
+  libboost-filesystem1.65 libboost-program-options1.65 \
+  libboost-regex1.65 libboost-iostreams1.65 libgsl23 \
   libcdk5 libarchive13 python-scipy \
   python-urwid python-numpy python-matplotlib \
   libz-dev libstarlink-pal0 \
