@@ -18,6 +18,7 @@ jobs:
         steps:
             - checkout
             - setup_remote_docker
+                docker_layer_caching: true
             - run: |
                 echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
                 python deploy.py
