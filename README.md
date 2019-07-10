@@ -1,6 +1,8 @@
 icecube/icetray
 ===============
 
+Docker images of IceCube's IceTray codebase - combo metaproject.
+
 Flavors
 -------
 
