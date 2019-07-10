@@ -13,6 +13,7 @@ jobs:
                 . env/bin/activate &&
                 pytest tests
     deploy:
+        resource_class: large
         docker:
             - image: circleci/buildpack-deps:stretch
         steps:
