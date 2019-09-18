@@ -21,7 +21,7 @@ def build_docker(metaproject, version, target, base_os):
     full_tag = image_name+':'+tag
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
     call(['docker', 'pull', full_tag])
-    check_call(['docker', 'build', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
+    check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
     check_call(['docker', 'push', full_tag])
 
 def retag(old, new):
@@ -62,9 +62,17 @@ def build_metaproject(metaproject, version, base_os):
     retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda10.1')
     retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda')
     if metaproject == 'combo' and version == 'stable':
-        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-cuda10.1')
-        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-cuda')
-        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda10.1-'+base_os+'-'+date)
+        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-tensorflow.1.13.2')
+        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-tensorflow')
+        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-tensorflow.1.13.2-'+base_os+'-'+date)
+
+    build_docker(metaproject, version, 'tensorflow.1.13.2', base_os)
+    retag(metaproject+'-'+version+'-tensorflow.1.13.2-'+base_os, metaproject+'-'+version+'-cuda10.1')
+    retag(metaproject+'-'+version+'-tensorflow.1.13.2-'+base_os, metaproject+'-'+version+'-cuda')
+    if metaproject == 'combo' and version == 'stable':
+        retag(metaproject+'-'+version+'-tensorflow.1.13.2-'+base_os, version+'-tensorflow.1.13.2')
+        retag(metaproject+'-'+version+'-tensorflow.1.13.2-'+base_os, version+'-tensorflow')
+        retag(metaproject+'-'+version+'-tensorflow.1.13.2-'+base_os, metaproject+'-'+version+'-tensorflow.1.13.2-'+base_os+'-'+date)
 
 
 for base_os in ('ubuntu18.04',):

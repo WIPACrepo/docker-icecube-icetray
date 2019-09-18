@@ -2,6 +2,8 @@
 
 FROM ubuntu:18.04 as base
 
+FROM base as install
+
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
@@ -70,7 +72,7 @@ CMD ["/bin/bash"]
 #### Now install the slim system, copying icetray from the base.
 ##################################################################
 
-FROM ubuntu:18.04 as slim
+FROM base as slim
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -103,8 +105,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   && apt-get clean
 
 # stage in icetray from the previous build
-COPY --from=base /usr/local/icetray /usr/local/icetray
-COPY --from=base /opt/i3-data /opt/i3-data
+COPY --from=install /usr/local/icetray /usr/local/icetray
+COPY --from=install /opt/i3-data /opt/i3-data
 
 # set environment variables
 ENV I3_DATA /opt/i3-data
@@ -123,7 +125,7 @@ CMD ["/bin/bash"]
 #### Now install the prod system, with i3-data and GCD files.
 ##################################################################
 
-FROM ubuntu:18.04 as prod
+FROM base as prod
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -157,8 +159,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   && apt-get clean
 
 # stage in icetray from the previous build
-COPY --from=base /usr/local/icetray /usr/local/icetray
-COPY --from=base /opt/i3-data /opt/i3-data
+COPY --from=install /usr/local/icetray /usr/local/icetray
+COPY --from=install /opt/i3-data /opt/i3-data
 
 # set environment variables
 ENV I3_DATA /opt/i3-data
@@ -191,7 +193,7 @@ CMD ["/bin/bash"]
 #### Now install the devel system, with a compiler and test data
 ##################################################################
 
-FROM ubuntu:18.04 as devel
+FROM base as devel
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -222,7 +224,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   && apt-get clean
 
 # stage in icetray from the previous build
-COPY --from=base /usr/local/icetray /usr/local/icetray
+COPY --from=install /usr/local/icetray /usr/local/icetray
 COPY --from=prod /opt/i3-data /opt/i3-data
 
 # set environment variables
@@ -248,7 +250,7 @@ CMD ["/bin/bash"]
 #### Now install the cuda system
 ##################################################################
 
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 as cuda10.1
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 as cuda10.0
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -279,7 +281,63 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   && apt-get clean
 
 # stage in icetray from the previous build
-COPY --from=base /usr/local/icetray /usr/local/icetray
+COPY --from=install /usr/local/icetray /usr/local/icetray
+COPY --from=devel /opt/i3-data /opt/i3-data
+
+# set environment variables
+ENV I3_DATA /opt/i3-data
+ENV I3_TESTDATA /opt/i3-data/i3-test-data
+ENV TMPDIR /scratch
+
+# build the matplotlib font cache (prevents warnings about the font cache on startup)
+RUN python -c 'from matplotlib import pyplot'
+
+# create the scratch directory
+RUN mkdir -p /scratch
+
+# provide the entry point to run commands
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
+CMD ["/bin/bash"]
+
+
+##################################################################
+#### Now install the tensorflow system
+##################################################################
+
+FROM tensorflow/tensorflow:1.13.2-gpu as tensorflow.1.13.2
+
+MAINTAINER IceCube <developers@icecube.wisc.edu>
+
+WORKDIR /root
+
+# install system packages
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  tar wget rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
+  less build-essential cmake libbz2-dev libzstd1-dev \
+  libxml2-dev subversion libboost-python-dev \
+  libboost-system-dev libboost-signals-dev libboost-thread-dev \
+  libboost-date-time-dev libboost-serialization-dev \
+  libboost-filesystem-dev libboost-program-options-dev \
+  libboost-regex-dev libboost-iostreams-dev libgsl0-dev \
+  libcdk5-dev libarchive-dev python-scipy \
+  python-urwid python-numpy python-matplotlib \
+  libz-dev libstarlink-pal-dev \
+  libopenblas-dev libsprng2-dev \
+  libsuitesparse-dev \
+  libcfitsio-dev libhdf5-serial-dev \
+  python-numexpr cython python-cffi \
+  python-healpy python-urllib3 python-jsonschema \
+  ipython \
+  python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
+  ocl-icd-libopencl1 ocl-icd-opencl-dev \
+  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq \
+  python-dev python-pip nano vim sudo man-db lsb-release \
+  && apt-get clean
+
+RUN pip install Keras==2.3.0
+
+# stage in icetray from the previous build
+COPY --from=install /usr/local/icetray /usr/local/icetray
 COPY --from=devel /opt/i3-data /opt/i3-data
 
 # set environment variables

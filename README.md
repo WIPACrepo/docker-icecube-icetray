@@ -27,6 +27,8 @@ latest, stable, stable-devel, combo-stable, combo-stable-devel, combo-stable-dev
 
 stable-cuda, stable-cuda10.1, combo-stable-cuda, combo-stable-cuda10.1, combo-stable-cuda10.1-ubuntu18.04
 
+stable-tensorflow, stable-tensorflow.1.13.2, combo-stable-tensorflow, combo-stable-tensorflow.1.13.2, combo-stable-tensorflow.1.13.2-ubuntu18.04
+
 ### release of combo
 
 combo-V01-00-00-slim combo-V01-00-00-slim-ubuntu18.04
@@ -36,3 +38,5 @@ combo-V01-00-00-prod combo-V01-00-00-prod-ubuntu18.04
 combo-V01-00-00, combo-V01-00-00-devel combo-V01-00-00-devel-ubuntu18.04
 
 combo-V01-00-00-cuda, combo-V01-00-00-cuda10.1, combo-V01-00-00-cuda10.1-ubuntu18.04
+
+combo-V01-00-00-tensorflow, combo-V01-00-00-tensorflow.1.13.2, combo-V01-00-00-tensorflow.1.13.2-ubuntu18.04
