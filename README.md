@@ -14,6 +14,8 @@ devel: prod + compiler toolchain and test data
 
 cudaX: devel + cuda support (X = cuda version)
 
+tensorflow.X: devel + cuda + tensorflow support (X = tensorflow version)
+
 Ubuntu 18.04
 ------------
 
