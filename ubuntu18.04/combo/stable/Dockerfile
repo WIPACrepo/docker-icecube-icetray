@@ -250,7 +250,7 @@ CMD ["/bin/bash"]
 #### Now install the cuda system
 ##################################################################
 
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 as cuda10.0
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 as cuda10.1
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
