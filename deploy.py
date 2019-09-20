@@ -36,6 +36,8 @@ def build_metaproject(metaproject, version, base_os):
     date = get_date()
 
     build_docker(metaproject, version, 'base', base_os)
+    if metaproject == 'combo' and version == 'stable':
+        retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base-'+base_os+'-'+date)
 
     build_docker(metaproject, version, 'slim', base_os)
     retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim')
