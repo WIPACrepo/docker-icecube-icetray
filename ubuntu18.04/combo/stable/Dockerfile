@@ -27,7 +27,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python-healpy python-urllib3 python-jsonschema \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq \
+  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq python-pymysql \
   python-dev python-pip nano vim sudo man-db lsb-release \
   && apt-get clean
 
@@ -100,7 +100,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python-healpy python-urllib3 python-jsonschema \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmqpp4 python-zmq \
+  libzmq5 libzmqpp4 python-zmq python-pymysql \
   python lsb-release \
   && apt-get clean
 
@@ -154,7 +154,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   ipython \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmqpp4 python-zmq \
+  libzmq5 libzmqpp4 python-zmq python-pymysql \
   python lsb-release \
   && apt-get clean
 
@@ -219,7 +219,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   ipython \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq \
+  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq python-pymysql \
   python-dev python-pip nano vim sudo man-db lsb-release \
   && apt-get clean
 
@@ -276,7 +276,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   ipython \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq \
+  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq python-pymysql \
   python-dev python-pip nano vim sudo man-db lsb-release \
   && apt-get clean
 
@@ -330,7 +330,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   ipython \
   python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq \
+  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq python-pymysql \
   python-dev python-pip nano vim sudo man-db lsb-release \
   && apt-get clean
 
