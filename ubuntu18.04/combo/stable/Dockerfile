@@ -233,7 +233,7 @@ ENV I3_TESTDATA /opt/i3-data/i3-test-data
 ENV TMPDIR /scratch
 
 # install test data
-RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/releases/V00-00-01/ /opt/i3-data/i3-test-data/
+RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/trunk/ /opt/i3-data/i3-test-data/
 
 # build the matplotlib font cache (prevents warnings about the font cache on startup)
 RUN python -c 'from matplotlib import pyplot'
