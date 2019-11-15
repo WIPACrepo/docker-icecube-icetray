@@ -304,6 +304,25 @@ CMD ["/bin/bash"]
 #### Now install the tensorflow system
 ##################################################################
 
+FROM install as install-tf
+
+# build NewNuFlux
+RUN svn co http://code.icecube.wisc.edu/svn/sandbox/cweaver/NewNuFlux /root/combo/src/NewNuFlux \
+           --username=icecube --password=skua --no-auth-cache
+
+WORKDIR /root/combo/build
+RUN cmake /root/combo/src \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DINSTALL_TOOL_LIBS=OFF \
+      -DUSE_GFILT=OFF \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
+    && make -j4
+
+# install icetray
+RUN make install
+
+### now make the tensorflow image
+
 FROM tensorflow/tensorflow:1.13.2-gpu as tensorflow.1.13.2
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
@@ -334,10 +353,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python-dev python-pip nano vim sudo man-db lsb-release \
   && apt-get clean
 
-RUN pip install Keras==2.3.0
+RUN pip install Keras==2.3.0 tensorflow-probability==0.8.0
 
 # stage in icetray from the previous build
-COPY --from=install /usr/local/icetray /usr/local/icetray
+COPY --from=install-tf /usr/local/icetray /usr/local/icetray
 COPY --from=devel /opt/i3-data /opt/i3-data
 
 # set environment variables
