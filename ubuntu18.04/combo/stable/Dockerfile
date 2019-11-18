@@ -323,7 +323,7 @@ RUN make install
 
 ### now make the tensorflow image
 
-FROM tensorflow/tensorflow:1.13.2-gpu as tensorflow.1.13.2
+FROM tensorflow/tensorflow:1.15.0-gpu as tensorflow.1.15.0
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -353,7 +353,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python-dev python-pip nano vim sudo man-db lsb-release \
   && apt-get clean
 
-RUN pip install Keras==2.3.0 tensorflow-probability==0.8.0
+RUN pip install Keras==2.3.1 tensorflow-probability==0.8.0
 
 # stage in icetray from the previous build
 COPY --from=install-tf /usr/local/icetray /usr/local/icetray
