@@ -109,9 +109,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python lsb-release \
   && apt-get clean
 
-RUN wget https://github.com/zeromq/cppzmq/archive/v4.5.0.tar.gz && \
-    tar -zxf v4.5.0.tar.gz && cd cppzmq-4.5.0 && \
-    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
+COPY --from=install /usr/include/zmq.hpp /usr/include/zmq.hpp
+COPY --from=install /usr/include/zmq_addon.hpp /usr/include/zmq_addon.hpp
 
 # stage in icetray from the previous build
 COPY --from=install /usr/local/icetray /usr/local/icetray
@@ -167,9 +166,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python lsb-release \
   && apt-get clean
 
-RUN wget https://github.com/zeromq/cppzmq/archive/v4.5.0.tar.gz && \
-    tar -zxf v4.5.0.tar.gz && cd cppzmq-4.5.0 && \
-    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
+COPY --from=install /usr/include/zmq.hpp /usr/include/zmq.hpp
+COPY --from=install /usr/include/zmq_addon.hpp /usr/include/zmq_addon.hpp
 
 # stage in icetray from the previous build
 COPY --from=install /usr/local/icetray /usr/local/icetray
