@@ -20,7 +20,7 @@ def build_docker(metaproject, version, target, base_os):
     tag = metaproject+'-'+version+'-'+target+'-'+base_os
     full_tag = image_name+':'+tag
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
-    call(['docker', 'pull', full_tag])
+    #call(['docker', 'pull', full_tag])
     check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
     check_call(['docker', 'push', full_tag])
 
