@@ -60,13 +60,13 @@ def build_metaproject(metaproject, version, base_os):
         retag(metaproject+'-'+version+'-devel-'+base_os, 'latest')
         retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version+'-devel-'+base_os+'-'+date)
 
-    build_docker(metaproject, version, 'cuda10.1', base_os)
-    retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda10.1')
-    retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda')
+    build_docker(metaproject, version, 'cuda10.2', base_os)
+    retag(metaproject+'-'+version+'-cuda10.2-'+base_os, metaproject+'-'+version+'-cuda10.2')
+    retag(metaproject+'-'+version+'-cuda10.2-'+base_os, metaproject+'-'+version+'-cuda')
     if metaproject == 'combo' and version == 'stable':
-        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-cuda10.1')
-        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-cuda')
-        retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda10.1-'+base_os+'-'+date)
+        retag(metaproject+'-'+version+'-cuda10.2-'+base_os, version+'-cuda10.2')
+        retag(metaproject+'-'+version+'-cuda10.2-'+base_os, version+'-cuda')
+        retag(metaproject+'-'+version+'-cuda10.2-'+base_os, metaproject+'-'+version+'-cuda10.2-'+base_os+'-'+date)
 
     build_docker(metaproject, version, 'tensorflow.2.1.0', base_os)
     retag(metaproject+'-'+version+'-tensorflow.2.1.0-'+base_os, metaproject+'-'+version+'-tensorflow.2.1.0')

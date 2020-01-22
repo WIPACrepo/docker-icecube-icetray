@@ -265,7 +265,7 @@ CMD ["/bin/bash"]
 #### Now install the cuda system
 ##################################################################
 
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 as cuda10.1
+FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 as cuda10.2
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -298,6 +298,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN wget https://github.com/zeromq/cppzmq/archive/v4.5.0.tar.gz && \
     tar -zxf v4.5.0.tar.gz && cd cppzmq-4.5.0 && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
+
+RUN mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 # stage in icetray from the previous build
 COPY --from=install /usr/local/icetray /usr/local/icetray
@@ -378,6 +380,8 @@ RUN wget https://github.com/zeromq/cppzmq/archive/v4.5.0.tar.gz && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
 
 RUN pip install Keras==2.3.1 tensorflow-probability==0.8.0
+
+RUN mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 # stage in icetray from the previous build
 COPY --from=install-tf /usr/local/icetray /usr/local/icetray
