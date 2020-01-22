@@ -68,13 +68,13 @@ def build_metaproject(metaproject, version, base_os):
         retag(metaproject+'-'+version+'-cuda10.1-'+base_os, version+'-cuda')
         retag(metaproject+'-'+version+'-cuda10.1-'+base_os, metaproject+'-'+version+'-cuda10.1-'+base_os+'-'+date)
 
-    build_docker(metaproject, version, 'tensorflow.1.15.0', base_os)
-    retag(metaproject+'-'+version+'-tensorflow.1.15.0-'+base_os, metaproject+'-'+version+'-cuda10.1')
-    retag(metaproject+'-'+version+'-tensorflow.1.15.0-'+base_os, metaproject+'-'+version+'-cuda')
+    build_docker(metaproject, version, 'tensorflow.2.1.0', base_os)
+    retag(metaproject+'-'+version+'-tensorflow.2.1.0-'+base_os, metaproject+'-'+version+'-tensorflow.2.1.0')
+    retag(metaproject+'-'+version+'-tensorflow.2.1.0-'+base_os, metaproject+'-'+version+'-tensorflow')
     if metaproject == 'combo' and version == 'stable':
-        retag(metaproject+'-'+version+'-tensorflow.1.15.0-'+base_os, version+'-tensorflow.1.15.0')
-        retag(metaproject+'-'+version+'-tensorflow.1.15.0-'+base_os, version+'-tensorflow')
-        retag(metaproject+'-'+version+'-tensorflow.1.15.0-'+base_os, metaproject+'-'+version+'-tensorflow.1.15.0-'+base_os+'-'+date)
+        retag(metaproject+'-'+version+'-tensorflow.2.1.0-'+base_os, version+'-tensorflow.2.1.0')
+        retag(metaproject+'-'+version+'-tensorflow.2.1.0-'+base_os, version+'-tensorflow')
+        retag(metaproject+'-'+version+'-tensorflow.2.1.0-'+base_os, metaproject+'-'+version+'-tensorflow.2.1.0-'+base_os+'-'+date)
 
 
 for base_os in ('ubuntu18.04',):

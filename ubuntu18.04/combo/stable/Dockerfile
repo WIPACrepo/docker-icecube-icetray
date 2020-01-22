@@ -343,7 +343,7 @@ RUN make install
 
 ### now make the tensorflow image
 
-FROM tensorflow/tensorflow:1.15.0-gpu as tensorflow.1.15.0
+FROM tensorflow/tensorflow:2.1.0-gpu as tensorflow.2.1.0
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
