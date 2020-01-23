@@ -47,7 +47,7 @@ ENV I3_TESTDATA /opt/i3-data/i3-test-data
 
 # check out icetray
 RUN mkdir -p /root/meta/build && \
-    svn co http://code.icecube.wisc.edu/svn/meta-projects/simulation/V06-01-02 /root/meta/src \
+    svn co http://code.icecube.wisc.edu/svn/meta-projects/simulation/releases/V06-01-02 /root/meta/src \
            --username=icecube --password=skua --no-auth-cache
 
 # build icetray
