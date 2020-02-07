@@ -16,8 +16,10 @@ cudaX: devel + cuda support (X = cuda version)
 
 tensorflow.X: devel + cuda + tensorflow support (X = tensorflow version)
 
-Ubuntu 18.04
-------------
+Build versions
+--------------
+
+The general pattern is as follows.  More releases available in the tags.
 
 ### stable combo
 
