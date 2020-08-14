@@ -20,7 +20,7 @@ def skip(metaproject, version, target, base_os):
         return False
     tag = metaproject+'-'+version+'-'+target+'-'+base_os
     try:
-        check_call(['curl','-f','https://hub.docker.com/v2/repositories/'+image_name+'/tags/'+tag])
+        check_call(['wget','-q','-O','-','https://hub.docker.com/v2/repositories/'+image_name+'/tags/'+tag])
     except Exception:
         return False
     return True
