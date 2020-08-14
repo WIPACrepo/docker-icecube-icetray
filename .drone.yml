@@ -22,3 +22,12 @@ volumes:
 - name: dockersock
   host:
     path: /var/run/docker.sock
+
+trigger:
+  branch:
+  - master
+  event:
+  - push
+  - cron
+  cron:
+  - nightly
