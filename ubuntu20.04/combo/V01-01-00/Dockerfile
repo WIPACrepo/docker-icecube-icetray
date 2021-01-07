@@ -1,6 +1,6 @@
 ##### first, install a base Ubuntu system (with development packages)
 
-FROM ubuntu:18.04 as base
+FROM ubuntu:20.04 as base
 
 FROM base as install
 
@@ -11,28 +11,29 @@ WORKDIR /root
 # install system packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   tar wget rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
-  less build-essential cmake libbz2-dev libzstd1-dev \
-  libxml2-dev subversion libboost-python-dev \
-  libboost-system-dev libboost-signals-dev libboost-thread-dev \
-  libboost-date-time-dev libboost-serialization-dev \
-  libboost-filesystem-dev libboost-program-options-dev \
-  libboost-regex-dev libboost-iostreams-dev libgsl0-dev \
-  libcdk5-dev libarchive-dev python-scipy \
-  python-urwid python-numpy python-matplotlib \
-  libz-dev libstarlink-pal-dev \
+  less build-essential cmake libbz2-dev libzstd-dev \
+  libxml2-dev subversion git libboost-python1.71-dev \
+  libboost-system1.71-dev libboost-thread1.71-dev libboost-numpy1.71-dev \
+  libboost-date-time1.71-dev libboost-serialization1.71-dev \
+  libboost-filesystem1.71-dev libboost-program-options1.71-dev \
+  libboost-regex1.71-dev libboost-iostreams1.71-dev libgsl0-dev \
+  libcdk5-dev libarchive-dev python3-scipy \
+  python3-urwid python3-numpy python3-matplotlib \
+  python3-numexpr cython3 python3-cffi python3-requests \
+  python3-healpy python3-urllib3 python3-jsonschema \
+  python3-zmq python3-pymysql python3-dev python3-pip \
+  zlib1g-dev liberfa-dev libstarlink-pal-dev \
   libopenblas-dev libsprng2-dev \
-  libsuitesparse-dev \
-  libcfitsio-dev libhdf5-serial-dev \
-  python-numexpr cython python-cffi \
-  python-healpy python-urllib3 python-jsonschema \
-  python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
+  libsuitesparse-dev libfftw3-dev \
+  libcfitsio-dev libhdf5-dev libhealpix-cxx-dev \
+  opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq python-pymysql \
-  python-dev python-pip nano vim sudo man-db lsb-release \
+  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 \
+  nano vim sudo man-db lsb-release \
   && apt-get clean
 
-RUN wget https://github.com/zeromq/cppzmq/archive/v4.5.0.tar.gz && \
-    tar -zxf v4.5.0.tar.gz && cd cppzmq-4.5.0 && \
+RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
+    tar -zxf master.tar.gz && cd cppzmq-master && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
 
 ######################## BASE SYSTEM DONE ########################
@@ -47,7 +48,7 @@ ENV I3_TESTDATA /opt/i3-data/i3-test-data
 
 # check out icetray
 RUN mkdir /root/combo && mkdir /root/combo/build && \
-    svn co http://code.icecube.wisc.edu/svn/meta-projects/combo/stable /root/combo/src \
+    svn co http://code.icecube.wisc.edu/svn/meta-projects/combo/releases/V01-01-00 /root/combo/src \
            --username=icecube --password=skua --no-auth-cache
 
 # build icetray
@@ -85,28 +86,25 @@ WORKDIR /root
 
 # install system packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  tar wget rsync gzip bzip2 xz-utils liblzma5 zlib1g libzstd1 \
-  less \
-  libboost-python1.65 \
-  libboost-system1.65 libboost-signals1.65 libboost-thread1.65 \
-  libboost-date-time1.65 libboost-serialization1.65 \
-  libboost-filesystem1.65 libboost-program-options1.65 \
-  libboost-regex1.65 libboost-iostreams1.65 libgsl23 \
-  libcdk5 libarchive13 python-scipy \
-  python-urwid python-numpy python-matplotlib \
-  libz-dev libstarlink-pal0 \
-  libopenblas-base libsprng2 \
+  tar wget rsync gzip bzip2 xz-utils liblzma5 zlib1g libzstd1 less \
+  libboost-python1.71.0-py38 libboost-system1.71.0 libboost-thread1.71.0 \
+  libboost-date-time1.71.0 libboost-serialization1.71.0 \
+  libboost-filesystem1.71.0 libboost-program-options1.71.0 \
+  libboost-regex1.71.0 libboost-iostreams1.71.0 libgsl23 \
+  libcdk5nc6 libarchive13 python3 python3-scipy \
+  python3-urwid python3-numpy python3-matplotlib \
+  python3-numexpr cython3 python3-cffi python3-requests \
+  python3-healpy python3-urllib3 python3-jsonschema \
+  libzmq5 libzmqpp4 python3-zmq python3-pymysql \
+  zlib1g-dev liberfa1 libstarlink-pal0 \
+  libopenblas-base libsprng2 libfftw3-3 \
   libsuitesparseconfig5 libspqr2 \
   libamd2 libcamd2 libbtf1 libcolamd2 \
   libccolamd2 libcholmod3 libcxsparse3 \
-  libklu1 libldl2 libumfpack5\
-  libcfitsio5 libhdf5-100 \
-  python-numexpr cython python-cffi \
-  python-healpy python-urllib3 python-jsonschema \
-  python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
-  ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmqpp4 python-zmq python-pymysql \
-  python lsb-release \
+  libklu1 libldl2 libumfpack5 \
+  libcfitsio8 libhdf5-103 libhdf5-cpp-103 libhealpix-cxx2 \
+  opencl-headers opencl-c-headers opencl-clhpp-headers \
+  ocl-icd-libopencl1 ocl-icd-opencl-dev lsb-release \
   && apt-get clean
 
 COPY --from=install /usr/include/zmq.hpp /usr/include/zmq.hpp
@@ -141,29 +139,25 @@ WORKDIR /root
 
 # install system packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  tar wget rsync gzip bzip2 xz-utils liblzma5 zlib1g libzstd1 \
-  less \
-  libboost-python1.65 \
-  libboost-system1.65 libboost-signals1.65 libboost-thread1.65 \
-  libboost-date-time1.65 libboost-serialization1.65 \
-  libboost-filesystem1.65 libboost-program-options1.65 \
-  libboost-regex1.65 libboost-iostreams1.65 libgsl23 \
-  libcdk5 libarchive13 python-scipy \
-  python-urwid python-numpy python-matplotlib \
-  libz-dev libstarlink-pal0 \
-  libopenblas-base libsprng2 \
+  tar wget rsync gzip bzip2 xz-utils liblzma5 zlib1g libzstd1 less \
+  libboost-python1.71.0-py38 libboost-system1.71.0 libboost-thread1.71.0 \
+  libboost-date-time1.71.0 libboost-serialization1.71.0 \
+  libboost-filesystem1.71.0 libboost-program-options1.71.0 \
+  libboost-regex1.71.0 libboost-iostreams1.71.0 libgsl23 \
+  libcdk5nc6 libarchive13 python3 python3-scipy \
+  python3-urwid python3-numpy python3-matplotlib \
+  python3-numexpr cython3 python3-cffi python3-requests \
+  python3-healpy python3-urllib3 python3-jsonschema \
+  libzmq5 libzmqpp4 python3-zmq python3-pymysql \
+  zlib1g-dev liberfa1 libstarlink-pal0 \
+  libopenblas-base libsprng2 libfftw3-3 \
   libsuitesparseconfig5 libspqr2 \
   libamd2 libcamd2 libbtf1 libcolamd2 \
   libccolamd2 libcholmod3 libcxsparse3 \
-  libklu1 libldl2 libumfpack5\
-  libcfitsio5 libhdf5-100 \
-  python-numexpr cython python-cffi \
-  python-healpy python-urllib3 python-jsonschema \
-  ipython \
-  python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
-  ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmqpp4 python-zmq python-pymysql \
-  python lsb-release \
+  libklu1 libldl2 libumfpack5 \
+  libcfitsio8 libhdf5-103 libhdf5-cpp-103 libhealpix-cxx2 \
+  opencl-headers opencl-c-headers opencl-clhpp-headers \
+  ocl-icd-libopencl1 ocl-icd-opencl-dev lsb-release \
   && apt-get clean
 
 COPY --from=install /usr/include/zmq.hpp /usr/include/zmq.hpp
@@ -190,7 +184,7 @@ RUN mkdir /opt/i3-data/baseline_gcds && \
     chmod -R u+rwX,go+rX,go-w /opt/i3-data/baseline_gcds
 
 # build the matplotlib font cache (prevents warnings about the font cache on startup)
-RUN python -c 'from matplotlib import pyplot'
+RUN python3 -c 'from matplotlib import pyplot'
 
 # create the scratch directory
 RUN mkdir -p /scratch
@@ -213,29 +207,29 @@ WORKDIR /root
 # install system packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   tar wget rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
-  less build-essential cmake libbz2-dev libzstd1-dev \
-  libxml2-dev subversion libboost-python-dev \
-  libboost-system-dev libboost-signals-dev libboost-thread-dev \
-  libboost-date-time-dev libboost-serialization-dev \
-  libboost-filesystem-dev libboost-program-options-dev \
-  libboost-regex-dev libboost-iostreams-dev libgsl0-dev \
-  libcdk5-dev libarchive-dev python-scipy \
-  python-urwid python-numpy python-matplotlib \
-  libz-dev libstarlink-pal-dev \
+  less build-essential cmake libbz2-dev libzstd-dev \
+  libxml2-dev subversion git libboost-python1.71-dev \
+  libboost-system1.71-dev libboost-thread1.71-dev libboost-numpy1.71-dev \
+  libboost-date-time1.71-dev libboost-serialization1.71-dev \
+  libboost-filesystem1.71-dev libboost-program-options1.71-dev \
+  libboost-regex1.71-dev libboost-iostreams1.71-dev libgsl0-dev \
+  libcdk5-dev libarchive-dev python3-scipy \
+  python3-urwid python3-numpy python3-matplotlib \
+  python3-numexpr cython3 python3-cffi python3-requests \
+  python3-healpy python3-urllib3 python3-jsonschema \
+  python3-zmq python3-pymysql python3-dev python3-pip \
+  zlib1g-dev liberfa-dev libstarlink-pal-dev \
   libopenblas-dev libsprng2-dev \
-  libsuitesparse-dev \
-  libcfitsio-dev libhdf5-serial-dev \
-  python-numexpr cython python-cffi \
-  python-healpy python-urllib3 python-jsonschema \
-  ipython \
-  python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
+  libsuitesparse-dev libfftw3-dev \
+  libcfitsio-dev libhdf5-dev libhealpix-cxx-dev \
+  opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq python-pymysql \
-  python-dev python-pip nano vim sudo man-db lsb-release \
+  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 \
+  nano vim sudo man-db lsb-release \
   && apt-get clean
 
-RUN wget https://github.com/zeromq/cppzmq/archive/v4.5.0.tar.gz && \
-    tar -zxf v4.5.0.tar.gz && cd cppzmq-4.5.0 && \
+RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
+    tar -zxf master.tar.gz && cd cppzmq-master && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
 
 # stage in icetray from the previous build
@@ -251,7 +245,7 @@ ENV TMPDIR /scratch
 RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/trunk/ /opt/i3-data/i3-test-data/
 
 # build the matplotlib font cache (prevents warnings about the font cache on startup)
-RUN python -c 'from matplotlib import pyplot'
+RUN python3 -c 'from matplotlib import pyplot'
 
 # create the scratch directory
 RUN mkdir -p /scratch
@@ -265,7 +259,7 @@ CMD ["/bin/bash"]
 #### Now install the cuda system
 ##################################################################
 
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 as cuda10.2
+FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu20.04 as cuda11.1
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -274,29 +268,29 @@ WORKDIR /root
 # install system packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   tar wget rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
-  less build-essential cmake libbz2-dev libzstd1-dev \
-  libxml2-dev subversion libboost-python-dev \
-  libboost-system-dev libboost-signals-dev libboost-thread-dev \
-  libboost-date-time-dev libboost-serialization-dev \
-  libboost-filesystem-dev libboost-program-options-dev \
-  libboost-regex-dev libboost-iostreams-dev libgsl0-dev \
-  libcdk5-dev libarchive-dev python-scipy \
-  python-urwid python-numpy python-matplotlib \
-  libz-dev libstarlink-pal-dev \
+  less build-essential cmake libbz2-dev libzstd-dev \
+  libxml2-dev subversion git libboost-python1.71-dev \
+  libboost-system1.71-dev libboost-thread1.71-dev libboost-numpy1.71-dev \
+  libboost-date-time1.71-dev libboost-serialization1.71-dev \
+  libboost-filesystem1.71-dev libboost-program-options1.71-dev \
+  libboost-regex1.71-dev libboost-iostreams1.71-dev libgsl0-dev \
+  libcdk5-dev libarchive-dev python3-scipy \
+  python3-urwid python3-numpy python3-matplotlib \
+  python3-numexpr cython3 python3-cffi python3-requests \
+  python3-healpy python3-urllib3 python3-jsonschema \
+  python3-zmq python3-pymysql python3-dev python3-pip \
+  zlib1g-dev liberfa-dev libstarlink-pal-dev \
   libopenblas-dev libsprng2-dev \
-  libsuitesparse-dev \
-  libcfitsio-dev libhdf5-serial-dev \
-  python-numexpr cython python-cffi \
-  python-healpy python-urllib3 python-jsonschema \
-  ipython \
-  python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
+  libsuitesparse-dev libfftw3-dev \
+  libcfitsio-dev libhdf5-dev libhealpix-cxx-dev \
+  opencl-headers opencl-c-headers opencl-clhpp-headers \
   ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq python-pymysql \
-  python-dev python-pip nano vim sudo man-db lsb-release \
+  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 \
+  nano vim sudo man-db lsb-release \
   && apt-get clean
 
-RUN wget https://github.com/zeromq/cppzmq/archive/v4.5.0.tar.gz && \
-    tar -zxf v4.5.0.tar.gz && cd cppzmq-4.5.0 && \
+RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
+    tar -zxf master.tar.gz && cd cppzmq-master && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
 
 RUN mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
@@ -311,7 +305,7 @@ ENV I3_TESTDATA /opt/i3-data/i3-test-data
 ENV TMPDIR /scratch
 
 # build the matplotlib font cache (prevents warnings about the font cache on startup)
-RUN python -c 'from matplotlib import pyplot'
+RUN python3 -c 'from matplotlib import pyplot'
 
 # create the scratch directory
 RUN mkdir -p /scratch
@@ -345,58 +339,17 @@ RUN make install
 
 ### now make the tensorflow image
 
-FROM tensorflow/tensorflow:2.1.0-gpu as tensorflow.2.1.0
+FROM cuda11.1 as tensorflow.2.4.0
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
 
-# install system packages
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  tar wget rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
-  less build-essential cmake libbz2-dev libzstd1-dev \
-  libxml2-dev subversion libboost-python-dev \
-  libboost-system-dev libboost-signals-dev libboost-thread-dev \
-  libboost-date-time-dev libboost-serialization-dev \
-  libboost-filesystem-dev libboost-program-options-dev \
-  libboost-regex-dev libboost-iostreams-dev libgsl0-dev \
-  libcdk5-dev libarchive-dev python-scipy \
-  python-urwid python-numpy python-matplotlib \
-  libz-dev libstarlink-pal-dev \
-  libopenblas-dev libsprng2-dev \
-  libsuitesparse-dev \
-  libcfitsio-dev libhdf5-serial-dev \
-  python-numexpr cython python-cffi \
-  python-healpy python-urllib3 python-jsonschema \
-  ipython \
-  python-requests opencl-headers opencl-c-headers opencl-clhpp-headers \
-  ocl-icd-libopencl1 ocl-icd-opencl-dev \
-  libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 python-zmq python-pymysql \
-  python-dev python-pip nano vim sudo man-db lsb-release \
-  && apt-get clean
-
-RUN wget https://github.com/zeromq/cppzmq/archive/v4.5.0.tar.gz && \
-    tar -zxf v4.5.0.tar.gz && cd cppzmq-4.5.0 && \
-    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
-
-RUN pip install Keras==2.3.1 tensorflow-probability==0.8.0
-
-RUN mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+# build tensorflow
+RUN pip3 install tensorflow==2.4.0
 
 # stage in icetray from the previous build
 COPY --from=install-tf /usr/local/icetray /usr/local/icetray
-COPY --from=devel /opt/i3-data /opt/i3-data
-
-# set environment variables
-ENV I3_DATA /opt/i3-data
-ENV I3_TESTDATA /opt/i3-data/i3-test-data
-ENV TMPDIR /scratch
-
-# build the matplotlib font cache (prevents warnings about the font cache on startup)
-RUN python -c 'from matplotlib import pyplot'
-
-# create the scratch directory
-RUN mkdir -p /scratch
 
 # provide the entry point to run commands
 ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
