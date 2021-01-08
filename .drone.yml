@@ -29,5 +29,3 @@ trigger:
   event:
   - push
   - cron
-  cron:
-  - nightly
