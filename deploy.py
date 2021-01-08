@@ -29,15 +29,15 @@ def build_docker(metaproject, version, target, base_os):
     tag = metaproject+'-'+version+'-'+target+'-'+base_os
     full_tag = image_name+':'+tag
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
-    #call(['docker', 'pull', full_tag])
+    call(['docker', 'pull', full_tag])
     check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
-    #check_call(['docker', 'push', full_tag])
+    check_call(['docker', 'push', full_tag])
 
 def retag(old, new):
     full_tag_old = image_name+':'+old
     full_tag_new = image_name+':'+new
     check_call(['docker', 'tag', full_tag_old, full_tag_new])
-    #check_call(['docker', 'push', full_tag_new])
+    check_call(['docker', 'push', full_tag_new])
 
 def get_tags(metaproject, version, base_os):
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
