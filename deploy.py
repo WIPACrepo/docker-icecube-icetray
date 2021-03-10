@@ -46,8 +46,8 @@ def build_docker(metaproject, version, target, base_os):
     try:
         if version == 'install':
             check_call(['git', 'clone', 'https://'+creds+'@github.com/icecube/icetray.git', icetray_dir])
-        branch = 'tags/'+version if version.startswith('V') else version
-        check_call(['git', 'checkout', branch], cwd=icetray_dir)
+            branch = 'tags/'+version if version.startswith('V') else version
+            check_call(['git', 'checkout', branch], cwd=icetray_dir)
         check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
         check_call(['docker', 'push', full_tag])
     finally:
