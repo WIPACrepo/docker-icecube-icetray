@@ -3,6 +3,7 @@ import shutil
 import subprocess
 import glob
 import argparse
+from pprint import pprint
 from datetime import datetime
 
 image_name = 'icecube/icetray'
@@ -144,13 +145,18 @@ def main():
     parser.add_argument('--os', action='append', choices=os_options, default=os_options)
     parser.add_argument('--metaproject', action='append')
     parser.add_argument('--version', action='append')
+    parser.add_argument('--print-tags', action='store_true')
     args = parser.parse_args()
     for base_os in args.os:
         for metaproject in os.listdir(base_os):
             if (not args.metaproject) or metaproject in args.metaproject:
                 for version in os.listdir(os.path.join(base_os, metaproject)):
                     if (not args.version) or version in args.version:
-                        build_metaproject(metaproject, version, base_os)
+                        if args.print_tags:
+                            print('now working on '+metaproject+'-'+version+'-XXX-'+base_os)
+                            pprint(get_tags(metaproject, version, base_os))
+                        else:
+                            build_metaproject(metaproject, version, base_os)
 
 if __name__ == '__main__':
     main()
