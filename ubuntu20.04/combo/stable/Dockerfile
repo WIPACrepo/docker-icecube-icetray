@@ -47,8 +47,8 @@ RUN mkdir /opt/i3-data/i3-test-data
 ENV I3_TESTDATA /opt/i3-data/i3-test-data
 
 # check out icetray
-RUN mkdir /root/combo && mkdir /root/combo/build && \
-    git clone https://$GITHUB_USER:$GITHUB_PASS@github.com/icecube/icetray.git /root/combo/src
+RUN mkdir /root/combo && mkdir /root/combo/build
+COPY icetray /root/combo/src
 
 # build icetray
 WORKDIR /root/combo/build
