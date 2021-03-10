@@ -1,6 +1,8 @@
 import os
 import shutil
 import subprocess
+import glob
+import argparse
 from datetime import datetime
 
 image_name = 'icecube/icetray'
@@ -30,18 +32,27 @@ def build_docker(metaproject, version, target, base_os):
     tag = metaproject+'-'+version+'-'+target+'-'+base_os
     full_tag = image_name+':'+tag
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
+    if os.path.exists(dockerfile+'_'+target):
+        dockerfile = dockerfile+'_'+target
     call(['docker', 'pull', full_tag])
-    creds = os.environ['GITHUB_USER']+':'+os.environ['GITHUB_PASS']
+    if 'GITHUB_PASS' in os.environ:
+        creds = os.environ['GITHUB_USER']+':'+os.environ['GITHUB_PASS']
+    elif 'GITHUB_TOKEN' in os.environ:
+        creds = os.environ['GITHUB_USER']+':'+os.environ['GITHUB_TOKEN']
+    else:
+        raise Exception('need to define GITHUB_PASS or GITHUB_TOKEN in env')
     icetray_dir = os.path.join(os.getcwd(), 'icetray')
     os.makedirs(icetray_dir)
-    check_call(['git', 'clone', 'https://'+creds+'@github.com/icecube/icetray.git', icetray_dir])
     try:
+        if version == 'install':
+            check_call(['git', 'clone', 'https://'+creds+'@github.com/icecube/icetray.git', icetray_dir])
         branch = 'tags/'+version if version.startswith('V') else version
         check_call(['git', 'checkout', branch], cwd=icetray_dir)
         check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
         check_call(['docker', 'push', full_tag])
     finally:
-        shutil.rmtree(icetray_dir)
+        if os.path.exists(icetray_dir):
+            shutil.rmtree(icetray_dir)
 
 def retag(old, new):
     full_tag_old = image_name+':'+old
@@ -50,13 +61,14 @@ def retag(old, new):
     check_call(['docker', 'push', full_tag_new])
 
 def get_tags(metaproject, version, base_os):
-    dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
+    dockerfiles = glob.glob(os.path.join(base_os, metaproject, version, 'Dockerfile*'))
     tags = []
-    with open(dockerfile) as f:
-        for line in f:
-            parts = line.strip().split()
-            if len(parts) >= 3 and parts[0].lower() == 'from' and parts[2].lower() == 'as':
-                tags.append(parts[-1])
+    for dockerfile in dockerfiles:
+        with open(dockerfile) as f:
+            for line in f:
+                parts = line.strip().split()
+                if len(parts) >= 3 and parts[0].lower() == 'from' and parts[2].lower() == 'as':
+                    tags.append(parts[-1])
     return tags
 
 def build_metaproject(metaproject, version, base_os):
@@ -66,9 +78,22 @@ def build_metaproject(metaproject, version, base_os):
 
     tags = get_tags(metaproject, version, base_os)
 
+    if 'base-devel' in tags and not skip(metaproject, version, 'base-devel', base_os):
+        build_docker(metaproject, version, 'base-devel', base_os)
+        if metaproject == 'combo' and version == 'stable':
+            retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel')
+            retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel-'+base_os+'-'+date)
+
+    if 'base' in tags and not skip(metaproject, version, 'base', base_os):
+        build_docker(metaproject, version, 'base', base_os)
+        if metaproject == 'combo' and version == 'stable':
+            retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base')
+            retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base-'+base_os+'-'+date)
+
     if 'install' in tags and not skip(metaproject, version, 'install', base_os):
         build_docker(metaproject, version, 'install', base_os)
         if metaproject == 'combo' and version == 'stable':
+            retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install')
             retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install-'+base_os+'-'+date)
 
     if 'slim' in tags and not skip(metaproject, version, 'slim', base_os):
@@ -112,8 +137,19 @@ def build_metaproject(metaproject, version, base_os):
                         retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-tensorflow')
                     retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t+'-'+base_os+'-'+date)
 
+def main():
+    parser = argparse.ArgumentParser()
+    os_options = ['ubuntu18.04','ubuntu20.04']
+    parser.add_argument('--os', action='append', choices=os_options, default=os_options)
+    parser.add_argument('--metaproject', action='append')
+    parser.add_argument('--version', action='append')
+    args = parser.parse_args()
+    for base_os in args.os:
+        for metaproject in os.listdir(base_os):
+            if (not args.metaproject) or metaproject in args.metaproject:
+                for version in os.listdir(os.path.join(base_os, metaproject)):
+                    if (not args.version) or version in args.version:
+                        build_metaproject(metaproject, version, base_os)
 
-for base_os in ('ubuntu18.04','ubuntu20.04'):
-    for metaproject in os.listdir(base_os):
-        for version in os.listdir(os.path.join(base_os, metaproject)):
-            build_metaproject(metaproject, version, base_os)
+if __name__ == '__main__':
+    main()
