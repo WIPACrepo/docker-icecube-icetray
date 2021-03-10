@@ -78,17 +78,18 @@ def build_metaproject(metaproject, version, base_os):
 
     tags = get_tags(metaproject, version, base_os)
 
-    if 'base-devel' in tags and not skip(metaproject, version, 'base-devel', base_os):
-        build_docker(metaproject, version, 'base-devel', base_os)
-        if metaproject == 'combo' and version == 'stable':
-            retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel')
-            retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel-'+base_os+'-'+date)
+    if version == 'stable' or (metaproject == 'combo' and version > 'V01-02'):
+        if 'base-devel' in tags and not skip(metaproject, version, 'base-devel', base_os):
+            build_docker(metaproject, version, 'base-devel', base_os)
+            if metaproject == 'combo' and version == 'stable':
+                retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel')
+                retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel-'+base_os+'-'+date)
 
-    if 'base' in tags and not skip(metaproject, version, 'base', base_os):
-        build_docker(metaproject, version, 'base', base_os)
-        if metaproject == 'combo' and version == 'stable':
-            retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base')
-            retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base-'+base_os+'-'+date)
+        if 'base' in tags and not skip(metaproject, version, 'base', base_os):
+            build_docker(metaproject, version, 'base', base_os)
+            if metaproject == 'combo' and version == 'stable':
+                retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base')
+                retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base-'+base_os+'-'+date)
 
     if 'install' in tags and not skip(metaproject, version, 'install', base_os):
         build_docker(metaproject, version, 'install', base_os)
