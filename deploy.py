@@ -31,11 +31,16 @@ def build_docker(metaproject, version, target, base_os):
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
     call(['docker', 'pull', full_tag])
     creds = os.environ['GITHUB_USER']+':'+os.environ['GITHUB_PASS']
-    check_call(['git', 'clone', 'https://'+creds+'@github.com/icecube/icetray.git'])
-    branch = 'tags/'+version if version.startswith('V') else version
-    check_call(['git', 'checkout', branch], cwd='icetray')
-    check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
-    check_call(['docker', 'push', full_tag])
+    icetray_dir = os.path.join(os.getcwd(), 'icetray')
+    os.makedirs(icetray_dir)
+    check_call(['git', 'clone', 'https://'+creds+'@github.com/icecube/icetray.git', 'icetray'])
+    try:
+        branch = 'tags/'+version if version.startswith('V') else version
+        check_call(['git', 'checkout', branch], cwd=icetray_dir)
+        check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
+        check_call(['docker', 'push', full_tag])
+    finally:
+        shutil.rmtree(icetray_dir)
 
 def retag(old, new):
     full_tag_old = image_name+':'+old
