@@ -35,7 +35,7 @@ def build_docker(metaproject, version, target, base_os):
     cmd = ['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag]
     for arg in build_args:
         if arg in os.environ:
-            cmd.extend(['--build_arg', arg+'='+os.environ[arg]])
+            cmd.extend(['--build-arg', arg+'='+os.environ[arg]])
     cmd.append('.')
     check_call(cmd)
     check_call(['docker', 'push', full_tag])
