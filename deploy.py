@@ -31,7 +31,7 @@ def build_docker(metaproject, version, target, base_os):
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
     call(['docker', 'pull', full_tag])
     creds = os.environ['GITHUB_USER']+':'+os.environ['GITHUB_PASS']
-    check_call(['git', 'clone', 'https://'+creds+'@github.com/icecube/icetray.git', 'icetray'])
+    check_call(['git', 'clone', 'https://'+creds+'@github.com/icecube/icetray.git'])
     branch = 'tags/'+version if version.startswith('V') else version
     check_call(['git', 'checkout', branch], cwd='icetray')
     check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
