@@ -1,4 +1,4 @@
-FROM wipacrepo/icetray:combo-stable-base-devel as install
+FROM icecube/icetray:combo-stable-base-devel as install
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
