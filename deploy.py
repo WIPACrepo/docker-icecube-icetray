@@ -4,6 +4,8 @@ from datetime import datetime
 
 image_name = 'icecube/icetray'
 
+build_args = ['GITHUB_USER', 'GITHUB_PASS']
+
 def get_date():
     return datetime.utcnow().strftime("%Y%m%d-%H%M%S")
 
@@ -30,7 +32,12 @@ def build_docker(metaproject, version, target, base_os):
     full_tag = image_name+':'+tag
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
     call(['docker', 'pull', full_tag])
-    check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
+    cmd = ['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag]
+    for arg in build_args:
+        if arg in os.environ:
+            cmd.extend(['--build_arg', arg+'='+os.environ[arg]])
+    cmd.append('.')
+    check_call(cmd)
     check_call(['docker', 'push', full_tag])
 
 def retag(old, new):

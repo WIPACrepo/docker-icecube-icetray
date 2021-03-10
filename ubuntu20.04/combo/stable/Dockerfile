@@ -48,8 +48,7 @@ ENV I3_TESTDATA /opt/i3-data/i3-test-data
 
 # check out icetray
 RUN mkdir /root/combo && mkdir /root/combo/build && \
-    svn co http://code.icecube.wisc.edu/svn/meta-projects/combo/stable /root/combo/src \
-           --username=icecube --password=skua --no-auth-cache
+    git clone https://$GITHUB_USER:$GITHUB_PASS@github.com/icecube/icetray.git /root/combo/src
 
 # build icetray
 WORKDIR /root/combo/build
@@ -339,14 +338,14 @@ RUN make install
 
 ### now make the tensorflow image
 
-FROM cuda11.1 as tensorflow.2.4.0
+FROM cuda11.1 as tensorflow.2.4.1
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
 
 # build tensorflow
-RUN pip3 install tensorflow==2.4.0
+RUN pip3 install tensorflow==2.4.1
 
 # stage in icetray from the previous build
 COPY --from=install-tf /usr/local/icetray /usr/local/icetray
