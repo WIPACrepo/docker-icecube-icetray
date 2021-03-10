@@ -11,11 +11,11 @@ def get_date():
     return datetime.utcnow().strftime("%Y%m%d-%H%M%S")
 
 def call(*args, **kwargs):
-    print('call: '+' '.join(str(a) for a in args))
+    print('call: '+' '.join(str(a) for a in args), flush=True)
     subprocess.call(*args, **kwargs)
 
 def check_call(*args, **kwargs):
-    print('check_call: '+' '.join(str(a) for a in args))
+    print('check_call: '+' '.join(str(a) for a in args), flush=True)
     subprocess.check_call(*args, **kwargs)
 
 def skip(metaproject, version, target, base_os):
