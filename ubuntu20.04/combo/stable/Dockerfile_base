@@ -17,7 +17,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python3-urwid python3-numpy python3-matplotlib \
   python3-numexpr cython3 python3-cffi python3-requests \
   python3-healpy python3-urllib3 python3-jsonschema \
-  libzmq5 libzmqpp4 python3-zmq python3-pymysql python3-yaml \
+  libzmq5 libzmqpp4 python3-zmq python3-pymysql python3-yaml  python3-pandas \
   zlib1g-dev liberfa1 libstarlink-pal0 \
   libopenblas-base libsprng2 libfftw3-3 \
   libsuitesparseconfig5 libspqr2 \
@@ -26,7 +26,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   libklu1 libldl2 libumfpack5 \
   libcfitsio8 libhdf5-103 libhdf5-cpp-103 libhealpix-cxx2 \
   opencl-headers opencl-c-headers opencl-clhpp-headers \
-  ocl-icd-libopencl1 ocl-icd-opencl-dev lsb-release \
+  opencl-dev pocl-opencl-icd \
+  lsb-release \
   && apt-get clean
 
 # stage in ZMQ C++
