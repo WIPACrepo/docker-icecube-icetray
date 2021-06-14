@@ -28,7 +28,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   opencl-headers opencl-c-headers opencl-clhpp-headers \
   opencl-dev pocl-opencl-icd \
   libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 \
-  nano vim sudo man-db lsb-release \
+  nano vim sudo man-db lsb-release ninja-build \
   && apt-get clean
 
 RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
