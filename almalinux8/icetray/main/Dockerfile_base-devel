@@ -31,11 +31,6 @@ RUN wget https://github.com/Starlink/pal/releases/download/v0.9.8/pal-0.9.8.tar.
 	tar zxf pal-0.9.8.tar.gz && cd pal-0.9.8 && \
 	./configure --prefix=/usr/local --without-starlink && make install && cd
 
-#RUN dnf config-manager --add-repo \
-#	https://repositories.intel.com/graphics/rhel/8.3/intel-graphics.repo
-#UN dnf install -y intel-opencl intel-media intel-mediasdk level-zero intel-level-zero-gpu
-#RUN dnf install -y intel-igc-opencl-devel intel-igc-cm level-zero-devel
-	
 RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
     tar -zxf master.tar.gz && cd cppzmq-master && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install && cd
