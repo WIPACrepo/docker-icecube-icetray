@@ -4,8 +4,9 @@ MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
 
-# install system packages
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+# upgrade and install system packages (cuda image is a bit out of date)
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y \
   tar wget rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
   less build-essential cmake libbz2-dev libzstd-dev \
   libxml2-dev subversion git libboost-python1.71-dev \
