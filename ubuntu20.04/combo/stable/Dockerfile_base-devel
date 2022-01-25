@@ -28,8 +28,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   opencl-headers opencl-c-headers opencl-clhpp-headers \
   opencl-dev pocl-opencl-icd \
   libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 \
-  nano vim sudo man-db lsb-release ninja-build \
+  nano vim sudo man-db lsb-release ninja-build doxygen\
   && apt-get clean
+
+RUN pip install sphinx breathe
 
 RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
     tar -zxf master.tar.gz && cd cppzmq-master && \
