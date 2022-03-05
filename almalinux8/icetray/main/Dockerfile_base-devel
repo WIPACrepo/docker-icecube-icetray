@@ -1,6 +1,6 @@
 #### Create a "developer" base
 
-FROM almalinux:8.4 as base-devel
+FROM almalinux:8.5 as base-devel
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
