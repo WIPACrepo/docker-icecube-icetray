@@ -1,0 +1,38 @@
+FROM icecube/icetray:combo-main-install as install-tf
+
+# build NewNuFlux
+RUN svn co http://code.icecube.wisc.edu/svn/sandbox/cweaver/NewNuFlux /root/combo/src/NewNuFlux \
+           --username=icecube --password=skua --no-auth-cache
+
+WORKDIR /root/combo/build
+RUN cmake /root/combo/src \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DINSTALL_TOOL_LIBS=OFF \
+      -DUSE_GFILT=OFF \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
+      -DUSE_PYTHON3=OFF \
+    && make -j4
+
+# install icetray
+RUN make install
+
+### now make the tensorflow image
+
+FROM icecube/icetray:combo-main-cuda11.1 as tensorflow2.4.1
+
+MAINTAINER IceCube <developers@icecube.wisc.edu>
+
+WORKDIR /root
+
+# build tensorflow
+RUN pip3 install tensorflow==2.4.1
+
+# build pytorch
+RUN pip3 install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+# stage in icetray from the previous build
+COPY --from=install-tf /usr/local/icetray /usr/local/icetray
+
+# provide the entry point to run commands
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
+CMD ["/bin/bash"]
