@@ -129,8 +129,8 @@ def build_metaproject(metaproject, version, base_os):
             retag(metaproject+'-'+version+'-devel-'+base_os, version)
             retag(metaproject+'-'+version+'-devel-'+base_os, 'latest')
 
-    for t in sorted(tags):
-        if 'cuda' in t or 'tensorflow' in t:
+    for t in tags:
+        if 'cuda' in t or 'tensorflow' in t or 'icecube-ml' in t:
             if not skip(metaproject, version, t, base_os):
                 build_docker(metaproject, version, t, base_os)
                 retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t)
@@ -139,12 +139,18 @@ def build_metaproject(metaproject, version, base_os):
                     retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-cuda')
                 elif 'tensorflow' in t:
                     retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-tensorflow')
+                elif 'icecube-ml' in t:
+                    retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-ml')
                 if metaproject == 'combo' and version == 'stable':
+
                     retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-'+t)
                     if 'cuda' in t:
                         retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-cuda')
                     elif 'tensorflow' in t:
                         retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-tensorflow')
+                    elif 'icecube-ml' in t:
+                        retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-ml')
+                    retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t+'-'+base_os+'-'+date)
 
 def main():
     parser = argparse.ArgumentParser()
