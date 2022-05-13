@@ -89,7 +89,7 @@ def build_metaproject(metaproject, version, base_os):
 
     tags = get_tags(metaproject, version, base_os)
 
-    if False and version == 'stable' or (metaproject == 'combo' and version > 'V01-02'):
+    if version == 'stable' or version == 'main' or (metaproject == 'combo' and version > 'V01-02'):
         if 'base-devel' in tags and not skip(metaproject, version, 'base-devel', base_os):
             build_docker(metaproject, version, 'base-devel', base_os)
             retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel')
@@ -100,26 +100,26 @@ def build_metaproject(metaproject, version, base_os):
             retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base')
             retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base-'+base_os+'-'+date)
 
-    if False and 'install' in tags and not skip(metaproject, version, 'install', base_os):
+    if 'install' in tags and not skip(metaproject, version, 'install', base_os):
         build_docker(metaproject, version, 'install', base_os)
         retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install')
         retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install-'+base_os+'-'+date)
 
-    if False and 'slim' in tags and not skip(metaproject, version, 'slim', base_os):
+    if 'slim' in tags and not skip(metaproject, version, 'slim', base_os):
         build_docker(metaproject, version, 'slim', base_os)
         retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim')
         retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim-'+base_os+'-'+date)
         if metaproject == 'combo' and version == 'stable':
             retag(metaproject+'-'+version+'-slim-'+base_os, version+'-slim')
 
-    if False and 'prod' in tags and not skip(metaproject, version, 'prod', base_os):
+    if 'prod' in tags and not skip(metaproject, version, 'prod', base_os):
         build_docker(metaproject, version, 'prod', base_os)
         retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod')
         retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod-'+base_os+'-'+date)
         if metaproject == 'combo' and version == 'stable':
             retag(metaproject+'-'+version+'-prod-'+base_os, version+'-prod')
 
-    if False and 'devel' in tags and not skip(metaproject, version, 'devel', base_os):
+    if 'devel' in tags and not skip(metaproject, version, 'devel', base_os):
         build_docker(metaproject, version, 'devel', base_os)
         retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version+'-devel')
         retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version)
