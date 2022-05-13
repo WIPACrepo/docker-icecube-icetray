@@ -1,12 +1,12 @@
-FROM icecube/icetray:combo-main-base-devel as devel
+FROM icecube/icetray:icetray-main-base-devel as devel
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
 
 # stage in icetray
-COPY --from=icecube/icetray:combo-main-install /usr/local/icetray /usr/local/icetray
-COPY --from=icecube/icetray:combo-main-install /opt/i3-data /opt/i3-data
+COPY --from=icecube/icetray:icetray-main-install /usr/local/icetray /usr/local/icetray
+COPY --from=icecube/icetray:icetray-main-install /opt/i3-data /opt/i3-data
 
 # set environment variables
 ENV I3_DATA /opt/i3-data

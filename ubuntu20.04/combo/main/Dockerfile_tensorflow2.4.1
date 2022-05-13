@@ -1,28 +1,15 @@
-FROM icecube/icetray:combo-main-install as install-tf
-
-# build NewNuFlux
-RUN svn co http://code.icecube.wisc.edu/svn/sandbox/cweaver/NewNuFlux /root/combo/src/NewNuFlux \
-           --username=icecube --password=skua --no-auth-cache
-
-WORKDIR /root/combo/build
-RUN cmake /root/combo/src \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DINSTALL_TOOL_LIBS=OFF \
-      -DUSE_GFILT=OFF \
-      -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
-      -DUSE_PYTHON3=OFF \
-    && make -j4
-
-# install icetray
-RUN make install
+FROM icecube/icetray:icetray-main-install as install-tf
 
 ### now make the tensorflow image
 
-FROM icecube/icetray:combo-main-cuda11.1 as tensorflow2.4.1
+FROM icecube/icetray:icetray-main-cuda11.1 as tensorflow2.4.1
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
+
+# install nuflux
+RUN pip install --user git+https://github.com/icecube/nuflux
 
 # build tensorflow
 RUN pip3 install tensorflow==2.4.1

@@ -1,4 +1,4 @@
-FROM icecube/icetray:combo-main-base-devel as install
+FROM icecube/icetray:icetray-main-base-devel as install
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
