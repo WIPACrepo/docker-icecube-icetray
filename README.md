@@ -16,6 +16,8 @@ cudaX: devel + cuda support (X = cuda version)
 
 tensorflow.X: devel + cuda + tensorflow support (X = tensorflow version)
 
+icecube_ml: tensorflow.X + low_level_ml + i3deepice + additional pytorch packages for GNNs + graphnet
+
 Build versions
 --------------
 

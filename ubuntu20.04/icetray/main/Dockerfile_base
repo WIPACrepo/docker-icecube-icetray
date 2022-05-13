@@ -32,3 +32,4 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 # stage in custom software
 COPY --from=icecube/icetray:icetray-main-base-devel /usr/local /usr/local
+
