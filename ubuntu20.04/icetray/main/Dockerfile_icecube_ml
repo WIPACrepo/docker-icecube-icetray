@@ -1,8 +1,8 @@
-FROM icecube/icetray:icetray-main-tensorflow2.4.1 as icecube_ml
+FROM icecube/icetray:icetray-main-cuda11.1 as icecube_ml
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
-COPY --from=install-tf /usr/local/icetray /usr/local/icetray
+COPY --from=icecube/icetray:icetray-main-install /usr/local/icetray /usr/local/icetray
 
 WORKDIR /usr/local/icetray
 # I3DeepIce stuff 
@@ -11,12 +11,17 @@ RUN git clone https://github.com/icecube/low-level-ml.git low-level-ml && \
     git clone https://github.com/IceCubeOpenSource/i3deepice.git i3deepice && \
     cp -r i3deepice/i3deepice lib
 
+WORKDIR /root
+
+# build tensorflow
+RUN pip3 install tensorflow==2.4.1
+
 #graphnet stuff
 ARG TORCH=1.9.1
 ARG PYG=2.0.1
 ARG CUDA=cu111 
 
-RUN pip3 install torch==${TORCH}+${CUDA} -f https://download.pytorch.org/whl/cpu/torch_stable.html && \
+RUN pip3 install torch==${TORCH}+${CUDA} -f https://download.pytorch.org/whl/torch/ && \
     pip3 install torch-cluster -f https://data.pyg.org/whl/torch-${TORCH}+${CUDA}.html && \
     pip3 install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH}+${CUDA}.html && \
     pip3 install torch-sparse -f https://data.pyg.org/whl/torch-${TORCH}+${CUDA}.html  && \

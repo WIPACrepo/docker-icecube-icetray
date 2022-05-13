@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import glob
 import argparse
+from functools import reduce
 from pprint import pprint
 from datetime import datetime
 
@@ -82,7 +83,7 @@ def get_tags(metaproject, version, base_os):
                     tags.append(parts[-1])
     return tags
 
-def build_metaproject(metaproject, version, base_os):
+def build_metaproject(metaproject, version, base_os, flavor=None):
     print('now working on '+metaproject+'-'+version+'-XXX-'+base_os)
 
     date = get_date()
@@ -90,36 +91,36 @@ def build_metaproject(metaproject, version, base_os):
     tags = get_tags(metaproject, version, base_os)
 
     if version == 'stable' or version == 'main' or (metaproject == 'combo' and version > 'V01-02'):
-        if 'base-devel' in tags and not skip(metaproject, version, 'base-devel', base_os):
+        if ((not flavor) or flavor == 'base-devel') and 'base-devel' in tags and not skip(metaproject, version, 'base-devel', base_os):
             build_docker(metaproject, version, 'base-devel', base_os)
             retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel')
             retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel-'+base_os+'-'+date)
 
-        if 'base' in tags and not skip(metaproject, version, 'base', base_os):
+        if ((not flavor) or flavor == 'base') and 'base' in tags and not skip(metaproject, version, 'base', base_os):
             build_docker(metaproject, version, 'base', base_os)
             retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base')
             retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base-'+base_os+'-'+date)
 
-    if 'install' in tags and not skip(metaproject, version, 'install', base_os):
+    if ((not flavor) or flavor == 'install') and 'install' in tags and not skip(metaproject, version, 'install', base_os):
         build_docker(metaproject, version, 'install', base_os)
         retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install')
         retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install-'+base_os+'-'+date)
 
-    if 'slim' in tags and not skip(metaproject, version, 'slim', base_os):
+    if ((not flavor) or flavor == 'slim') and 'slim' in tags and not skip(metaproject, version, 'slim', base_os):
         build_docker(metaproject, version, 'slim', base_os)
         retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim')
         retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim-'+base_os+'-'+date)
         if metaproject == 'combo' and version == 'stable':
             retag(metaproject+'-'+version+'-slim-'+base_os, version+'-slim')
 
-    if 'prod' in tags and not skip(metaproject, version, 'prod', base_os):
+    if ((not flavor) or flavor == 'prod') and 'prod' in tags and not skip(metaproject, version, 'prod', base_os):
         build_docker(metaproject, version, 'prod', base_os)
         retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod')
         retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod-'+base_os+'-'+date)
         if metaproject == 'combo' and version == 'stable':
             retag(metaproject+'-'+version+'-prod-'+base_os, version+'-prod')
 
-    if 'devel' in tags and not skip(metaproject, version, 'devel', base_os):
+    if ((not flavor) or flavor == 'devel') and 'devel' in tags and not skip(metaproject, version, 'devel', base_os):
         build_docker(metaproject, version, 'devel', base_os)
         retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version+'-devel')
         retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version)
@@ -129,37 +130,50 @@ def build_metaproject(metaproject, version, base_os):
             retag(metaproject+'-'+version+'-devel-'+base_os, version)
             retag(metaproject+'-'+version+'-devel-'+base_os, 'latest')
 
-    for t in tags:
-        if 'cuda' in t or 'tensorflow' in t or 'icecube-ml' in t:
-            if not skip(metaproject, version, t, base_os):
-                build_docker(metaproject, version, t, base_os)
-                retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t)
-                retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t+'-'+base_os+'-'+date)
-                if 'cuda' in t:
-                    retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-cuda')
-                elif 'tensorflow' in t:
-                    retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-tensorflow')
-                elif 'icecube-ml' in t:
-                    retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-ml')
-                if metaproject == 'combo' and version == 'stable':
+    cuda_tag = reduce(lambda x, y: y if 'cuda' in y else x, tags, None)
+    if ((not flavor) or flavor == 'cuda') and cuda_tag and not skip(metaproject, version, cuda_tag, base_os):
+        build_docker(metaproject, version, cuda_tag, base_os)
+        retag(metaproject+'-'+version+'-'+cuda_tag+'-'+base_os, metaproject+'-'+version+'-'+cuda_tag)
+        retag(metaproject+'-'+version+'-'+cuda_tag+'-'+base_os, metaproject+'-'+version+'-'+cuda_tag+'-'+base_os+'-'+date)
+        retag(metaproject+'-'+version+'-'+cuda_tag+'-'+base_os, metaproject+'-'+version+'-cuda')
+        if metaproject == 'combo' and version == 'stable':
+            retag(metaproject+'-'+version+'-'+cuda_tag+'-'+base_os, version+'-'+cuda_tag)
+            retag(metaproject+'-'+version+'-'+cuda_tag+'-'+base_os, version+'-cuda')
 
-                    retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-'+t)
-                    if 'cuda' in t:
-                        retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-cuda')
-                    elif 'tensorflow' in t:
-                        retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-tensorflow')
-                    elif 'icecube-ml' in t:
-                        retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-ml')
-                    retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t+'-'+base_os+'-'+date)
+    tf_tag = reduce(lambda x, y: y if 'tensorflow' in y else x, tags, None)
+    if ((not flavor) or flavor == 'tensorflow') and tf_tag and not skip(metaproject, version, tf_tag, base_os):
+        build_docker(metaproject, version, tf_tag, base_os)
+        retag(metaproject+'-'+version+'-'+tf_tag+'-'+base_os, metaproject+'-'+version+'-'+tf_tag)
+        retag(metaproject+'-'+version+'-'+tf_tag+'-'+base_os, metaproject+'-'+version+'-'+tf_tag+'-'+base_os+'-'+date)
+        retag(metaproject+'-'+version+'-'+tf_tag+'-'+base_os, metaproject+'-'+version+'-tensorflow')
+        if metaproject == 'combo' and version == 'stable':
+            retag(metaproject+'-'+version+'-'+tf_tag+'-'+base_os, version+'-'+tf_tag)
+            retag(metaproject+'-'+version+'-'+tf_tag+'-'+base_os, version+'-tensorflow')
+
+    ml_tag = reduce(lambda x, y: y if 'icecube_ml' in y else x, tags, None)
+    print('ml_tag', ml_tag)
+    print('tags', tags)
+    if ((not flavor) or flavor == 'icecube_ml') and ml_tag and not skip(metaproject, version, ml_tag, base_os):
+        build_docker(metaproject, version, ml_tag, base_os)
+        retag(metaproject+'-'+version+'-'+ml_tag+'-'+base_os, metaproject+'-'+version+'-'+ml_tag)
+        retag(metaproject+'-'+version+'-'+ml_tag+'-'+base_os, metaproject+'-'+version+'-'+ml_tag+'-'+base_os+'-'+date)
+        retag(metaproject+'-'+version+'-'+ml_tag+'-'+base_os, metaproject+'-'+version+'-ml')
+        if metaproject == 'combo' and version == 'stable':
+            retag(metaproject+'-'+version+'-'+ml_tag+'-'+base_os, version+'-'+ml_tag)
+            retag(metaproject+'-'+version+'-'+ml_tag+'-'+base_os, version+'-ml')
+
 
 def main():
     parser = argparse.ArgumentParser()
     os_options = ['ubuntu18.04','ubuntu20.04']
-    parser.add_argument('--os', action='append', choices=os_options, default=os_options)
+    parser.add_argument('--os', action='append', choices=os_options, default=[])
     parser.add_argument('--metaproject', action='append')
     parser.add_argument('--version', action='append')
+    parser.add_argument('--flavor', default=None)
     parser.add_argument('--print-tags', action='store_true')
     args = parser.parse_args()
+    if not args.os:
+        args.os = os_options
     for base_os in args.os:
         for metaproject in os.listdir(base_os):
             if (not args.metaproject) or metaproject in args.metaproject:
@@ -169,7 +183,7 @@ def main():
                             print('now working on '+metaproject+'-'+version+'-XXX-'+base_os)
                             pprint(get_tags(metaproject, version, base_os))
                         else:
-                            build_metaproject(metaproject, version, base_os)
+                            build_metaproject(metaproject, version, base_os, flavor=args.flavor)
 
 if __name__ == '__main__':
     main()
