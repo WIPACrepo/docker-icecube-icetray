@@ -32,6 +32,4 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 # stage in custom software
 COPY --from=icecube/icetray:icetray-main-base-devel /usr/local /usr/local
-# stage in ZMQ C++
-COPY --from=icecube/icetray:icetray-main-base-devel /usr/include/zmq.hpp /usr/include/zmq.hpp
-COPY --from=icecube/icetray:icetray-main-base-devel /usr/include/zmq_addon.hpp /usr/include/zmq_addon.hpp
+
