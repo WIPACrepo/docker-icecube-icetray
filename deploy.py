@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import subprocess
 import glob
@@ -35,7 +36,16 @@ def build_docker(metaproject, version, target, base_os):
     dockerfile = os.path.join(base_os, metaproject, version, 'Dockerfile')
     if os.path.exists(dockerfile+'_'+target):
         dockerfile = dockerfile+'_'+target
+    # grab cached image if available
     call(['docker', 'pull', full_tag])
+
+    if target == 'base-devel':
+        # update FROM image
+        with open(dockerfile) as f:
+            base_img = re.search('FROM (.*) as', f.read()).group(1)
+        call(['docker', 'pull', base_img])
+
+    # prepare icetray download
     if 'GITHUB_PASS' in os.environ:
         creds = os.environ['GITHUB_USER']+':'+os.environ['GITHUB_PASS']
     elif 'GITHUB_TOKEN' in os.environ:
@@ -49,7 +59,7 @@ def build_docker(metaproject, version, target, base_os):
             check_call(['git', 'clone', 'https://'+creds+'@github.com/icecube/icetray.git', icetray_dir])
             branch = 'tags/'+version if version.startswith('V') else version
             check_call(['git', 'checkout', branch], cwd=icetray_dir)
-        check_call(['docker', 'build', '--pull', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
+        check_call(['docker', 'build', '-f', dockerfile, '--target', target, '-t', full_tag, '.'])
         check_call(['docker', 'push', full_tag])
     finally:
         if os.path.exists(icetray_dir):
@@ -79,54 +89,52 @@ def build_metaproject(metaproject, version, base_os):
 
     tags = get_tags(metaproject, version, base_os)
 
-    if version == 'stable' or (metaproject == 'combo' and version > 'V01-02'):
+    if False and version == 'stable' or (metaproject == 'combo' and version > 'V01-02'):
         if 'base-devel' in tags and not skip(metaproject, version, 'base-devel', base_os):
             build_docker(metaproject, version, 'base-devel', base_os)
-            if metaproject == 'combo' and version == 'stable':
-                retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel')
-                retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel-'+base_os+'-'+date)
+            retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel')
+            retag(metaproject+'-'+version+'-base-devel-'+base_os, metaproject+'-'+version+'-base-devel-'+base_os+'-'+date)
 
         if 'base' in tags and not skip(metaproject, version, 'base', base_os):
             build_docker(metaproject, version, 'base', base_os)
-            if metaproject == 'combo' and version == 'stable':
-                retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base')
-                retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base-'+base_os+'-'+date)
+            retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base')
+            retag(metaproject+'-'+version+'-base-'+base_os, metaproject+'-'+version+'-base-'+base_os+'-'+date)
 
-    if 'install' in tags and not skip(metaproject, version, 'install', base_os):
+    if False and 'install' in tags and not skip(metaproject, version, 'install', base_os):
         build_docker(metaproject, version, 'install', base_os)
-        if metaproject == 'combo' and version == 'stable':
-            retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install')
-            retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install-'+base_os+'-'+date)
+        retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install')
+        retag(metaproject+'-'+version+'-install-'+base_os, metaproject+'-'+version+'-install-'+base_os+'-'+date)
 
-    if 'slim' in tags and not skip(metaproject, version, 'slim', base_os):
+    if False and 'slim' in tags and not skip(metaproject, version, 'slim', base_os):
         build_docker(metaproject, version, 'slim', base_os)
         retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim')
+        retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim-'+base_os+'-'+date)
         if metaproject == 'combo' and version == 'stable':
             retag(metaproject+'-'+version+'-slim-'+base_os, version+'-slim')
-            retag(metaproject+'-'+version+'-slim-'+base_os, metaproject+'-'+version+'-slim-'+base_os+'-'+date)
 
-    if 'prod' in tags and not skip(metaproject, version, 'prod', base_os):
+    if False and 'prod' in tags and not skip(metaproject, version, 'prod', base_os):
         build_docker(metaproject, version, 'prod', base_os)
         retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod')
+        retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod-'+base_os+'-'+date)
         if metaproject == 'combo' and version == 'stable':
             retag(metaproject+'-'+version+'-prod-'+base_os, version+'-prod')
-            retag(metaproject+'-'+version+'-prod-'+base_os, metaproject+'-'+version+'-prod-'+base_os+'-'+date)
 
-    if 'devel' in tags and not skip(metaproject, version, 'devel', base_os):
+    if False and 'devel' in tags and not skip(metaproject, version, 'devel', base_os):
         build_docker(metaproject, version, 'devel', base_os)
         retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version+'-devel')
         retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version)
+        retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version+'-devel-'+base_os+'-'+date)
         if metaproject == 'combo' and version == 'stable':
             retag(metaproject+'-'+version+'-devel-'+base_os, version+'-devel')
             retag(metaproject+'-'+version+'-devel-'+base_os, version)
             retag(metaproject+'-'+version+'-devel-'+base_os, 'latest')
-            retag(metaproject+'-'+version+'-devel-'+base_os, metaproject+'-'+version+'-devel-'+base_os+'-'+date)
 
-    for t in tags:
+    for t in sorted(tags):
         if 'cuda' in t or 'tensorflow' in t:
             if not skip(metaproject, version, t, base_os):
                 build_docker(metaproject, version, t, base_os)
                 retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t)
+                retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t+'-'+base_os+'-'+date)
                 if 'cuda' in t:
                     retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-cuda')
                 elif 'tensorflow' in t:
@@ -137,7 +145,6 @@ def build_metaproject(metaproject, version, base_os):
                         retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-cuda')
                     elif 'tensorflow' in t:
                         retag(metaproject+'-'+version+'-'+t+'-'+base_os, version+'-tensorflow')
-                    retag(metaproject+'-'+version+'-'+t+'-'+base_os, metaproject+'-'+version+'-'+t+'-'+base_os+'-'+date)
 
 def main():
     parser = argparse.ArgumentParser()

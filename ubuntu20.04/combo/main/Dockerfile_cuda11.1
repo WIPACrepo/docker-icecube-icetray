@@ -4,10 +4,14 @@ MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
 
+# fix Nvidia signing keys
+RUN rm /etc/apt/sources.list.d/nvidia-ml.list && apt-key del 7fa2af80 && \
+    apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
+
 # upgrade and install system packages (cuda image is a bit out of date)
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  tar wget rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
+  tar wget curl rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
   less build-essential cmake libbz2-dev libzstd-dev \
   libxml2-dev subversion git libboost-python1.71-dev \
   libboost-system1.71-dev libboost-thread1.71-dev libboost-numpy1.71-dev \
@@ -27,12 +31,24 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
   opencl-headers opencl-c-headers opencl-clhpp-headers \
   opencl-dev pocl-opencl-icd \
   libzmq5 libzmq3-dev libzmqpp-dev libzmqpp4 \
-  nano vim sudo man-db lsb-release \
+  nano vim sudo man-db lsb-release ninja-build pkg-config doxygen\
   && apt-get clean
+
+RUN pip3 install sphinx breathe meson
 
 RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
     tar -zxf master.tar.gz && cd cppzmq-master && \
-    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make install
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local . && make install
+
+# install photospline
+RUN curl -L https://github.com/icecube/photospline/archive/refs/tags/v2.0.7.tar.gz | tar xz &&\
+  cd photospline-2.0.7 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
+
+# build NuFlux
+RUN git clone https://github.com/icecube/nuflux && \
+    cd nuflux && \
+    meson build && \
+    ninja -C build install
 
 RUN mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
