@@ -31,4 +31,4 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   && apt-get clean
 
 # stage in custom software
-COPY --from=icecube/icetray:combo-main-base-devel /usr/local /usr/local
+COPY --from=icecube/icetray:icetray-main-base-devel /usr/local /usr/local
