@@ -2,17 +2,6 @@ FROM icecube/icetray:icetray-main-cuda11.1 as icecube_ml
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
-COPY --from=icecube/icetray:icetray-main-install /usr/local/icetray /usr/local/icetray
-
-WORKDIR /usr/local/icetray
-# I3DeepIce stuff 
-RUN git clone https://github.com/icecube/low-level-ml.git low-level-ml && \
-    cp -r low-level-ml/low_level_ml lib && \
-    git clone https://github.com/IceCubeOpenSource/i3deepice.git i3deepice && \
-    cp -r i3deepice/i3deepice lib
-
-WORKDIR /root
-
 # build tensorflow
 RUN pip3 install tensorflow==2.4.1
 
@@ -30,6 +19,17 @@ RUN pip3 install torch==${TORCH}+${CUDA} -f https://download.pytorch.org/whl/tor
 
 RUN pip3 install git+https://github.com/icecube/graphnet.git
 
+
+COPY --from=icecube/icetray:icetray-main-install /usr/local/icetray /usr/local/icetray
+
+WORKDIR /usr/local/icetray
+# I3DeepIce stuff
+RUN git clone https://github.com/icecube/low-level-ml.git low-level-ml && \
+    cp -r low-level-ml/low_level_ml lib && \
+    git clone https://github.com/IceCubeOpenSource/i3deepice.git i3deepice && \
+    cp -r i3deepice/i3deepice lib
+
+WORKDIR /root
 
 # provide the entry point to run commands
 ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
