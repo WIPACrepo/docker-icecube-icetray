@@ -1,14 +1,14 @@
-FROM icecube/icetray:icetray-main-cuda11.1 as icecube_ml
+FROM icecube/icetray:icetray-main-cuda11.6 as icecube_ml
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 # build tensorflow
-RUN pip3 install tensorflow==2.4.1
+RUN pip3 install tensorflow==2.9.1
 
 #graphnet stuff
-ARG TORCH=1.9.1
-ARG PYG=2.0.1
-ARG CUDA=cu111 
+ARG TORCH=1.12.0
+ARG PYG=2.0.4
+ARG CUDA=cu116
 
 RUN pip3 install torch==${TORCH}+${CUDA} -f https://download.pytorch.org/whl/torch/ && \
     pip3 install torch-cluster -f https://data.pyg.org/whl/torch-${TORCH}+${CUDA}.html && \
@@ -17,10 +17,8 @@ RUN pip3 install torch==${TORCH}+${CUDA} -f https://download.pytorch.org/whl/tor
     pip3 install torch-spline-conv -f https://data.pyg.org/whl/torch-${TORCH}+${CUDA}.html  && \
     pip3 install torch-geometric==${PYG}
 
-RUN pip3 install git+https://github.com/icecube/graphnet.git
-
-
-COPY --from=icecube/icetray:icetray-main-install /usr/local/icetray /usr/local/icetray
+RUN pip3 install --upgrade setuptools>=59.5
+RUN pip3 install git+https://github.com/icecube/graphnet.git@v0.2.0#egg=graphnet
 
 WORKDIR /usr/local/icetray
 # I3DeepIce stuff

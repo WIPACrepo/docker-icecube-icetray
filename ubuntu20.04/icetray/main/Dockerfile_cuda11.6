@@ -1,11 +1,11 @@
-FROM nvidia/cuda:11.1-cudnn8-devel-ubuntu20.04 as cuda11.1
+FROM nvidia/cuda:11.6.2-cudnn8-devel-ubuntu20.04 as cuda11.6
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
 
 # fix Nvidia signing keys
-RUN rm /etc/apt/sources.list.d/nvidia-ml.list && apt-key del 7fa2af80 && \
+RUN apt-key del 7fa2af80 && \
     apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
 
 # upgrade and install system packages (cuda image is a bit out of date)
