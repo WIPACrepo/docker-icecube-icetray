@@ -31,7 +31,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   nano vim sudo man-db lsb-release ninja-build pkg-config doxygen\
   && apt-get clean
 
-RUN pip3 install setuptools>=59.5 sphinx breathe meson
+RUN pip3 install 'setuptools>=59.5' sphinx breathe meson
 
 RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
     tar -zxf master.tar.gz && cd cppzmq-master && \
