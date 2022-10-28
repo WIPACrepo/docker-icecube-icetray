@@ -29,4 +29,4 @@ jobs:
           tags: >
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04-${{ steps.date.outputs.date }},
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04-latest,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-latest
