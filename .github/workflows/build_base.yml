@@ -2,7 +2,7 @@ name: build_base_images
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   docker:
