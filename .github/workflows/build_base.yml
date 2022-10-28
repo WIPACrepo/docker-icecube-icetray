@@ -30,8 +30,10 @@ jobs:
           push: true
           file: base_ubuntu/Dockerfile_base-devel-20.04
           tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04-${{ steps.date.outputs.date }},
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04-latest,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-latest
       -
         name: Build and push base 20 04
@@ -40,8 +42,10 @@ jobs:
           push: true
           file: base_ubuntu/Dockerfile_base-20.04
           tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu20.04,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu20.04-${{ steps.date.outputs.date }},
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu20.04-latest,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-latest
       -
         name: Build and push base devel 22 04
@@ -50,6 +54,7 @@ jobs:
           push: true
           file: base_ubuntu/Dockerfile_base-devel-22.04
           tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu22.04,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu22.04-${{ steps.date.outputs.date }},
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu22.04-latest
       -
@@ -59,5 +64,6 @@ jobs:
           push: true
           file: base_ubuntu/Dockerfile_base-22.04
           tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu22.04,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu22.04-${{ steps.date.outputs.date }},
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu22.04-latest
