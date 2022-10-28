@@ -1,0 +1,35 @@
+#### Create a "slim" base
+
+FROM ubuntu:20.04 as base
+
+MAINTAINER IceCube <developers@icecube.wisc.edu>
+
+WORKDIR /root
+
+# install system packages
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  tar wget curl rsync gzip bzip2 xz-utils liblzma5 zlib1g libzstd1 less \
+  libboost-python1.71.0-py38 libboost-system1.71.0 libboost-thread1.71.0 \
+  libboost-date-time1.71.0 libboost-serialization1.71.0 \
+  libboost-filesystem1.71.0 libboost-program-options1.71.0 \
+  libboost-regex1.71.0 libboost-iostreams1.71.0 libgsl23 \
+  libcdk5nc6 libarchive13 python3 python3-scipy \
+  python3-urwid python3-numpy python3-matplotlib \
+  python3-numexpr cython3 python3-cffi python3-requests \
+  python3-healpy python3-urllib3 python3-jsonschema \
+  libzmq5 libzmqpp4 python3-zmq python3-pymysql python3-yaml  python3-pandas \
+  zlib1g-dev liberfa1 libstarlink-pal0 \
+  libopenblas-base libsprng2 libfftw3-3 \
+  libsuitesparseconfig5 libspqr2 \
+  libamd2 libcamd2 libbtf1 libcolamd2 \
+  libccolamd2 libcholmod3 libcxsparse3 \
+  libklu1 libldl2 libumfpack5 \
+  libcfitsio8 libhdf5-103 libhdf5-cpp-103 libhealpix-cxx2 \
+  opencl-headers opencl-c-headers opencl-clhpp-headers \
+  opencl-dev pocl-opencl-icd \
+  lsb-release \
+  && apt-get clean
+
+# stage in custom software
+COPY --from=icecube/icetray:icetray-main-base-devel /usr/local /usr/local
+

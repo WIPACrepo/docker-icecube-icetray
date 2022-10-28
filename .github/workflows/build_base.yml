@@ -25,8 +25,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: service/Dockerfile
+          file: base_ubuntu/Dockerfile_base-devel-20.04
           tags: >
-            blaufuss/test-image:${{ github.event.client_payload.tag }}-${{ steps.date.outputs.date }},
-            blaufuss/test-image:${{ github.event.client_payload.tag }}-latest,
-            blaufuss/test-image:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04-${{ steps.date.outputs.date }},
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04-latest,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel:latest
