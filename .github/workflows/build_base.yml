@@ -3,6 +3,8 @@ name: build_base_images
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'base_ubuntu/Dockerfile*'
 
 jobs:
   docker:
