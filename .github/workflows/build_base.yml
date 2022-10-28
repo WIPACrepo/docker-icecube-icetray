@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push
+        name: Build and push base devel 20 04
         uses: docker/build-push-action@v3
         with:
           push: true
@@ -30,3 +30,31 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04-${{ steps.date.outputs.date }},
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu20.04-latest,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-latest
+      -
+        name: Build and push base 20 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: base_ubuntu/Dockerfile_base-20.04
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu20.04-${{ steps.date.outputs.date }},
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu20.04-latest,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-latest
+      -
+        name: Build and push base devel 22 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: base_ubuntu/Dockerfile_base-devel-22.04
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu22.04-${{ steps.date.outputs.date }},
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-devel-ubuntu22.04-latest
+      -
+        name: Build and push base devel 22 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: base_ubuntu/Dockerfile_base-22.04
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu22.04-${{ steps.date.outputs.date }},
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:main-base-ubuntu22.04-latest
