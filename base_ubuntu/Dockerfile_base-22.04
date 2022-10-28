@@ -31,5 +31,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   && apt-get clean
 
 # stage in custom software
-COPY --from=icecube/icetray:icetray-main-base-devel-ubuntu22.04 /usr/local /usr/local
+# EKB back to icecube/icetray
+COPY --from=blaufuss/icetray:icetray-main-base-devel-ubuntu22.04 /usr/local /usr/local
 
