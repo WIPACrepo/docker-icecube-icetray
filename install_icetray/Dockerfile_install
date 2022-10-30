@@ -27,11 +27,11 @@ RUN cmake /root/icetray/src \
       -DCMAKE_BUILD_TYPE=Release \
       -DINSTALL_TOOL_LIBS=OFF \
       -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
-    && make -j4
+    && make -j2
 
 # install icetray
 RUN make install
 
 # provide the entry point to run commands
-ENTRYPOINT ["/bin/bash", "/use/local/icetray/env-shell.sh", "exec"]
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
 CMD ["/bin/bash"]
