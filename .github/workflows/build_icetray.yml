@@ -1,7 +1,7 @@
 name: build_icetray_images
 
 env:
-  ICETRAY_VERSION=v1.4.1
+  ICETRAY_VERSION: v1.4.1
 
 on:
   workflow_dispatch:
