@@ -32,6 +32,7 @@ RUN cmake /root/icetray/src \
 # install icetray
 RUN make install
 
+WORKDIR /root
 # provide the entry point to run commands
 ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
 CMD ["/bin/bash"]
