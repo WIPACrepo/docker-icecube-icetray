@@ -32,9 +32,9 @@ jobs:
         with:
           push: true
           file: install_icetray/Dockerfile_install
-          build-args: >
-            GHTOKEN=${{ secrets.GHTOKEN }},
-            TARGET_UBUNTU=ubuntu20.04,
+          build-args: |
+            GHTOKEN=${{ secrets.GHTOKEN }}
+            TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:${{ env.ICETRAY_VERSION }}-ubuntu20.04,
@@ -45,9 +45,9 @@ jobs:
         with:
           push: true
           file: install_icetray/Dockerfile_install
-          build-args: >
-            GHTOKEN=${{ secrets.GHTOKEN }},
-            TARGET_UBUNTU=ubuntu22.04,
+          build-args: |
+            GHTOKEN=${{ secrets.GHTOKEN }}
+            TARGET_UBUNTU=ubuntu22.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray:${{ env.ICETRAY_VERSION }}-ubuntu22.04,
