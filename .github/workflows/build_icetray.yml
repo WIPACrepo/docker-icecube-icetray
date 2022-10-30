@@ -33,7 +33,7 @@ jobs:
           push: true
           file: install_icetray/Dockerfile_install
           build_args: >
-            GHTOKEN=${{ secrets.GH_TOKEN }},
+            GHTOKEN=${{ secrets.GHTOKEN }},
             TARGET_UBUNTU=ubuntu20.04,
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
