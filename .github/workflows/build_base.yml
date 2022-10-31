@@ -5,7 +5,7 @@ on:
   push:
     branches: [ master ]
     paths:
-      - 'base_ubuntu/Dockerfile*'
+      - 'icetray_base/Dockerfile*'
 
 jobs:
   docker:
