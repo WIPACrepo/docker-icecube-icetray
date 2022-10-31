@@ -26,31 +26,70 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # -
+      #   name: Build and push icetray install 20 04
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: true
+      #     file: install_icetray/Dockerfile_install
+      #     build-args: |
+      #       GHTOKEN=${{ secrets.GHTOKEN }}
+      #       TARGET_UBUNTU=ubuntu20.04
+      #       VERSION=${{ env.ICETRAY_VERSION }}
+      #     tags: >
+      #       ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+      #       ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-current-ubuntu20.04,
+      #       ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ steps.date.outputs.date }}
+      # -
+      #   name: Build and push icetray install 22 04
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: true
+      #     file: install_icetray/Dockerfile_install
+      #     build-args: |
+      #       GHTOKEN=${{ secrets.GHTOKEN }}
+      #       TARGET_UBUNTU=ubuntu22.04
+      #       VERSION=${{ env.ICETRAY_VERSION }}
+      #     tags: >
+      #       ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
+      #       ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-current-ubuntu22.04,
+      #       ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ steps.date.outputs.date }}
       -
-        name: Build and push icetray install 20 04
+        name: Build and push icetray slim 20 04
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: install_icetray/Dockerfile_install
+          file: install_icetray/Dockerfile_slim
           build-args: |
-            GHTOKEN=${{ secrets.GHTOKEN }}
             TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-current-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ steps.date.outputs.date }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-slim-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-slim-current-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-slim-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ steps.date.outputs.date }}
       -
-        name: Build and push icetray install 22 04
+        name: Build and push icetray devel 20 04
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: install_icetray/Dockerfile_install
+          file: install_icetray/Dockerfile_devel
           build-args: |
-            GHTOKEN=${{ secrets.GHTOKEN }}
-            TARGET_UBUNTU=ubuntu22.04
+            TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-current-ubuntu22.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ steps.date.outputs.date }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-current-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ steps.date.outputs.date }}
+      -
+        name: Build and push icetray prod 20 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: install_icetray/Dockerfile_prod
+          build-args: |
+            TARGET_UBUNTU=ubuntu20.04
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-current-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ steps.date.outputs.date }}

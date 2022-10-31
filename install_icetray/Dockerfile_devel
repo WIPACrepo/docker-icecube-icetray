@@ -1,0 +1,31 @@
+ARG TARGET_UBUNTU=ubuntu20.04
+ARG VERSION=current
+## EKB: replace blaufuss with icecube
+FROM blaufuss/icetray:icetray-${VERSION}-${TARGET_UBUNTU} as icetray-build
+FROM blaufuss/icetray:base-devel-${TARGET_UBUNTU} as devel
+
+MAINTAINER IceCube <developers@icecube.wisc.edu>
+
+WORKDIR /root
+
+# stage in icetray
+COPY --from=icetray-build /usr/local/icetray /usr/local/icetray
+COPY --from=icetray-build /opt/i3-data /opt/i3-data
+
+# set environment variables
+ENV I3_DATA /opt/i3-data
+ENV I3_TESTDATA /opt/i3-data/i3-test-data
+ENV TMPDIR /scratch
+
+# install test data
+RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/trunk/ /opt/i3-data/i3-test-data/
+
+# build the matplotlib font cache (prevents warnings about the font cache on startup)
+RUN python3 -c 'from matplotlib import pyplot'
+
+# create the scratch directory
+RUN mkdir -p /scratch
+
+# provide the entry point to run commands
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
+CMD ["/bin/bash"]
