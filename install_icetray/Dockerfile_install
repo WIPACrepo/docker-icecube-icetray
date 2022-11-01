@@ -1,6 +1,6 @@
 ARG TARGET_UBUNTU=ubuntu20.04
 # EKB: change back to icecube
-FROM blaufuss/icetray:base-devel-${TARGET_UBUNTU} as install
+FROM blaufuss/icetray-base:devel-${TARGET_UBUNTU} as install
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -19,11 +19,12 @@ RUN mkdir /root/icetray && mkdir /root/icetray/build
 ## Most recent release..
 ARG VERSION=v1.4.1
 ARG GHTOKEN
-RUN git clone -c advice.detachedHead=false --depth 1 -b ${VERSION} https://oauth:${GHTOKEN}@github.com/icecube/icetray.git /root/icetray/src
+RUN git clone -c advice.detachedHead=false --depth 1 -b ${VERSION} https://oauth:${GHTOKEN}@github.com/icecube/icetray.git /usr/local/icetray_src
+RUN echo ${VERSION} > /usr/local/icetray_src/version_tag
 
 # build icetray
 WORKDIR /root/icetray/build
-RUN cmake /root/icetray/src \
+RUN cmake /usr/local/icetray_src \
       -DCMAKE_BUILD_TYPE=Release \
       -DINSTALL_TOOL_LIBS=OFF \
       -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
@@ -32,7 +33,24 @@ RUN cmake /root/icetray/src \
 # install icetray
 RUN make install
 
+# set environment variables
+ENV I3_DATA /opt/i3-data
+ENV I3_TESTDATA /opt/i3-data/i3-test-data
+ENV TMPDIR /scratch
+
+# install test data
+RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/trunk/ /opt/i3-data/i3-test-data/
+
+# build the matplotlib font cache (prevents warnings about the font cache on startup)
+RUN python3 -c 'from matplotlib import pyplot'
+
+# create the scratch directory
+RUN mkdir -p /scratch
+
+
 WORKDIR /root
+# Cleanup!
+RUN rm -rf /root/icetray
 # provide the entry point to run commands
 ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
 CMD ["/bin/bash"]
