@@ -35,3 +35,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 ## EKB:  back to icecube/icetray
 COPY --from=blaufuss/icetray-base:devel-ubuntu20.04 /usr/local /usr/local
 
+# set environment variables
+ENV LD_LIBRARY_PATH /usr/local/lib
+# provide the entry point
+CMD ["/bin/bash"]
