@@ -47,7 +47,23 @@ RUN curl -L https://github.com/icecube/photospline/archive/refs/tags/v2.1.0.tar.
   cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
 
 # build NuFlux
-RUN git clone https://github.com/icecube/nuflux && \
-    cd nuflux && \
+RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | tar xz && \
+    cd nuflux-2.0.3 && \
     meson build && \
-    ninja -C build install
+    ninja -C build install && \
+    pip install .
+
+# build SQuIDS
+RUN curl -L https://github.com/jsalvado/SQuIDS/archive/refs/tags/v1.3.0.tar.gz | tar xz && \
+    cd SQuIDS-1.3.0 && ./configure --prefix=/usr/local && \
+    make && make install
+
+# build nuSQuIDS
+RUN git clone https://github.com/arguelles/nuSQuIDS.git && \
+    cd nuSQuIDS && ./configure --with-python-bindings --with-squids=/usr/local --prefix=/usr/local && \
+    make && make python && make install && make python-install
+
+# set environment variables
+ENV LD_LIBRARY_PATH /usr/local/lib
+# provide the entry point
+CMD ["/bin/bash"]
