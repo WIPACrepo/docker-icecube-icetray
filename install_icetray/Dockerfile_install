@@ -8,9 +8,7 @@ WORKDIR /root
 
 # set up test data directory
 RUN mkdir /opt/i3-data
-ENV I3_DATA /opt/i3-data
 RUN mkdir /opt/i3-data/i3-test-data
-ENV I3_TESTDATA /opt/i3-data/i3-test-data
 
 # check out icetray
 RUN mkdir /root/icetray && mkdir /root/icetray/build
