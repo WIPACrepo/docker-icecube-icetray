@@ -14,7 +14,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   libboost-filesystem1.74.0 libboost-program-options1.74.0 \
   libboost-regex1.74.0 libboost-iostreams1.74.0 libgsl27 \
   libboost-atomic1.74.0 libboost-chrono1.74.0 \
-  libcdk5nc6 libarchive13 python3 python3-scipy \
+  libcdk5nc6 libarchive13 python3 python3-scipy ipython3 \
   python3-urwid python3-numpy python3-matplotlib \
   python3-numexpr cython3 python3-cffi python3-requests \
   python3-healpy python3-urllib3 python3-jsonschema \
