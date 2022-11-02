@@ -1,5 +1,5 @@
 ## EKB: replace blaufuss with icecube
-FROM blaufuss/icecube-ml:icetray-cuda11.6-current-ubuntu20.04 as icecube_ml
+FROM blaufuss/icetray-ml:icetray-cuda11.6-current-ubuntu20.04 as icecube_ml
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
