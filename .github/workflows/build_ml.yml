@@ -1,0 +1,64 @@
+name: build_icetray_images
+
+env:
+  ICETRAY_VERSION: v1.4.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+    paths:
+      - 'icecube_ml/Dockerfile*'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push icetray ml cuda 11.6 for 20 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icecube_ml/Dockerfile_ubuntu_20.04_cuda11.6
+          build-args: |
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-cuda11.6-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-cuda11.6-current-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-cuda11.6-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ steps.date.outputs.date }}
+      -
+        name: Build and push icetray ml cuda 11.8 for 22 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8
+          build-args: |
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-cuda11.8-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-cuda11.8-current-ubuntu22.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-cuda11.8-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ steps.date.outputs.date }}
+      -
+        name: Build and push icetray ml  20 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icecube_ml/Dockerfile_ubuntu_20.04_icecube_ml
+          build-args: |
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-ml-base-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-ml-base-current-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-ml-base-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ steps.date.outputs.date }}
