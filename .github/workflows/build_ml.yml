@@ -52,11 +52,11 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-cuda11.6-current-ubuntu20.04,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-ml:icetray-cuda11.6-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ steps.date.outputs.date }}
       -
-        name: Build and push icetray ml cuda 11.8 for 23 04
+        name: Build and push icetray ml cuda 11.8 for 22 04
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: icecube_ml/Dockerfile_ubuntu_23.04_cuda11.8
+          file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
