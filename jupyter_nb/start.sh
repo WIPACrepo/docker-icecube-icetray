@@ -166,6 +166,7 @@ if [ "$(id -u)" == 0 ] ; then
     _log "Running as ${NB_USER}:" "${cmd[@]}"
     exec sudo --preserve-env --set-home --user "${NB_USER}" \
         PATH="${PATH}" \
+        LD_LIBRARY_PATH="${LD_LIBRARY_PATH}" \
         PYTHONPATH="${PYTHONPATH:-}" \
         "${cmd[@]}"
         # Notes on how we ensure that the environment that this container is started

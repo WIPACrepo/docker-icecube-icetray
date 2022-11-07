@@ -37,9 +37,9 @@ ENV SHELL=/bin/bash \
     NB_GID=${NB_GID} \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
+    LANGUAGE=en_US.UTF-8 \
+    LD_LIBRARY_PATH=/usr/local/icetray/lib
 ENV HOME="/home/${NB_USER}"
-ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Copy a script that we will use to correct permissions after running certain commands
 COPY fix-permissions /usr/local/bin/fix-permissions
@@ -62,7 +62,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     fix-permissions "${HOME}" 
 
 ##  pip install latest jupyterlab and upgrade needed packages
-RUN pip3 install notebook jupyterlab traitlets==5.1.1 pygments==2.4.1
+RUN pip3 install notebook jupyterlab traitlets==5.1.1 pygments==2.4.1 jupyterhub==2.3.1
 # Needs newer requests, ipython and ipykernel for compatibility
 RUN pip3 install --upgrade ipykernel ipython requests
 
@@ -90,14 +90,14 @@ RUN sed -re "s/c.ServerApp/c.NotebookApp/g" \
 HEALTHCHECK  --interval=15s --timeout=3s --start-period=5s --retries=3 \
     CMD wget -O- --no-verbose --tries=1 --no-check-certificate \
     http${GEN_CERT:+s}://localhost:8888${JUPYTERHUB_SERVICE_PREFIX:-/}api || exit 1
+# setup default ipython "inline" figures, otherwise matplotlib crashes
+COPY ipython_kernel_config.py /home/${NB_USER}/.ipython/profile_default/
+RUN chown -R "${NB_UID}:${NB_GID}" "/home/${NB_USER}/.ipython"
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
-# setup default ipython "inline" figures, otherwise matplotlib crashes
-
-COPY ipython_kernel_config.py /home/${NB_USER}/.ipython/profile_default
 
 WORKDIR "${HOME}"
 # Configure container startup
 ENTRYPOINT ["tini", "-g", "--", "/usr/local/icetray/env-shell.sh"]
-CMD ["start-notebook.sh"]
+CMD ["start-singleuser.sh"]
