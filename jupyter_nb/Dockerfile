@@ -19,7 +19,6 @@ USER root
 # features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --yes && \
-    apt-get upgrade --yes && \
     apt-get install --yes --no-install-recommends \
     fonts-liberation \
     locales \
@@ -37,8 +36,7 @@ ENV SHELL=/bin/bash \
     NB_GID=${NB_GID} \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8 \
-    LD_LIBRARY_PATH=/usr/local/icetray/lib
+    LANGUAGE=en_US.UTF-8 
 ENV HOME="/home/${NB_USER}"
 
 # Copy a script that we will use to correct permissions after running certain commands
