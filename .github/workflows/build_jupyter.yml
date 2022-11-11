@@ -1,0 +1,46 @@
+name: build_jupyter
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+    paths:
+      - 'jupyter_nb/Dockerfile*'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          # this might remove tools that are actually needed,
+          # if set to "true" but frees about 6 GB
+          tool-cache: false
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          swap-storage: true
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push icetray ML nb 
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: jupyter_ml/Dockerfile
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04
