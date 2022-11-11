@@ -77,6 +77,11 @@ COPY start.sh start-notebook.sh start-singleuser.sh /usr/local/bin/
 # Currently need to have both jupyter_notebook_config and jupyter_server_config to support classic and lab
 COPY jupyter_server_config.py /etc/jupyter/
 
+# setup default ipython "inline" figures, otherwise matplotlib crashes
+RUN mkdir -p /home/${NB_USER}/.ipython/profile_default/
+COPY ipython_kernel_config.py /home/${NB_USER}/.ipython/profile_default/
+RUN chown -R "${NB_UID}:${NB_GID}" "/home/${NB_USER}/.ipython"
+
 # Legacy for Jupyter Notebook Server, see: [#1205](https://github.com/jupyter/docker-stacks/issues/1205)
 RUN sed -re "s/c.ServerApp/c.NotebookApp/g" \
     /etc/jupyter/jupyter_server_config.py > /etc/jupyter/jupyter_notebook_config.py && \
@@ -88,10 +93,6 @@ RUN sed -re "s/c.ServerApp/c.NotebookApp/g" \
 HEALTHCHECK  --interval=15s --timeout=3s --start-period=5s --retries=3 \
     CMD wget -O- --no-verbose --tries=1 --no-check-certificate \
     http${GEN_CERT:+s}://localhost:8888${JUPYTERHUB_SERVICE_PREFIX:-/}api || exit 1
-# setup default ipython "inline" figures, otherwise matplotlib crashes
-RUN mkdir -p /home/${NB_USER}/.ipython/profile_default/
-COPY ipython_kernel_config.py /home/jovyan/.ipython/profile_default/
-RUN chown -R "${NB_UID}:${NB_GID}" "/home/${NB_USER}/.ipython"
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
