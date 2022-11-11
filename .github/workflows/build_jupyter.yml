@@ -41,7 +41,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          context: ./jupyter_nb
-          file: Dockerfile_jupyter
+          file: jupyter_nb/Dockerfile_jupyter
           tags: >
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04
