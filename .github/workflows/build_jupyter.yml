@@ -42,6 +42,6 @@ jobs:
         with:
           push: true
           context: ./jupyter_nb
-          file: Dockerfile
+          file: Dockerfile_jupyter
           tags: >
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04
