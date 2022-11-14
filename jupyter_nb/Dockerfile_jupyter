@@ -78,9 +78,9 @@ COPY start.sh start-notebook.sh start-singleuser.sh /usr/local/bin/
 COPY jupyter_server_config.py /etc/jupyter/
 
 # setup default ipython "inline" figures, otherwise matplotlib crashes
-#RUN mkdir -p /home/${NB_USER}/.ipython/profile_default/
-#COPY base_ipython_kernel_config.py /home/${NB_USER}/.ipython/profile_default/
-#RUN chown -R "${NB_UID}:${NB_GID}" "/home/${NB_USER}/.ipython"
+RUN mkdir -p /home/${NB_USER}/.ipython/profile_default/
+COPY base_ipython_kernel_config.py /home/${NB_USER}/.ipython/profile_default/
+RUN chown -R "${NB_UID}:${NB_GID}" "/home/${NB_USER}/.ipython"
 
 # Legacy for Jupyter Notebook Server, see: [#1205](https://github.com/jupyter/docker-stacks/issues/1205)
 RUN sed -re "s/c.ServerApp/c.NotebookApp/g" \
