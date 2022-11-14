@@ -51,4 +51,4 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04
       -
         name: checkout
-	run: echo "Found date: ${{ env.current_date }}"
+        run: echo "Found date: ${{ env.current_date }}"
