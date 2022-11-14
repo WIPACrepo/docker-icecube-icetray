@@ -51,4 +51,6 @@ jobs:
       -
         name: checkout
         id: date2
-        run: echo "Found date: ${{ env.current_date }}"
+        run: |
+          echo "Date found"
+          echo "${{ env.current_date }}"
