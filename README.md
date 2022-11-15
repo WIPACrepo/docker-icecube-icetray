@@ -7,7 +7,7 @@ Varities
 --------
 Several image collection are included here, as subdirectories, as well as github actions to build these.  Varietials include:
 
-* icetray_base (see icetray_base/README.md) - Base images that add needed system libs to basic ubuntu images
+* icetray_base (see (icetray_base/README.md)[icetray_base/README.md]) - Base images that add needed system libs to basic ubuntu images
 * install_icetray (see install_icetray/README.md) - Build and add icetray from tagged release, include test/production files
 * icecube_ml (see icecube_ml/README.md) - Add ML toolkits and GPU support to icetray production images
 * nu-sources (see neutrino_sources/README.md) - Add neutrino sources to production icetray iages
