@@ -1,4 +1,4 @@
-name: build_icetray_images
+name: build_nu_souces_images
 
 on:
   workflow_dispatch:
