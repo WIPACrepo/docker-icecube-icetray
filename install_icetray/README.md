@@ -6,7 +6,7 @@ Supported
 * Ubuntu 20.04
 * Ubuntu 22.04
 
-These images install particular version of icetray along with test-data, etc.
+These images install particular tagged version of icetray along with test-data, etc.
 
 Two flavors are created:
 * devel - install of icetray in /usr/local/icetray, with /usr/local/icetray\_src, test-data

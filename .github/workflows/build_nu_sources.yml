@@ -46,4 +46,4 @@ jobs:
             GHTOKEN=${{ secrets.GHTOKEN }}
           tags: >
             ${{ secrets.DOCKERHUB_USERNAME }}/nu-sources:base-current-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/nu-sources:base-current--ubuntu22.04-${{ env.current_date }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/nu-sources:base-current-ubuntu22.04-${{ env.current_date }}

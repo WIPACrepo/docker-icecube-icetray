@@ -47,8 +47,8 @@ jobs:
           build-args: |
             BASE_CONT=blaufuss/icetray-ml:icetray-ml-base-current-ubuntu20.04
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04-${{ env.current_date }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-ml-base-current-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-ml-base-current-ubuntu20.04-${{ env.current_date }}
       -
         name: Build and push icetray nu src pynb
         uses: docker/build-push-action@v3

@@ -1,48 +1,20 @@
 icecube/icetray
 ===============
 
-Docker images of IceCube's IceTray codebase - combo metaproject.
+Collection of Docker images for IceCube
 
-Flavors
--------
+Varities
+--------
+Several image collection are included here, as subdirectories, as well as github actions to build these.  Varietials include:
 
-slim: just icetray
+* icetray_base (see icetray_base/README.md) - Base images that add needed system libs to basic ubuntu images
+* install_icetray (see install_icetray/README.md) - Build and add icetray from tagged release, include test/production files
+* icecube_ml (see icecube_ml/README.md) - Add ML toolkits and GPU support to icetray production images
+* nu-sources (see neutrino_sources/README.md) - Add neutrino sources to production icetray iages
+* jupyter_nb (see jupyter_nb/README.md) - Add Jupyter notebook tools to existing images (ML images, and neutrino sources)
 
-prod: slim + tables and GCD files
-
-devel: prod + compiler toolchain and test data
-
-cudaX: devel + cuda support (X = cuda version)
-
-tensorflow.X: devel + cuda + tensorflow support (X = tensorflow version)
-
-icecube_ml: tensorflow.X + low_level_ml + i3deepice + additional pytorch packages for GNNs + graphnet
-
-Build versions
---------------
-
-The general pattern is as follows.  More releases available in the tags.
-
-### stable combo
-
-stable-slim, combo-stable-slim, combo-stable-slim-ubuntu18.04
-
-stable-prod, combo-stable-prod, combo-stable-prod-ubuntu18.04
-
-latest, stable, stable-devel, combo-stable, combo-stable-devel, combo-stable-devel-ubuntu18.04
-
-stable-cuda, stable-cuda10.1, combo-stable-cuda, combo-stable-cuda10.1, combo-stable-cuda10.1-ubuntu18.04
-
-stable-tensorflow, stable-tensorflow.1.13.2, combo-stable-tensorflow, combo-stable-tensorflow.1.13.2, combo-stable-tensorflow.1.13.2-ubuntu18.04
-
-### release of combo
-
-combo-V01-00-00-slim combo-V01-00-00-slim-ubuntu18.04
-
-combo-V01-00-00-prod combo-V01-00-00-prod-ubuntu18.04
-
-combo-V01-00-00, combo-V01-00-00-devel combo-V01-00-00-devel-ubuntu18.04
-
-combo-V01-00-00-cuda, combo-V01-00-00-cuda10.1, combo-V01-00-00-cuda10.1-ubuntu18.04
-
-combo-V01-00-00-tensorflow, combo-V01-00-00-tensorflow.1.13.2, combo-V01-00-00-tensorflow.1.13.2-ubuntu18.04
+Old material
+------------
+Historical collection here provide older support for combo images:
+* ubuntu20.04 
+* almalinux8
