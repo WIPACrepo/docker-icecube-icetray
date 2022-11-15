@@ -41,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: install_icetray/Dockerfile
+          file: neutrino_sources/Dockerfile
           build-args: |
             GHTOKEN=${{ secrets.GHTOKEN }}
           tags: >
