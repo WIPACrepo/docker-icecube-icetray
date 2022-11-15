@@ -47,10 +47,18 @@ jobs:
           build-args: |
             BASE_CONT=blaufuss/icetray-ml:icetray-ml-base-current-ubuntu20.04
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-cuda11.6-current-ubuntu20.04-${{ env.current_date }}
       -
-        name: checkout
-        id: date2
-        run: |
-          echo "Date found"
-          echo "${{ env.current_date }}"
+        name: Build and push icetray nu src pynb
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          no-cache: true
+          file: Dockerfile_jupyter
+          context: "{{defaultContext}}:jupyter_nb"
+          build-args: |
+            BASE_CONT=blaufuss/nu-sources:base-current-ubuntu20.04
+          tags: >
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:nu-sources-nb-current-ubuntu20.04,
+            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:nu-sources-nb-current-ubuntu20.04-${{ env.current_date }}
