@@ -3,8 +3,8 @@ icecube/icetray
 
 Collection of Docker images for IceCube
 
-Varities
---------
+Varieties
+---------
 Several image collection are included here, as subdirectories, as well as github actions to build these.  Varietials include:
 
 * icetray_base (see [icetray_base/README.md](/icetray_base/README.md) ) - Base images that add needed system libs to basic ubuntu images
