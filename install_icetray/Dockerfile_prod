@@ -1,8 +1,7 @@
 ARG TARGET_UBUNTU=ubuntu20.04
 ARG VERSION=current
-## EKB: replace blaufuss with icecube
-FROM blaufuss/icetray:icetray-devel-${VERSION}-${TARGET_UBUNTU} as icetray-build
-FROM blaufuss/icetray-base:prod-${TARGET_UBUNTU} as prod
+FROM icecube/icetray:icetray-devel-${VERSION}-${TARGET_UBUNTU} as icetray-build
+FROM icecube/icetray-base:prod-${TARGET_UBUNTU} as prod
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -11,8 +10,6 @@ WORKDIR /root
 # stage in icetray
 COPY --from=icetray-build /usr/local/icetray /usr/local/icetray
 COPY --from=icetray-build /usr/local/icetray_src /usr/local/icetray_src
-# EKB: Don't think the test-data is needed for prod
-#COPY --from=icetray-build /opt/i3-data /opt/i3-data
 RUN mkdir /opt/i3-data
 
 # set environment variables

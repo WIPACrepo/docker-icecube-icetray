@@ -45,7 +45,7 @@ jobs:
           file: Dockerfile_jupyter
           context: "{{defaultContext}}:jupyter_nb"
           build-args: |
-            BASE_CONT=blaufuss/icetray-ml:icetray-ml-base-current-ubuntu20.04
+            BASE_CONT=icecube/icetray-ml:icetray-ml-base-current-ubuntu20.04
           tags: >
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-ml-base-current-ubuntu20.04,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:icetray-ml-base-current-ubuntu20.04-${{ env.current_date }}
@@ -58,7 +58,7 @@ jobs:
           file: Dockerfile_jupyter
           context: "{{defaultContext}}:jupyter_nb"
           build-args: |
-            BASE_CONT=blaufuss/nu-sources:base-current-ubuntu20.04
+            BASE_CONT=icecube/nu-sources:base-current-ubuntu20.04
           tags: >
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:nu-sources-nb-current-ubuntu20.04,
             ${{ secrets.DOCKERHUB_USERNAME }}/icetray-nb:nu-sources-nb-current-ubuntu20.04-${{ env.current_date }}

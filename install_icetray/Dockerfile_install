@@ -1,6 +1,5 @@
 ARG TARGET_UBUNTU=ubuntu20.04
-# EKB: change back to icecube
-FROM blaufuss/icetray-base:devel-${TARGET_UBUNTU} as install
+FROM icecube/icetray-base:devel-${TARGET_UBUNTU} as install
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 

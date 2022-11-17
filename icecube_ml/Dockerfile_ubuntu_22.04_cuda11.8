@@ -1,6 +1,5 @@
 ARG VERSION=current
-## EKB: replace blaufuss with icecube
-FROM blaufuss/icetray:icetray-prod-${VERSION}-ubuntu22.04 as icetray-build
+FROM icecube/icetray:icetray-prod-${VERSION}-ubuntu22.04 as icetray-build
 FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 as cuda11.8
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>

@@ -1,5 +1,4 @@
-## EKB: replace blaufuss with icecube
-ARG BASEIMAGE=blaufuss/icetray:icetray-prod-current-ubuntu20.04
+ARG BASEIMAGE=icecube/icetray:icetray-prod-current-ubuntu20.04
 FROM ${BASEIMAGE} as icetray_base
 
 ARG GHTOKEN
