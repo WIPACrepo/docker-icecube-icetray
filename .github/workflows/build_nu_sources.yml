@@ -45,5 +45,5 @@ jobs:
           build-args: |
             GHTOKEN=${{ secrets.GHTOKEN }}
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/nu-sources:base-current-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/nu-sources:base-current-ubuntu22.04-${{ env.current_date }}
+            icecube/nu-sources:base-current-ubuntu20.04,
+            icecube/nu-sources:base-current-ubuntu22.04-${{ env.current_date }}

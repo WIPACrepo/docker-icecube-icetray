@@ -30,8 +30,8 @@ jobs:
           push: true
           file: icetray_base/Dockerfile_base-devel-20.04
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-base:devel-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-base:devel-ubuntu20.04-${{ env.current_date }}
+            icecube/icetray-base:devel-ubuntu20.04,
+            icecube/icetray-base:devel-ubuntu20.04-${{ env.current_date }}
       -
         name: Build and push base prod 20 04
         uses: docker/build-push-action@v3
@@ -39,8 +39,8 @@ jobs:
           push: true
           file: icetray_base/Dockerfile_base-prod-20.04
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-base:prod-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-base:prod-ubuntu20.04-${{ env.current_date }}
+            icecube/icetray-base:prod-ubuntu20.04,
+            icecube/icetray-base:prod-ubuntu20.04-${{ env.current_date }}
       -
         name: Build and push base devel 22 04
         uses: docker/build-push-action@v3
@@ -48,8 +48,8 @@ jobs:
           push: true
           file: icetray_base/Dockerfile_base-devel-22.04
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-base:devel-ubuntu22.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-base:devel-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-base:devel-ubuntu22.04,
+            icecube/icetray-base:devel-ubuntu22.04-${{ env.current_date }}
       -
         name: Build and push base prod 22 04
         uses: docker/build-push-action@v3
@@ -57,5 +57,5 @@ jobs:
           push: true
           file: icetray_base/Dockerfile_base-prod-22.04
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-base:prod-ubuntu22.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray-base:prod-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-base:prod-ubuntu22.04,
+            icecube/icetray-base:prod-ubuntu22.04-${{ env.current_date }}

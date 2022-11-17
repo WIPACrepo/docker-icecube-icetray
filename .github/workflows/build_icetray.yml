@@ -50,9 +50,9 @@ jobs:
             TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-current-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            icecube/icetray:icetray-devel-current-ubuntu20.04,
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
       -
         name: Build and push icetray install 22 04
         uses: docker/build-push-action@v3
@@ -64,9 +64,9 @@ jobs:
             TARGET_UBUNTU=ubuntu22.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-current-ubuntu22.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
+            icecube/icetray:icetray-devel-current-ubuntu22.04,
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
       -
         name: Build and push icetray prod 20 04
         uses: docker/build-push-action@v3
@@ -77,9 +77,9 @@ jobs:
             TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-current-ubuntu20.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            icecube/icetray:icetray-prod-current-ubuntu20.04,
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
       -
         name: Build and push icetray prod 22 04
         uses: docker/build-push-action@v3
@@ -90,6 +90,6 @@ jobs:
             TARGET_UBUNTU=ubuntu22.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-current-ubuntu22.04,
-            ${{ secrets.DOCKERHUB_USERNAME }}/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
+            icecube/icetray:icetray-prod-current-ubuntu22.04,
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
