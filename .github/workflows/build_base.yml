@@ -61,6 +61,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-prod-22.04
+          platforms: linux/amd64,linux/arm64,linux/arm64/v8
           tags: >
             icecube/icetray-base:prod-ubuntu22.04,
             icecube/icetray-base:prod-ubuntu22.04-${{ env.current_date }}
