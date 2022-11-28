@@ -44,11 +44,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build and push icetray install 20 04
-        platforms: linux/amd64,linux/arm64/v8
         uses: docker/build-push-action@v3
         with:
           push: true
           file: install_icetray/Dockerfile_install
+          platforms: linux/amd64,linux/arm64/v8
           build-args: |
             GHTOKEN=${{ secrets. PERSONAL_ACCESS_TOKEN }}
             TARGET_UBUNTU=ubuntu20.04
