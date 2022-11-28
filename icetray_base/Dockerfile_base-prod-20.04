@@ -35,6 +35,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 # stage in custom software
 COPY --from=icecube/icetray-base:devel-ubuntu20.04 /usr/local /usr/local
 
+# Clean up cached packages
+RUN apt-get autoclean
+
 # set environment variables
 ENV LD_LIBRARY_PATH /usr/local/lib
 # provide the entry point

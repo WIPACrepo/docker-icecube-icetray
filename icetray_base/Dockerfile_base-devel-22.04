@@ -55,6 +55,9 @@ RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | 
     ninja -C build install && \
     pip install .
 
+# Clean up cached packages
+RUN apt-get autoclean
+
 # set environment variables
 ENV LD_LIBRARY_PATH /usr/local/lib
 # provide the entry point
