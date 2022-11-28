@@ -29,6 +29,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-20.04
+          platforms: linux/amd64,linux/arm
           tags: >
             icecube/icetray-base:devel-ubuntu20.04,
             icecube/icetray-base:devel-ubuntu20.04-${{ env.current_date }}
