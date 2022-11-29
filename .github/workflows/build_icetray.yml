@@ -48,7 +48,7 @@ jobs:
         with:
           push: true
           file: install_icetray/Dockerfile_install
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/amd64
           build-args: |
             GHTOKEN=${{ secrets. PERSONAL_ACCESS_TOKEN }}
             TARGET_UBUNTU=ubuntu20.04
@@ -63,7 +63,7 @@ jobs:
         with:
           push: true
           file: install_icetray/Dockerfile_install
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/amd64
           build-args: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
             TARGET_UBUNTU=ubuntu22.04
@@ -78,7 +78,7 @@ jobs:
         with:
           push: true
           file: install_icetray/Dockerfile_prod
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/amd64
           build-args: |
             TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ env.ICETRAY_VERSION }}
@@ -92,7 +92,7 @@ jobs:
         with:
           push: true
           file: install_icetray/Dockerfile_prod
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/amd64
           build-args: |
             TARGET_UBUNTU=ubuntu22.04
             VERSION=${{ env.ICETRAY_VERSION }}
