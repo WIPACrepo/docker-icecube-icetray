@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [[self-hosted, macos, ARM64, m1]]
-#     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Get current date
         id: date
