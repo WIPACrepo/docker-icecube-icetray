@@ -1,4 +1,4 @@
-name: build_icetray_images
+name: build_icetray_images_arm
 
 env:
   ICETRAY_VERSION: v1.4.1
