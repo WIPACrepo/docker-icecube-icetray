@@ -37,7 +37,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push  neutrin-source base 20.04
+        name: Build and push  neutrin-source base 22.04
         uses: docker/build-push-action@v3
         with:
           push: true
@@ -45,5 +45,5 @@ jobs:
           build-args: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
           tags: >
-            icecube/nu-sources:base-current-ubuntu20.04,
+            icecube/nu-sources:base-current-ubuntu22.04,
             icecube/nu-sources:base-current-ubuntu22.04-${{ env.current_date }}

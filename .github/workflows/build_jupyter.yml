@@ -58,7 +58,7 @@ jobs:
           file: Dockerfile_jupyter
           context: "{{defaultContext}}:jupyter_nb"
           build-args: |
-            BASE_CONT=icecube/nu-sources:base-current-ubuntu20.04
+            BASE_CONT=icecube/nu-sources:base-current-ubuntu22.04
           tags: >
-            icecube/icetray-nb:nu-sources-nb-current-ubuntu20.04,
-            icecube/icetray-nb:nu-sources-nb-current-ubuntu20.04-${{ env.current_date }}
+            icecube/icetray-nb:nu-sources-nb-current-ubuntu22.04,
+            icecube/icetray-nb:nu-sources-nb-current-ubuntu22.04-${{ env.current_date }}
