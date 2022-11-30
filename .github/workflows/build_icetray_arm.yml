@@ -12,11 +12,11 @@ on:
 
 jobs:
   docker:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [[self-hosted, macos, ARM64, m1]]
-    runs-on: ubuntu-latest
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         os: [[self-hosted, LINUX, ARM64]]
+    runs-on: [self-hosted, LINUX, ARM64]
     steps:
       - name: Get current date
         id: date
