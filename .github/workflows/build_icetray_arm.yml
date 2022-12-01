@@ -12,10 +12,6 @@ on:
 
 jobs:
   docker:
-#     strategy:
-#       fail-fast: false
-#       matrix:
-#         os: [[self-hosted, LINUX, ARM64]]
     runs-on: [self-hosted, LINUX, ARM64]
     steps:
       - name: Get current date
@@ -34,9 +30,6 @@ jobs:
 #           haskell: true
 #           large-packages: true
 #           swap-storage: true
-#       -
-#         name: Set up QEMU
-#         uses: docker/setup-qemu-action@v2
       - 
         name: Check space.
         run: df -h
@@ -49,21 +42,21 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-#       -
-#         name: Build and push icetray install 20 04
-#         uses: docker/build-push-action@v3
-#         with:
-#           push: true
-#           file: install_icetray/Dockerfile_install
-#           platforms: linux/arm64/v8
-#           build-args: |
-#             GHTOKEN=${{ secrets. PERSONAL_ACCESS_TOKEN }}
-#             TARGET_UBUNTU=ubuntu20.04
-#             VERSION=${{ env.ICETRAY_VERSION }}
-#           tags: >
-#             icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
-#             icecube/icetray:icetray-devel-current-ubuntu20.04,
-#             icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
+      -
+        name: Build and push icetray install 20 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: install_icetray/Dockerfile_install
+          platforms: linux/arm64/v8
+          build-args: |
+            GHTOKEN=${{ secrets. PERSONAL_ACCESS_TOKEN }}
+            TARGET_UBUNTU=ubuntu20.04
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            icecube/icetray:icetray-devel-current-ubuntu20.04,
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
       -
         name: Build and push icetray install 22 04
         uses: docker/build-push-action@v3
@@ -79,20 +72,20 @@ jobs:
             icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
             icecube/icetray:icetray-devel-current-ubuntu22.04,
             icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
-#       -
-#         name: Build and push icetray prod 20 04
-#         uses: docker/build-push-action@v3
-#         with:
-#           push: true
-#           file: install_icetray/Dockerfile_prod
-#           platforms: linux/arm64/v8
-#           build-args: |
-#             TARGET_UBUNTU=ubuntu20.04
-#             VERSION=${{ env.ICETRAY_VERSION }}
-#           tags: >
-#             icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
-#             icecube/icetray:icetray-prod-current-ubuntu20.04,
-#             icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
+      -
+        name: Build and push icetray prod 20 04
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: install_icetray/Dockerfile_prod
+          platforms: linux/arm64/v8
+          build-args: |
+            TARGET_UBUNTU=ubuntu20.04
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+            icecube/icetray:icetray-prod-current-ubuntu20.04,
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
       -
         name: Build and push icetray prod 22 04
         uses: docker/build-push-action@v3
