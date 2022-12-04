@@ -54,9 +54,9 @@ jobs:
             TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
-            icecube/icetray:icetray-devel-current-ubuntu20.04,
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }},
+            icecube/icetray:icetray-devel-current-ubuntu20.04-${{ runner.arch }},
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}-${{ runner.arch }}
       -
         name: Build and push icetray install 22 04
         uses: docker/build-push-action@v3
