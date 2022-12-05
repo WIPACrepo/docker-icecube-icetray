@@ -99,7 +99,7 @@ jobs:
             icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
   manifest-docker:
     needs: [docker]
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     steps:
       - name: Get current date
         id: date
