@@ -1,4 +1,4 @@
-ARG BASEIMAGE=icecube/icetray:icetray-prod-current-ubuntu22.04
+ARG BASEIMAGE=icecube/icetray:icetray-prod-current-ubuntu22.04-X64
 FROM ${BASEIMAGE} as icetray_base
 
 ARG GHTOKEN
