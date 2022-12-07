@@ -1,1 +1,106 @@
+#### Create a "developer" base for Rocky 8
+# Why Rocky. NVIDIA uses Rocky 8 as the base image
+# This is mostly meant as a image for grid computing
 
+FROM rockylinux:8 as base-devel
+
+MAINTAINER IceCube <developers@icecube.wisc.edu>
+
+WORKDIR /root
+
+RUN dnf install -y epel-release
+RUN dnf install -y dnf-plugins-core
+
+RUN dnf config-manager --enable -y powertools
+RUN dnf config-manager --enable -y epel
+RUN dnf config-manager --enable -y extras
+
+RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm
+
+RUN dnf -y group install "Development Tools" "Scientific Support"
+
+RUN dnf -y install \
+           archive \
+           astropy-tools \
+           bc \
+           binutils \
+           binutils-devel \
+           blas \
+           blas-devel \
+           boost-date-time \
+           boost-devel \
+           boost-system \ 
+           boost-thread \
+           boost-filesystem \
+           boost-program-options \
+           boost-regex \
+           boost-iostreams \
+           boost-python3-devel \
+           bzip2-devel \
+           cfitsio-devel \
+           cmake \
+           cppzmq-devel \
+           curl \
+           davix-devel \
+           dcap-devel \
+           fontconfig \
+           gcc \
+           gcc-c++ \
+           gcc-gfortran \
+           git \
+           glib2-devel \
+           graphviz \
+           gfal2 \ 
+           gsl-devel \
+           json-c-devel \
+           hdf5 \
+           lapack \
+           lapack-devel \
+           libaec-devel \
+           libattr-devel \
+           libgfortran \
+           libicu \
+           libquadmath \
+           libtool \
+           libtool-ltdl \
+           libtool-ltdl-devel \
+           libuuid-devel \
+           libxml2 \
+           libxml2-devel \
+           make \
+           ocl-icd \ 
+           ocl-icd-devel \
+           openssl \
+           osg-wn-client \
+           p7zip \
+           p7zip-plugins \
+           python39-astropy \
+           python39-devel \
+           python39-numpy \
+           python39-matplotlib\
+           python39-scipy \
+           redhat-lsb \
+           redhat-lsb-core \
+           srm-ifce-devel \
+           starlink-pal \
+           stashcache-client \
+           suiteparse \
+           wget \
+           xrootd-client-devel \
+           zlib-devel \
+           
+RUN dnf -y install osg-wn-client \ 
+    # osg-ca-certs \
+    && rm -f /etc/grid-security/certificates/*.r0
+
+# htcondor - include so we can chirp
+RUN dnf -y install condor
+
+RUN dnf clean all
+
+# required directories
+RUN for MNTPOINT in \
+        /cvmfs \
+    ; do \
+        mkdir -p $MNTPOINT ; \
+    done
