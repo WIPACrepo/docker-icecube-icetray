@@ -66,3 +66,15 @@ jobs:
           tags: >
             icecube/icetray-base:prod-ubuntu22.04,
             icecube/icetray-base:prod-ubuntu22.04-${{ env.current_date }}
+            
+      -
+        name: Build and push base prod rocky 8
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icetray_base/Dockerfile_base-devel-rocky8
+          platforms: linux/amd64,linux/arm64/v8
+          tags: >
+            icecube/icetray-base:devel-rocky8,
+            icecube/icetray-base:devel-rocky8-${{ env.current_date }}
+            
