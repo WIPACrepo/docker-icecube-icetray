@@ -19,8 +19,7 @@ RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-l
 
 RUN dnf -y group install "Development Tools" "Scientific Support"
 
-RUN dnf -y install \
-           astropy-tools \
+RUN dnf -y install astropy-tools \
            bc \
            binutils \
            binutils-devel \
@@ -48,9 +47,9 @@ RUN dnf -y install \
            gcc-gfortran \
            git \
            glib2-devel \
-           graphviz \
-           gfal2 \ 
-           gsl-devel \
+           graphviz
+           
+RUN dnf -y install gsl-devel \
            json-c-devel \
            hdf5 \
            lapack \
