@@ -70,7 +70,6 @@ RUN dnf -y install astropy-tools \
            ocl-icd-devel \
            opencl-headers \
            openssl \
-           osg-wn-client \
            p7zip \
            p7zip-plugins \
            python3-astropy \
@@ -83,7 +82,6 @@ RUN dnf -y install astropy-tools \
            redhat-lsb-core \
            srm-ifce-devel \
            # starlink-pal \
-           stashcache-client \
            suitesparse \
            wget \
            xrootd-client-devel \
