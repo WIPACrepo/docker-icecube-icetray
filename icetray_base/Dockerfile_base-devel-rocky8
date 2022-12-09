@@ -88,7 +88,7 @@ RUN dnf -y install gsl-devel \
            suitesparse \
            wget \
            xrootd-client-devel \
-           zlib-devel \
+           zlib-devel
            
 RUN dnf -y install osg-wn-client \ 
     # osg-ca-certs \
