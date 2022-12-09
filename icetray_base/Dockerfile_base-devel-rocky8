@@ -15,7 +15,7 @@ RUN dnf config-manager --enable -y powertools
 RUN dnf config-manager --enable -y epel
 RUN dnf config-manager --enable -y extras
 
-RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm; fi
 
 RUN dnf -y group install "Development Tools" "Scientific Support"
 
@@ -47,9 +47,8 @@ RUN dnf -y install astropy-tools \
            gcc-gfortran \
            git \
            glib2-devel \
-           graphviz
-           
-RUN dnf -y install gsl-devel \
+           graphviz \ 
+           gsl-devel \
            json-c-devel \
            hdf5 \
            lapack \
@@ -89,13 +88,9 @@ RUN dnf -y install gsl-devel \
            wget \
            xrootd-client-devel \
            zlib-devel
-           
-RUN dnf -y install osg-wn-client \ 
-    # osg-ca-certs \
-    && rm -f /etc/grid-security/certificates/*.r0
 
-# htcondor - include so we can chirp
-RUN dnf -y install condor
+# OSG-specfic stuff
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor; fi && rm -f /etc/grid-security/certificates/*.r0
 
 RUN dnf clean all
 
