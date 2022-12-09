@@ -58,7 +58,6 @@ RUN dnf -y install astropy-tools \
            libattr-devel \
            libgfortran \
            libicu \
-           libquadmath \
            libtool \
            libtool-ltdl \
            libtool-ltdl-devel \
@@ -88,7 +87,7 @@ RUN dnf -y install astropy-tools \
            zlib-devel
 
 # OSG-specfic stuff
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor; fi && rm -f /etc/grid-security/certificates/*.r0
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor libquadmath; fi && rm -f /etc/grid-security/certificates/*.r0
 
 RUN dnf clean all
 
