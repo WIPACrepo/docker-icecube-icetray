@@ -72,7 +72,7 @@ RUN dnf -y install \
            ocl-icd \ 
            ocl-icd-devel \
            openssl \
-           osg-wn-client \
+           # osg-wn-client \
            p7zip \
            p7zip-plugins \
            python3-astropy \
@@ -84,7 +84,7 @@ RUN dnf -y install \
            redhat-lsb-core \
            srm-ifce-devel \
            starlink-pal \
-           stashcache-client \
+           # stashcache-client \
            suiteparse \
            wget \
            xrootd-client-devel \
