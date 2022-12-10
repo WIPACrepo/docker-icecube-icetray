@@ -11,7 +11,7 @@ WORKDIR /root
 RUN dnf install -y epel-release
 RUN dnf install -y dnf-plugins-core
 
-RUN dnf config-manager --enable -y powertools
+RUN dnf config-manager --enable -y crb
 RUN dnf config-manager --enable -y epel
 RUN dnf config-manager --enable -y extras
 
