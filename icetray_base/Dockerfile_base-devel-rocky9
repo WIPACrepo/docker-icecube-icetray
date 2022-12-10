@@ -15,7 +15,7 @@ RUN dnf config-manager --enable -y powertools
 RUN dnf config-manager --enable -y epel
 RUN dnf config-manager --enable -y extras
 
-Not available yet
+# Not available yet
 # RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el9-release-latest.rpm
 
 RUN dnf -y group install "Development Tools" "Scientific Support"
