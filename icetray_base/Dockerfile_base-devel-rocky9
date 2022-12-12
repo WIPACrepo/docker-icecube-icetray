@@ -21,8 +21,7 @@ RUN dnf config-manager --enable -y extras
 RUN dnf -y group install "Development Tools" "Scientific Support"
 
 RUN dnf -y install \
-           archive \
-           astropy-tools \
+           # astropy-tools \
            bc \
            binutils \
            binutils-devel \
@@ -58,6 +57,7 @@ RUN dnf -y install \
            lapack \
            lapack-devel \
            libaec-devel \
+           libarchive \
            libattr-devel \
            libgfortran \
            libicu \
@@ -78,17 +78,17 @@ RUN dnf -y install \
            python3-astropy \
            python3-devel \
            python3-numpy \
-           python3-matplotlib\
+           # python3-matplotlib\
            python3-scipy \
-           redhat-lsb \
-           redhat-lsb-core \
+           # redhat-lsb \
+           # redhat-lsb-core \
            srm-ifce-devel \
-           starlink-pal \
+           # starlink-pal \
            # stashcache-client \
-           suiteparse \
+           suitesparse \
            wget \
            xrootd-client-devel \
-           zlib-devel \
+           zlib-devel 
            
 # RUN dnf -y install osg-wn-client \ 
 #    # osg-ca-certs \
