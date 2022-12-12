@@ -75,7 +75,7 @@ RUN dnf -y install \
            # osg-wn-client \
            p7zip \
            p7zip-plugins \
-           python3-astropy \
+           # python3-astropy \
            python3-devel \
            python3-numpy \
            # python3-matplotlib\
