@@ -1,14 +1,21 @@
 name: build_icetray_images
 
-env:
-  ICETRAY_VERSION: v1.5.0-rc1
+# env:
+#   ICETRAY_VERSION: v1.5.0-rc1
 
 on:
   workflow_dispatch:
+    inputs:
+      icetray_version:
+        description: 'IceTray Version'
+        default: 'v1.4.1'
+        required: false
   push:
     branches: [ master ]
     paths:
       - 'install_icetray/Dockerfile*'
+  
+    
 
 jobs:
   docker:
@@ -52,11 +59,11 @@ jobs:
           build-args: |
             GHTOKEN=${{ secrets. PERSONAL_ACCESS_TOKEN }}
             TARGET_UBUNTU=ubuntu20.04
-            VERSION=${{ env.ICETRAY_VERSION }}
+            VERSION=${{ github.event.inputs.icetray_version }}
           tags: >
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }},
+            icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu20.04-${{ runner.arch }},
             icecube/icetray:icetray-devel-current-ubuntu20.04-${{ runner.arch }},
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu20.04-${{ runner.arch }}-${{ env.current_date }}
       -
         name: Build and push icetray install 22 04
         uses: docker/build-push-action@v3
@@ -66,11 +73,11 @@ jobs:
           build-args: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
             TARGET_UBUNTU=ubuntu22.04
-            VERSION=${{ env.ICETRAY_VERSION }}
+            VERSION=${{ github.event.inputs.icetray_version }}
           tags: >
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }},
+            icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu22.04-${{ runner.arch }},
             icecube/icetray:icetray-devel-current-ubuntu22.04-${{ runner.arch }},
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
       -
         name: Build and push icetray prod 20 04
         uses: docker/build-push-action@v3
@@ -79,11 +86,12 @@ jobs:
           file: install_icetray/Dockerfile_prod
           build-args: |
             TARGET_UBUNTU=ubuntu20.04
-            VERSION=${{ env.ICETRAY_VERSION }}
+            VERSION=${{ github.event.inputs.icetray_version }}
+            ARCH=${{ runner.arch }
           tags: >
-            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }},
+            icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu20.04-${{ runner.arch }},
             icecube/icetray:icetray-prod-current-ubuntu20.04-${{ runner.arch }},
-            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu20.04-${{ runner.arch }}-${{ env.current_date }}
       -
         name: Build and push icetray prod 22 04
         uses: docker/build-push-action@v3
@@ -92,11 +100,12 @@ jobs:
           file: install_icetray/Dockerfile_prod
           build-args: |
             TARGET_UBUNTU=ubuntu22.04
-            VERSION=${{ env.ICETRAY_VERSION }}
+            VERSION=${{ github.event.inputs.icetray_version }}
+            ARCH=${{ runner.arch }
           tags: >
-            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }},
+            icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu22.04-${{ runner.arch }},
             icecube/icetray:icetray-prod-current-ubuntu22.04-${{ runner.arch }},
-            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
   manifest-docker:
     needs: [docker]
     runs-on: ubuntu-latest
@@ -113,8 +122,8 @@ jobs:
       - name: Create and push manifest images install 20 04 IceTray Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
-          base-image: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04
-          extra-images: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-X64,icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-ARM64
+          base-image: icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu20.04
+          extra-images: icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu20.04-X64,icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu20.04-ARM64
           push: true
       - name: Create and push manifest images install 20 04 Current Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
@@ -132,8 +141,8 @@ jobs:
       - name: Create and push manifest images install 22 04 IceTray Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
-          base-image: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04
-          extra-images: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-X64,icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-ARM64
+          base-image: icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu22.04
+          extra-images: icecube/icetray:icetray-devel-${{ github.event.inputs.icetray_version }}-ubuntu22.04-X64,icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-ARM64
           push: true
       - name: Create and push manifest images install 22 04 Current Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
@@ -151,8 +160,8 @@ jobs:
       - name: Create and push manifest images prod 20 04 IceTray Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
-          base-image: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04
-          extra-images: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-X64,icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-ARM64
+          base-image: icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu20.04
+          extra-images: icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu20.04-X64,icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-ARM64
           push: true
       - name: Create and push manifest images prod 20 04 Current Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
@@ -170,8 +179,8 @@ jobs:
       - name: Create and push manifest images prod 22 04 IceTray Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
-          base-image: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04
-          extra-images: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-X64,icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-ARM64
+          base-image: icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu22.04
+          extra-images: icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu22.04-X64,icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-ARM64
           push: true
       - name: Create and push manifest images prod 22 04 Current Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
