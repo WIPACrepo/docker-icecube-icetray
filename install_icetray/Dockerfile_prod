@@ -8,6 +8,7 @@ MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
 
+
 # stage in icetray
 COPY --from=icetray-build /usr/local/icetray /usr/local/icetray
 COPY --from=icetray-build /usr/local/icetray_src /usr/local/icetray_src
