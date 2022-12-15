@@ -45,12 +45,12 @@ jobs:
       - name: Set IceTray Version
         run: echo "ICETRAY_VERSION=$(
                if ${{ github.event.inputs.icetray_version }}; then
-                 echo ${{ github.event.inputs.environment }}
+                 echo ${{ github.event.inputs.icetray_version }}
                else
                  echo ${{ env.ICETRAY_VERSION_DEFAULT }}
                fi)" >> $GITHUB_ENV
       - name: Print Icetray version
-        run: echo "Hello ${{ env.icetray_version }}"
+        run: echo "Hello ${{ env.ICETRAY_VERSION }}"
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
