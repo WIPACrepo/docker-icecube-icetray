@@ -43,7 +43,7 @@ jobs:
 #           large-packages: true
 #           swap-storage: true
       - name: Set IceTray Version
-        run: echo "icetray_version=$(
+        run: echo "ICETRAY_VERSION=$(
                if ${{ github.event.inputs.icetray_version }}; then
                  echo ${{ github.event.inputs.environment }}
                else
@@ -69,11 +69,11 @@ jobs:
           build-args: |
             GHTOKEN=${{ secrets. PERSONAL_ACCESS_TOKEN }}
             TARGET_UBUNTU=ubuntu20.04
-            VERSION=${{ ICETRAY_VERSION }}
+            VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray:icetray-devel-${{ ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }},
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }},
             icecube/icetray:icetray-devel-current-ubuntu20.04-${{ runner.arch }},
-            icecube/icetray:icetray-devel-${{ ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }}-${{ env.current_date }}
       -
         name: Build and push icetray install 22 04
         uses: docker/build-push-action@v3
@@ -83,11 +83,11 @@ jobs:
           build-args: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
             TARGET_UBUNTU=ubuntu22.04
-            VERSION=${{ ICETRAY_VERSION }}
+            VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray:icetray-devel-${{ ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }},
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }},
             icecube/icetray:icetray-devel-current-ubuntu22.04-${{ runner.arch }},
-            icecube/icetray:icetray-devel-${{ ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
       -
         name: Build and push icetray prod 20 04
         uses: docker/build-push-action@v3
@@ -96,12 +96,12 @@ jobs:
           file: install_icetray/Dockerfile_prod
           build-args: |
             TARGET_UBUNTU=ubuntu20.04
-            VERSION=${{ ICETRAY_VERSION }}
+            VERSION=${{ env.ICETRAY_VERSION }}
             ARCH=${{ runner.arch }}
           tags: >
-            icecube/icetray:icetray-prod-${{ ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }},
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }},
             icecube/icetray:icetray-prod-current-ubuntu20.04-${{ runner.arch }},
-            icecube/icetray:icetray-prod-${{ ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ runner.arch }}-${{ env.current_date }}
       -
         name: Build and push icetray prod 22 04
         uses: docker/build-push-action@v3
@@ -110,12 +110,12 @@ jobs:
           file: install_icetray/Dockerfile_prod
           build-args: |
             TARGET_UBUNTU=ubuntu22.04
-            VERSION=${{ ICETRAY_VERSION }}
+            VERSION=${{ env.ICETRAY_VERSION }}
             ARCH=${{ runner.arch }}
           tags: >
-            icecube/icetray:icetray-prod-${{ ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }},
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }},
             icecube/icetray:icetray-prod-current-ubuntu22.04-${{ runner.arch }},
-            icecube/icetray:icetray-prod-${{ ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
   manifest-docker:
     needs: [docker]
     runs-on: ubuntu-latest
