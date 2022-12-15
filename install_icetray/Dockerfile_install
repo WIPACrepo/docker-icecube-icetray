@@ -1,5 +1,4 @@
 ARG TARGET_UBUNTU=ubuntu20.04
-ARG ARCH=X64
 FROM icecube/icetray-base:devel-${TARGET_UBUNTU} as install
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
