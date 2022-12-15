@@ -2,7 +2,7 @@ ARG TARGET_UBUNTU=ubuntu20.04
 ARG VERSION=current
 ARG ARCH=X64
 FROM icecube/icetray:icetray-devel-${VERSION}-${TARGET_UBUNTU}-${ARCH} as icetray-build
-FROM icecube/icetray-base:prod-${TARGET_UBUNTU}-${ARCH} as prod
+FROM icecube/icetray-base:prod-${TARGET_UBUNTU} as prod
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
