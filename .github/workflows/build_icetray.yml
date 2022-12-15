@@ -9,7 +9,7 @@ on:
       icetray_version:
         description: 'IceTray Version'
         default: v1.4.1
-        required: false
+        required: true
   push:
     branches: [ master ]
     paths:
