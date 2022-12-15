@@ -87,7 +87,7 @@ jobs:
           build-args: |
             TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ github.event.inputs.icetray_version }}
-            ARCH=${{ runner.arch }
+            ARCH=${{ runner.arch }}
           tags: >
             icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu20.04-${{ runner.arch }},
             icecube/icetray:icetray-prod-current-ubuntu20.04-${{ runner.arch }},
@@ -101,7 +101,7 @@ jobs:
           build-args: |
             TARGET_UBUNTU=ubuntu22.04
             VERSION=${{ github.event.inputs.icetray_version }}
-            ARCH=${{ runner.arch }
+            ARCH=${{ runner.arch }}
           tags: >
             icecube/icetray:icetray-prod-${{ github.event.inputs.icetray_version }}-ubuntu22.04-${{ runner.arch }},
             icecube/icetray:icetray-prod-current-ubuntu22.04-${{ runner.arch }},
