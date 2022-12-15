@@ -44,10 +44,10 @@ jobs:
 #           swap-storage: true
       - name: Set IceTray Version
         run: echo "ICETRAY_VERSION=$(
-               if ${{ github.event.inputs.icetray_version }}; then
-                 echo ${{ github.event.inputs.icetray_version }}
+               if [ ${{ github.event.inputs.icetray_version }} != ${{ env.ICETRAY_VERSION_DEFAULT}} ]; then
+                 echo ${{ github.event.inputs.icetray_version }};
                else
-                 echo ${{ env.ICETRAY_VERSION_DEFAULT }}
+                 echo ${{ env.ICETRAY_VERSION_DEFAULT }};
                fi)" >> $GITHUB_ENV
       - name: Print Icetray version
         run: echo "Hello ${{ env.ICETRAY_VERSION }}"
