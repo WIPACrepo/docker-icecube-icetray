@@ -23,7 +23,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, [self-hosted, LINUX, ARM64]]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 480
+    timeout-minutes: 600
     steps:
       - name: Get current date
         id: date
