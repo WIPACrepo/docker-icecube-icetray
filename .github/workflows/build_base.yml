@@ -87,3 +87,13 @@ jobs:
           tags: >
             icecube/icetray-base:devel-rocky9,
             icecube/icetray-base:devel-rocky9-${{ env.current_date }}
+      -
+        name: Build and push base devel debian sid
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icetray_base/Dockerfile_base-devel-debian-sid
+          platforms: linux/amd64,linux/arm64/v8
+          tags: >
+            icecube/icetray-base:devel-debian-sid,
+            icecube/icetray-base:devel-debian-sid-${{ env.current_date }}
