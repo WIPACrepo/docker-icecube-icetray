@@ -20,7 +20,7 @@ RUN dnf config-manager --enable -y extras
 
 RUN dnf -y group install "Development Tools" "Scientific Support"
 
-RUN dnf -y install \
+RUN dnf -y --allowerasing install \
            # astropy-tools \
            bc \
            binutils \
