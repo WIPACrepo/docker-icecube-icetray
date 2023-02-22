@@ -4,7 +4,7 @@ MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 WORKDIR /root
 
-# install system packages
+#install system packages
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   tar wget curl rsync gzip bzip2 xz-utils liblzma5 liblzma-dev zlib1g zlib1g-dev \
   less build-essential cmake libbz2-dev libzstd-dev \
@@ -33,12 +33,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   nano vim sudo man-db lsb-release ninja-build pkg-config doxygen\
   && apt-get clean
 
-#  zmqpp is needed, see hand-roll instructions:  https://github.com/zeromq/zmqpp
-RUN curl -L https://github.com/zeromq/zmqpp/archive/refs/tags/4.2.0.tar.gz | tar xz && \
-    cd zmqpp-4.2.0 && make && make install
-
-# RUN pip3 install sphinx breathe meson
-# 'setuptools>=59.5' sphinx breathe meson
 
 RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
     tar -zxf master.tar.gz && cd cppzmq-master && \
@@ -49,11 +43,8 @@ RUN curl -L https://github.com/icecube/photospline/archive/refs/tags/v2.1.0.tar.
   cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
 
 # build NuFlux
-RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | tar xz && \
-    cd nuflux-2.0.3 && \
-    meson build && \
-    ninja -C build install && \
-    pip3 install .
+RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | tar xz && \ 
+    cd nuflux-2.0.3 && meson build && ninja -C build install && pip3 install --prefix=/usr/local/ .
 
 # set environment variables
 ENV LD_LIBRARY_PATH /usr/local/lib
