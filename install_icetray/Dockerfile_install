@@ -1,4 +1,5 @@
 ARG TARGET_UBUNTU=ubuntu20.04
+ARG CMAKE_CXX_STANDARD=11
 FROM icecube/icetray-base:devel-${TARGET_UBUNTU} as install
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
@@ -22,6 +23,7 @@ RUN echo ${VERSION} > /usr/local/icetray_src/version_tag
 # build icetray
 WORKDIR /root/icetray/build
 RUN cmake /usr/local/icetray_src \
+      -DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD} \
       -DCMAKE_BUILD_TYPE=Release \
       -DINSTALL_TOOL_LIBS=OFF \
       -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
