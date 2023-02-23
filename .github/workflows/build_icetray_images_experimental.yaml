@@ -73,20 +73,20 @@ jobs:
             icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-debian-sid-${{ runner.arch }},
             icecube/icetray:icetray-devel-current-debian-sid-${{ runner.arch }},
             icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-debian-sid-${{ runner.arch }}-${{ env.current_date }}
-      -
-        name: Build and push icetray debian sid
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          file: install_icetray/Dockerfile_prod
-          build-args: |
-            TARGET_UBUNTU=debian-sid
-            VERSION=${{ env.ICETRAY_VERSION }}
-            ARCH=${{ runner.arch }}
-          tags: >
-            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid-${{ runner.arch }},
-            icecube/icetray:icetray-prod-current-debian-sid-${{ runner.arch }},
-            icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid-${{ runner.arch }}-${{ env.current_date }}
+#       -
+#         name: Build and push icetray debian sid
+#         uses: docker/build-push-action@v3
+#         with:
+#           push: true
+#           file: install_icetray/Dockerfile_prod
+#           build-args: |
+#             TARGET_UBUNTU=debian-sid
+#             VERSION=${{ env.ICETRAY_VERSION }}
+#             ARCH=${{ runner.arch }}
+#           tags: >
+#             icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid-${{ runner.arch }},
+#             icecube/icetray:icetray-prod-current-debian-sid-${{ runner.arch }},
+#             icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid-${{ runner.arch }}-${{ env.current_date }}
   manifest-docker:
     needs: [docker]
     runs-on: ubuntu-latest
@@ -121,15 +121,15 @@ jobs:
           base-image: icecube/icetray:icetray-devel-current-ubuntu20.04
           extra-images: icecube/icetray:icetray-devel-current-debian-sid-X64,icecube/icetray:icetray-devel-current-debian-sid-ARM64
           push: true
-      - name: Create and push manifest images prod debian-sid IceTray Version
-        uses: Noelware/docker-manifest-action@master # or use whatever version.
-        with:
-          base-image: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid
-          extra-images: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid-X64,icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid-ARM64
-          push: true
-      - name: Create and push manifest images prod debian-sid Current Version
-        uses: Noelware/docker-manifest-action@master # or use whatever version.
-        with:
-          base-image: icecube/icetray:icetray-prod-current-debian-sid
-          extra-images: icecube/icetray:icetray-prod-current-debian-sid-X64,icecube/icetray:icetray-prod-current-debian-sid-ARM64
-          push: true
+#       - name: Create and push manifest images prod debian-sid IceTray Version
+#         uses: Noelware/docker-manifest-action@master # or use whatever version.
+#         with:
+#           base-image: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid
+#           extra-images: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid-X64,icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-debian-sid-ARM64
+#           push: true
+#       - name: Create and push manifest images prod debian-sid Current Version
+#         uses: Noelware/docker-manifest-action@master # or use whatever version.
+#         with:
+#           base-image: icecube/icetray:icetray-prod-current-debian-sid
+#           extra-images: icecube/icetray:icetray-prod-current-debian-sid-X64,icecube/icetray:icetray-prod-current-debian-sid-ARM64
+#           push: true
