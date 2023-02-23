@@ -69,6 +69,7 @@ jobs:
             GHTOKEN=${{ secrets. PERSONAL_ACCESS_TOKEN }}
             TARGET_UBUNTU=debian-sid
             VERSION=${{ env.ICETRAY_VERSION }}
+            CMAKE_CXX_STANDARD=17
           tags: >
             icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-debian-sid-${{ runner.arch }},
             icecube/icetray:icetray-devel-current-debian-sid-${{ runner.arch }},
