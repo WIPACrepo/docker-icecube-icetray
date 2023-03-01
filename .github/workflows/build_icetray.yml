@@ -22,7 +22,7 @@ jobs:
 #     strategy:
 #       matrix:
 #         os: [ubuntu-latest, [self-hosted, LINUX, ARM64]]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest #${{ matrix.os }}
     timeout-minutes: 600
     steps:
       - name: Get current date
