@@ -19,9 +19,9 @@ on:
 
 jobs:
   docker:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, [self-hosted, LINUX, ARM64]]
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest, [self-hosted, LINUX, ARM64]]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 600
     steps:
@@ -141,13 +141,13 @@ jobs:
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
           base-image: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04
-          extra-images: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-X64,icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-ARM64
+          extra-images: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-X64 # ,icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu20.04-ARM64
           push: true
       - name: Create and push manifest images install 20 04 Current Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
           base-image: icecube/icetray:icetray-devel-current-ubuntu20.04
-          extra-images: icecube/icetray:icetray-devel-current-ubuntu20.04-X64,icecube/icetray:icetray-devel-current-ubuntu20.04-ARM64
+          extra-images: icecube/icetray:icetray-devel-current-ubuntu20.04-X64 # ,icecube/icetray:icetray-devel-current-ubuntu20.04-ARM64
           push: true
 #       - name: Create and push manifest images install 20 04 Date Version
 #         uses: Noelware/docker-manifest-action@master # or use whatever version.
@@ -160,13 +160,13 @@ jobs:
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
           base-image: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04
-          extra-images: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-X64,icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-ARM64
+          extra-images: icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-X64 # ,icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-ARM64
           push: true
       - name: Create and push manifest images install 22 04 Current Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
           base-image: icecube/icetray:icetray-devel-current-ubuntu22.04
-          extra-images: icecube/icetray:icetray-devel-current-ubuntu22.04-X64,icecube/icetray:icetray-devel-current-ubuntu22.04-ARM64
+          extra-images: icecube/icetray:icetray-devel-current-ubuntu22.04-X64 # ,icecube/icetray:icetray-devel-current-ubuntu22.04-ARM64
           push: true
 #       - name: Create and push manifest images install 22 04 Date Version
 #         uses: Noelware/docker-manifest-action@master # or use whatever version.
@@ -179,13 +179,13 @@ jobs:
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
           base-image: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04
-          extra-images: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-X64,icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-ARM64
+          extra-images: icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-X64 # ,icecube/icetray:icetray-prod-${{ env.ICETRAY_VERSION }}-ubuntu20.04-ARM64
           push: true
       - name: Create and push manifest images prod 20 04 Current Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
           base-image: icecube/icetray:icetray-prod-current-ubuntu20.04
-          extra-images: icecube/icetray:icetray-prod-current-ubuntu20.04-X64,icecube/icetray:icetray-prod-current-ubuntu20.04-ARM64
+          extra-images: icecube/icetray:icetray-prod-current-ubuntu20.04-X64 # ,icecube/icetray:icetray-prod-current-ubuntu20.04-ARM64
           push: true
 #       - name: Create and push manifest images prod 20 04 Date Version
 #         uses: Noelware/docker-manifest-action@master # or use whatever version.
