@@ -37,6 +37,16 @@ ENV I3_DATA /opt/i3-data
 ENV I3_TESTDATA /opt/i3-data/i3-test-data
 ENV TMPDIR /scratch
 
+# install photon tables
+RUN mkdir -p /opt/i3-data/photon-tables/splines && \
+    wget -nv -t 5 -O /opt/i3-data/photon-tables/splines/ems_mie_z20_a10.abs.fits       http://prod-exe.icecube.wisc.edu/spline-tables/ems_mie_z20_a10.abs.fits && \
+    wget -nv -t 5 -O /opt/i3-data/photon-tables/splines/ems_mie_z20_a10.prob.fits      http://prod-exe.icecube.wisc.edu/spline-tables/ems_mie_z20_a10.prob.fits
+
+# install baseline GCDs
+RUN mkdir /opt/i3-data/baseline_gcds && \
+    wget -nv -N -t 5 -P /opt/i3-data/baseline_gcds -r -l 1 -A *.i3* -nd https://icecube:skua@convey.icecube.wisc.edu/data/user/followup/baseline_gcds/ && \
+    chmod -R u+rwX,go+rX,go-w /opt/i3-data/baseline_gcds
+
 # install test data
 RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/trunk/ /opt/i3-data/i3-test-data/
 
