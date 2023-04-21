@@ -1,14 +1,14 @@
 name: build_icetray_images
 
 env:
-  ICETRAY_VERSION_DEFAULT: v1.5.1
+  ICETRAY_VERSION_DEFAULT: v1.6.0
 
 on:
   workflow_dispatch:
     inputs:
       icetray_version:
         description: 'IceTray Version'
-        default: v1.5.1
+        default: v1.6.0
         required: true
   push:
     branches: [ master ]
