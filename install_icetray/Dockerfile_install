@@ -16,8 +16,7 @@ RUN mkdir /root/icetray && mkdir /root/icetray/build
 ## GitHub clone
 ## Most recent release..
 ARG VERSION=v1.4.1
-ARG GHTOKEN
-RUN git clone -c advice.detachedHead=false --depth 1 -b ${VERSION} https://oauth:${GHTOKEN}@github.com/icecube/icetray.git /usr/local/icetray_src
+RUN --mount=type=secret,id=GHTOKEN source /run/secrets/GHTOKEN && git clone -c advice.detachedHead=false --depth 1 -b ${VERSION} https://oauth:${GHTOKEN}@github.com/icecube/icetray.git /usr/local/icetray_src
 RUN echo ${VERSION} > /usr/local/icetray_src/version_tag
 
 # build icetray

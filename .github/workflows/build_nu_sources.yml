@@ -42,8 +42,8 @@ jobs:
         with:
           push: true
           file: neutrino_sources/Dockerfile
-          build-args: |
-            GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          secrets: |
+            "GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}"
           tags: >
             icecube/nu-sources:base-current-ubuntu22.04,
             icecube/nu-sources:base-current-ubuntu22.04-${{ env.current_date }}
