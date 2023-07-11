@@ -24,11 +24,11 @@ RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) && \
   curl  -L --url 'https://github.com/icecube/skylab/archive/refs/tags/v2.17.tar.gz' --header "Authorization: Bearer ${GHTOKEN}" |tar xz &&\
   cd skylab-2.17 && pip3 install ./ 
 
-## CSKY v1.1.14
+## CSKY v1.1.14b
 WORKDIR /root/src
 RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) && \
-  curl  -L --url 'https://github.com/icecube/csky/archive/refs/tags/v1.1.14a.tar.gz' --header "Authorization: Bearer ${GHTOKEN}" | tar xz && \
-  cd csky-1.1.14a && pip3 install pybind11 histlite && pip3 install ./
+  curl  -L --url 'https://github.com/icecube/csky/archive/refs/tags/v1.1.14b.tar.gz' --header "Authorization: Bearer ${GHTOKEN}" | tar xz && \
+  cd csky-1.1.14b && pip3 install pybind11 histlite && pip3 install ./
 
 # provide the entry point
 WORKDIR /root
