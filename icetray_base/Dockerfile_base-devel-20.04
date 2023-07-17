@@ -42,11 +42,11 @@ RUN curl -L https://github.com/icecube/photospline/archive/refs/tags/v2.1.0.tar.
   cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
 
 # build NuFlux
-RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | tar xz && \
-    cd nuflux-2.0.3 && \
-    meson build && \
-    ninja -C build install && \
-    pip install .
+RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | tar xz # && \
+RUN cd nuflux-2.0.3 
+RUN meson build 
+RUN ninja -C build install 
+RUN pip install .
 
 # Clean up cached packages
 RUN apt-get autoclean
