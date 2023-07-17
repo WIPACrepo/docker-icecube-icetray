@@ -29,7 +29,7 @@ jobs:
         id: date
         run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
       - name: Install update repos
-        run: apt-get update
+        run: sudo apt-get update
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
         with:
