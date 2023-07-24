@@ -68,10 +68,11 @@ RUN dnf -y --allowerasing install \
            libxml2 \
            libxml2-devel \
            make \
+           meson \
            ocl-icd \ 
            ocl-icd-devel \
            openssl \
-           # osg-wn-client \
+           osg-wn-client \
            p7zip \
            p7zip-plugins \
            # python3-astropy \
