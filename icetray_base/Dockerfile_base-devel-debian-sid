@@ -43,8 +43,8 @@ RUN curl -L https://github.com/icecube/photospline/archive/refs/tags/v2.1.0.tar.
   cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
 
 # build NuFlux
-RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | tar xz && \ 
-    cd nuflux-2.0.3 && meson build && ninja -C build install && pip3 install --prefix=/usr/local/ .
+RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.4.tar.gz | tar xz && \ 
+    cd nuflux-2.0.4 && meson build && ninja -C build install && pip3 install --prefix=/usr/local/ .
 
 # set environment variables
 ENV LD_LIBRARY_PATH /usr/local/lib
