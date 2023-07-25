@@ -89,9 +89,10 @@ RUN dnf -y --allowerasing install \
            wget \
            xrootd-client-devel \
            zlib-devel 
-           
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor libquadmath; fi && rm -f /etc/grid-security/certificates/*.r0
 
+RUN pip3 install 'setuptools>=59.5' sphinx breathe 'meson>=1.2.0'
+
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor libquadmath; fi && rm -f /etc/grid-security/certificates/*.r0
 
 RUN dnf clean all
 
