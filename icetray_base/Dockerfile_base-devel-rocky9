@@ -15,8 +15,9 @@ RUN dnf config-manager --enable -y crb
 RUN dnf config-manager --enable -y epel
 RUN dnf config-manager --enable -y extras
 
-# Not available yet
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el9-release-latest.rpm; fi
+# RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el9-release-latest.rpm; fi
+
+RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el9-release-latest.rpm
 
 RUN dnf -y group install "Development Tools" "Scientific Support"
 
@@ -27,6 +28,7 @@ RUN dnf -y --allowerasing install \
            binutils-devel \
            blas \
            blas-devel \
+           boost \
            boost-date-time \
            boost-devel \
            boost-system \ 
@@ -37,6 +39,7 @@ RUN dnf -y --allowerasing install \
            boost-iostreams \
            boost-python3-devel \
            bzip2-devel \
+           cfitsio \
            cfitsio-devel \
            cmake \
            cppzmq-devel \
@@ -92,19 +95,43 @@ RUN dnf -y --allowerasing install \
 
 RUN pip3 install 'setuptools>=59.5' sphinx breathe 'meson>=1.2.0'
 
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor libquadmath; fi && rm -f /etc/grid-security/certificates/*.r0
+# RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor libquadmath; fi && rm -f /etc/grid-security/certificates/*.r0
+
+RUN dnf -y install osg-wn-client stashcache-client condor libquadmath
 
 RUN dnf clean all
 
+RUN wget https://github.com/liberfa/erfa/releases/download/v2.0.0/erfa-2.0.0.tar.gz && \
+    tar -xzf erfa-2.0.0.tar.gz && \
+    cd erfa-2.0.0 && \
+    ./configure && \
+    make && \
+    make install 
+
+RUN wget https://github.com/Starlink/pal/releases/download/v0.9.8/pal-0.9.8.tar.gz && \
+    tar -xzf pal-0.9.8.tar.gz && \
+    cd pal-0.9.8 && \
+    ./configure --without-starlink && \
+    make && \
+    make install
+
+RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
+    tar -zxf master.tar.gz && \
+    cd cppzmq-master && \
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local . && \
+    make install
+
+
 # install photospline
 RUN curl -L https://github.com/icecube/photospline/archive/refs/tags/v2.1.0.tar.gz | tar xz && \
-  cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
+  cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/ && make && make install
 
-RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.4.tar.gz | tar xz && \
-    cd nuflux-2.0.4 && \
-    meson build && \
-    ninja -C build install && \
-    pip install .
+
+# RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | tar xz && \
+#     cd nuflux-2.0.3 && \
+#     meson build && \
+#     ninja -C build install && \
+#     pip install .
 
 # required directories
 RUN for MNTPOINT in \
