@@ -70,6 +70,7 @@ jobs:
           build-args: |
             TARGET_UBUNTU=ubuntu20.04
             VERSION=${{ env.ICETRAY_VERSION }}
+            CMAKE_CXX_STANDARD=14
           secrets: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
           tags: >
