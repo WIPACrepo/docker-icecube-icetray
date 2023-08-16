@@ -1,9 +1,10 @@
 ARG TARGET_UBUNTU=ubuntu20.04
+FROM icecube/icetray-base:devel-${TARGET_UBUNTU} as install
+
 ARG ARG_CMAKE_CXX_STANDARD=14
 ARG ARG_VERSION=v1.7.2
 ENV CMAKE_CXX_STANDARD=$ARG_CMAKE_CXX_STANDARD
 ENV VERSION=ARG_VERSION
-FROM icecube/icetray-base:devel-${TARGET_UBUNTU} as install
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
