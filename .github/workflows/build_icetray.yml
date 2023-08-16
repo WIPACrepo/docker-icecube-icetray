@@ -1,14 +1,14 @@
 name: build_icetray_images
 
 env:
-  ICETRAY_VERSION_DEFAULT: v1.7.0
+  ICETRAY_VERSION_DEFAULT: v1.7.2
 
 on:
   workflow_dispatch:
     inputs:
       icetray_version:
         description: 'IceTray Version'
-        default: v1.7.0
+        default: v1.7.2
         required: true
   push:
     branches: [ master ]
@@ -86,6 +86,7 @@ jobs:
           build-args: |
             TARGET_UBUNTU=ubuntu22.04
             VERSION=${{ env.ICETRAY_VERSION }}
+            CMAKE_CXX_STANDARD=14
           secrets: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
           tags: >
