@@ -1,10 +1,9 @@
 ARG TARGET_UBUNTU=ubuntu20.04
 FROM icecube/icetray-base:devel-${TARGET_UBUNTU} as install
 
-ARG ARG_CMAKE_CXX_STANDARD=14
-ARG ARG_VERSION=v1.7.2
-RUN echo $ARG_CMAKE_CXX_STANDARD
-RUN echo $ARG_VERSION
+ARG CMAKE_CXX_STANDARD=14
+ARG VERSION=v1.7.2
+
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
@@ -19,8 +18,11 @@ RUN mkdir /root/icetray && mkdir /root/icetray/build
 
 ## GitHub clone
 ## Most recent release..
-RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) && \
-    git clone -c advice.detachedHead=false --depth 1 -b ${VERSION} https://oauth:${GHTOKEN}@github.com/icecube/icetray.git /usr/local/icetray_src
+RUN echo $CMAKE_CXX_STANDARD
+RUN echo $VERSION
+
+RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) 
+RUN git clone -c advice.detachedHead=false --depth 1 -b ${VERSION} https://oauth:${GHTOKEN}@github.com/icecube/icetray.git /usr/local/icetray_src
 RUN echo ${VERSION} > /usr/local/icetray_src/version_tag
 RUN echo ${CMAKE_CXX_STANDARD} > /usr/local/icetray_src/cxx_standard
 
