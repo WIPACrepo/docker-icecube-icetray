@@ -75,7 +75,7 @@ RUN dnf -y --allowerasing install \
            ocl-icd \ 
            ocl-icd-devel \
            openssl \
-           osg-wn-client \
+           # osg-wn-client \
            p7zip \
            p7zip-plugins \
            # python3-astropy \
