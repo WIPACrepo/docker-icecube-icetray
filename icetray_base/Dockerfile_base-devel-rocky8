@@ -15,9 +15,9 @@ RUN dnf config-manager --enable -y powertools
 RUN dnf config-manager --enable -y epel
 RUN dnf config-manager --enable -y extras
 
-# RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm; fi
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm; fi
 
-RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm
+# RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm
 
 RUN dnf -y group install "Development Tools" "Scientific Support"
 
@@ -100,9 +100,9 @@ RUN dnf -y install \
 RUN pip3 install --upgrade 'setuptools>=59.5' sphinx breathe meson
 
 # OSG-specfic stuff
-# RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor libquadmath; fi && rm -f /etc/grid-security/certificates/*.r0
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor libquadmath; fi && rm -f /etc/grid-security/certificates/*.r0
 
-RUN dnf -y install osg-wn-client stashcache-client condor libquadmath
+# RUN dnf -y install osg-wn-client stashcache-client condor libquadmath
 
 RUN dnf clean all
 
