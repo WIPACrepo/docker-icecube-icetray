@@ -31,7 +31,7 @@ RUN env | sort
 # build icetray
 WORKDIR /root/icetray/build
 RUN cmake /usr/local/icetray_src \
-      -DCMAKE_CXX_STANDARD= \
+      -DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD} \
       -DCMAKE_BUILD_TYPE=Release \
       -DINSTALL_TOOL_LIBS=OFF \
       -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
