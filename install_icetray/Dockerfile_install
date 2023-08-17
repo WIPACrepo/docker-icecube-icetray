@@ -21,8 +21,11 @@ RUN mkdir /root/icetray && mkdir /root/icetray/build
 RUN echo $CMAKE_CXX_STANDARD
 RUN echo $VERSION
 
+RUN mkdir /usr/local/icetray_src
+WORKDIR /usr/local/icetray_src
+RUN git init && git config advice.detachedHead false
 RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) && curl -sS -f -I -H "Authorization: token ${GHTOKEN}" https://api.github.com && \
-    git clone -c advice.detachedHead=false --depth 1 -b ${VERSION} https://oauth:${GHTOKEN}@github.com/icecube/icetray.git /usr/local/icetray_src
+    git pull --depth 1 https://${GHTOKEN}@github.com/icecube/icetray.git
 RUN echo ${VERSION} > /usr/local/icetray_src/version_tag
 RUN echo ${CMAKE_CXX_STANDARD} > /usr/local/icetray_src/cxx_standard
 
