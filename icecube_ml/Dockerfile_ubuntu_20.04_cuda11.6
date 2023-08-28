@@ -42,7 +42,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
 RUN pip3 install 'setuptools>=59.5' sphinx breathe meson
 
 RUN curl -L https://api.github.com/repos/zeromq/cppzmq/tarball/master -o master.tar.gz && \
-    tar -zxf master.tar.gz && cd cppzmq-master && \
+    mkdir cppzmq-master && tar -zxf master.tar.gz -C cppzmq-master && cd cppzmq-master && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local . && make install
 
 # install photospline

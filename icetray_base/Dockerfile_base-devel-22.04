@@ -43,7 +43,7 @@ RUN curl -L https://github.com/zeromq/zmqpp/archive/refs/tags/4.2.0.tar.gz | tar
 RUN pip3 install 'setuptools>=59.5' sphinx breathe meson
 
 RUN curl -L https://api.github.com/repos/zeromq/cppzmq/tarball/master -o master.tar.gz && \
-    tar -zxf master.tar.gz && cd cppzmq-master && \
+    mkdir cppzmq-master && tar -zxf master.tar.gz -C cppzmq-master && cd cppzmq-master && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local . && make install
 
 # install photospline
