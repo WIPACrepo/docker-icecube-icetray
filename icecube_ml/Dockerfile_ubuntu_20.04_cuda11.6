@@ -1,5 +1,5 @@
 ARG VERSION=current
-FROM icecube/icetray:icetray-prod-${VERSION}-ubuntu20.04 as icetray-build
+FROM icecube/icetray:icetray-prod-${VERSION}-ubuntu20.04-X64 as icetray-build
 FROM nvidia/cuda:11.6.2-cudnn8-devel-ubuntu20.04 as cuda11.6
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
