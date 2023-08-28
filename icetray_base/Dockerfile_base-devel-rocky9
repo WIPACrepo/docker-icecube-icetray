@@ -115,7 +115,7 @@ RUN wget https://github.com/Starlink/pal/releases/download/v0.9.8/pal-0.9.8.tar.
     make && \
     make install
 
-RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
+RUN curl -L https://api.github.com/repos/zeromq/cppzmq/tarball/master -o master.tar.gz && \
     tar -zxf master.tar.gz && \
     cd cppzmq-master && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local . && \
