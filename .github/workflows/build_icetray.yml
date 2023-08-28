@@ -153,9 +153,8 @@ jobs:
       - name: Create and push manifest images install 20 04 Current Version
         uses: Noelware/docker-manifest-action@master # or use whatever version.
         with:
-          base-image: icecube/icetray:icetray-devel-current-ubuntu20.04
-          extra-images: icecube/icetray:icetray-devel-current-ubuntu20.04-X64
-          # ,icecube/icetray:icetray-devel-current-ubuntu20.04-ARM64
+          input: icecube/icetray:icetray-devel-current-ubuntu20.04
+          images: icecube/icetray:icetray-devel-current-ubuntu20.04-X64[,icecube/icetray:icetray-devel-current-ubuntu20.04-ARM64]
           push: true
 #       - name: Create and push manifest images install 20 04 Date Version
 #         uses: Noelware/docker-manifest-action@master # or use whatever version.
