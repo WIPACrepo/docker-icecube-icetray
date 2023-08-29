@@ -56,13 +56,13 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8
+          file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8_cudnn8
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray-ml:icetray-cuda11.8-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
-            icecube/icetray-ml:icetray-cuda11.8-current-ubuntu22.04,
-            icecube/icetray-ml:icetray-cuda11.8-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-ml:icetray-cuda11.8-cudnn8-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
+            icecube/icetray-ml:icetray-cuda11.8-cudnn8-current-ubuntu22.04,
+            icecube/icetray-ml:icetray-cuda11.8-cudnn8-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
       -
         name: Build and push icetray ml  20 04
         uses: docker/build-push-action@v3
