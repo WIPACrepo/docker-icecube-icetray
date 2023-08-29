@@ -60,9 +60,9 @@ jobs:
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-current-ubuntu22.04,
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-ubuntu22.04,
+            icecube/icetray-ml:icetray-current-cuda11.8-cudnn8-ubuntu22.04,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-ubuntu22.04-${{ env.current_date }}
       -
         name: Build and push icetray ml cuda 11.8 for 22 04 with graphnet
         uses: docker/build-push-action@v3
@@ -72,9 +72,9 @@ jobs:
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-${{ env.ICETRAY_VERSION }}-graphnet-ubuntu22.04,
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-current-graphnet-ubuntu22.04,
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-${{ env.ICETRAY_VERSION }}-graphnet-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-graphnet-ubuntu22.04,
+            icecube/icetray-ml:icetray-current-cuda11.8-cudnn8-graphnet-ubuntu22.04,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-graphnet-ubuntu22.04-${{ env.current_date }}
       -
         name: Build and push icetray ml cuda 11.8 for 22 04 with tensorflow
         uses: docker/build-push-action@v3
@@ -84,9 +84,9 @@ jobs:
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-${{ env.ICETRAY_VERSION }}-tf-ubuntu22.04,
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-current-tf-ubuntu22.04,
-            icecube/icetray-ml:icetray-cuda11.8-cudnn8-icetray-${{ env.ICETRAY_VERSION }}-tf-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-tf-ubuntu22.04,
+            icecube/icetray-ml:icetray-current-cuda11.8-cudnn8-tf-ubuntu22.04,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-tf-ubuntu22.04-${{ env.current_date }}
       # -
       #   name: Build and push icetray ml  20 04
       #   uses: docker/build-push-action@v3
