@@ -1,5 +1,5 @@
 ARG VERSION=current
-FROM icecube/icetray-ml:icetray-cuda11.8-${VERSION}-ubuntu22.04
+FROM icecube/icetray-ml:icetray-cuda11.8-cudann8-icetray-${VERSION}-ubuntu22.04
 
 RUN apt-get update && sudo apt-get install -y llvm-16 clang-16
 

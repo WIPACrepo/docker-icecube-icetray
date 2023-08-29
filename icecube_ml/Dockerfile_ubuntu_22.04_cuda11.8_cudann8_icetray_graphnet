@@ -1,5 +1,5 @@
 ARG VERSION=current
-FROM icecube/icetray-ml:icetray-cuda11.8-cudann8-${VERSION}-ubuntu22.04
+FROM icecube/icetray-ml:icetray-cuda11.8-cudann8-icetray-${VERSION}-ubuntu22.04
 
 RUN pip3 install--upgrade pip
 RUN pip3 install --upgrade astropy
