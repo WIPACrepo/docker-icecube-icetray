@@ -1,7 +1,7 @@
 ARG VERSION=current
 FROM icecube/icetray-ml:icetray-${VERSION}-cuda11.8-cudnn8-ubuntu22.04
 
-RUN pip3 install--upgrade pip
+RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade astropy
 RUN pip3 install --ignore-installed PyYAML
 
