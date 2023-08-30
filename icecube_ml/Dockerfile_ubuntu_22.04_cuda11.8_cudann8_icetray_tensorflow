@@ -1,7 +1,8 @@
 ARG VERSION=current
 FROM icecube/icetray-ml:icetray-${VERSION}-cuda11.8-cudnn8-ubuntu22.04
 
-RUN apt-get update && sudo apt-get install -y llvm-16 clang-16
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y llvm-toolchain-16 clang-16
 
 
 RUN pip3 install --upgrade pip
