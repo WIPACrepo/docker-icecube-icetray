@@ -75,7 +75,7 @@ jobs:
             BASE_IMAGE=nvidia/cuda:${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-devel-ubuntu22.04
           tags: >
             icecube/icetray-base:devel-ubuntu22.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
-            icecube/icetray-base:devel-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-base:devel-ubuntu22.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
       -
         name: Build and push base prod 22 04
         uses: docker/build-push-action@v3
