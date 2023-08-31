@@ -29,7 +29,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
   zlib1g-dev liberfa-dev libstarlink-pal-dev \
   libopenblas-dev libsprng2-dev python3-mysqldb \
   libsuitesparse-dev libfftw3-dev \
-  hdf5-tools
+  hdf5-tools \
   libcfitsio-dev libhdf5-dev libhealpix-cxx-dev \
   opencl-headers opencl-c-headers opencl-clhpp-headers \
   opencl-dev pocl-opencl-icd \
