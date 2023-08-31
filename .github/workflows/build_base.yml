@@ -20,7 +20,7 @@ jobs:
         run: echo "CUDA_VERSION=11.8.0" >> $GITHUB_ENV
       - 
         name: set CUDNN version
-        id: cuda
+        id: cudnn
         run: echo "CUDNN_VERSION=8" >> $GITHUB_ENV
       -
         name: Set up QEMU
