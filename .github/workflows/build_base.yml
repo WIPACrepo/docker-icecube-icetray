@@ -14,6 +14,14 @@ jobs:
       - name: Get current date
         id: date
         run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      - 
+        name: set CUDA version
+        id: cuda
+        run: echo "CUDA_VERSION=11.8.0" >> $GITHUB_ENV
+      - 
+        name: set CUDNN version
+        id: cuda
+        run: echo "CUDNN_VERSION=8" >> $GITHUB_ENV
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -55,6 +63,18 @@ jobs:
           platforms: linux/amd64,linux/arm64/v8
           tags: >
             icecube/icetray-base:devel-ubuntu22.04,
+            icecube/icetray-base:devel-ubuntu22.04-${{ env.current_date }}
+      -
+        name: Build and push base devel 22 04 GPU 
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icetray_base/Dockerfile_base-devel-22.04
+          platforms: linux/amd64,linux/arm64/v8
+          build-args: |
+            BASE_IMAGE=nvidia/cuda:${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-devel-ubuntu22.04
+          tags: >
+            icecube/icetray-base:devel-ubuntu22.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
             icecube/icetray-base:devel-ubuntu22.04-${{ env.current_date }}
       -
         name: Build and push base prod 22 04
