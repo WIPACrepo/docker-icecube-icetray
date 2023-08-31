@@ -35,12 +35,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
   nano vim sudo man-db lsb-release ninja-build pkg-config doxygen\
   && apt-get clean
 
+RUN pip3 install 'setuptools>=59.5' sphinx breathe 'meson>=1.2.0'
+
 #install IceCube add ons (needs to be redone for cuda base)
 #  zmqpp is needed, see hand-roll instructions:  https://github.com/zeromq/zmqpp
 RUN curl -L https://github.com/zeromq/zmqpp/archive/refs/tags/4.2.0.tar.gz | tar xz && \
     cd zmqpp-4.2.0 && make && make install
-
-RUN pip3 install 'setuptools>=59.5' sphinx breathe meson
 
 RUN mkdir cppzmq-master && \
     curl -L https://api.github.com/repos/zeromq/cppzmq/tarball/master | tar xz -C cppzmq-master/ --strip=1 && \
