@@ -67,7 +67,7 @@ RUN curl -L https://github.com/jsalvado/SQuIDS/archive/refs/tags/v1.3.0.tar.gz |
 # build nuSQuIDS
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then git clone https://github.com/arguelles/nuSQuIDS.git && \
     cd nuSQuIDS && ./configure --with-python-bindings --with-squids=/usr/local --prefix=/usr/local && \
-    make && make python && make install && make python-install
+    make && make python && make install && make python-install; fi
 
 # cleanup files that cause permission fixer issues (broken sim links.)
 RUN rm /root/SQuIDS-1.3.0/test/SQuIDS /root/nuSQuIDS/test/nuSQuIDS
