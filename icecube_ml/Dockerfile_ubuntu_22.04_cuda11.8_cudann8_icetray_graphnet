@@ -6,7 +6,7 @@ RUN pip3 install --upgrade astropy
 RUN pip3 install --ignore-installed PyYAML
 
 RUN pip3 install --find-links https://download.pytorch.org/whl/torch_stable.html torch==2.0.1+cu118 --find-links https://data.pyg.org/whl/torch-2.0.0+cu118.html
-RUN pip3 install -e git+https://github.com/icecube/graphnet.git#egg=graphnet[develop,torch]
+RUN pip3 install git+https://github.com/icecube/graphnet.git#egg=graphnet[develop,torch]
 
 # Default command for executing container.
 CMD [ "/bin/bash" ]
