@@ -1,7 +1,21 @@
 name: build_base_images
 
+
 on:
   workflow_dispatch:
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      platforms:
+        type: choice
+        description: 'Platform to build on'
+        default: 'linux/amd64'
+        required: true
+        options:
+        - linux/amd64
+        - linux/amd64,linux/arm64/v8
   push:
     branches: [ master ]
     paths:
@@ -32,7 +46,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-20.04
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ github.event.inputs.platforms }}
           tags: >
             icecube/icetray-base:devel-ubuntu20.04,
             icecube/icetray-base:devel-ubuntu20.04-${{ env.current_date }}
@@ -42,7 +56,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-prod-20.04
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ github.event.inputs.platforms }}
           tags: >
             icecube/icetray-base:prod-ubuntu20.04,
             icecube/icetray-base:prod-ubuntu20.04-${{ env.current_date }}
@@ -52,7 +66,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-22.04
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ github.event.inputs.platforms }}
           tags: >
             icecube/icetray-base:devel-ubuntu22.04,
             icecube/icetray-base:devel-ubuntu22.04-${{ env.current_date }}
@@ -62,7 +76,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-prod-22.04
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ github.event.inputs.platforms }}
           tags: >
             icecube/icetray-base:prod-ubuntu22.04,
             icecube/icetray-base:prod-ubuntu22.04-${{ env.current_date }}
@@ -73,7 +87,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-rocky8
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ github.event.inputs.platforms }}
           tags: >
             icecube/icetray-base:devel-rocky8,
             icecube/icetray-base:devel-rocky8-${{ env.current_date }}
@@ -83,7 +97,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-rocky9
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ github.event.inputs.platforms }}
           tags: >
             icecube/icetray-base:devel-rocky9,
             icecube/icetray-base:devel-rocky9-${{ env.current_date }}
