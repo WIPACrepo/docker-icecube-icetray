@@ -31,7 +31,7 @@ jobs:
       - name: Install update repos
         run: sudo apt-get update
       - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
+        uses: jlumbroso/free-disk-space@1.2.0
         with:
           # this might remove tools that are actually needed,
           # if set to "true" but frees about 6 GB
