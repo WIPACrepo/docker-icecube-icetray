@@ -1,7 +1,7 @@
 name: build_icetray_ml
 
 env:
-  ICETRAY_VERSION: v1.7.2
+  ICETRAY_VERSION: v1.8.1
 
 on:
   workflow_dispatch:
