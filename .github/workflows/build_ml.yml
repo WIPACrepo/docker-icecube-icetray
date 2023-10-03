@@ -92,7 +92,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8_cudann8_icetray_tensorflow-devel
+          file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8_cudann8_icetray_graphnet-devel
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
