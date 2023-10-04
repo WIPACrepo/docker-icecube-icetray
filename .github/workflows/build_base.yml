@@ -7,10 +7,18 @@ on:
         type: choice
         description: 'Platform to build on'
         default: 'linux/amd64'
-        required: true
+        required: true 
         options:
         - linux/amd64
         - linux/amd64,linux/arm64/v8
+      cuda_version:
+        description: 'CUDA Version to use'
+        default: '11.8.0'
+        required: true
+      cudnn_version:
+        description: 'cuDNN Version to use'
+        default: '8'
+        required: true
   push:
     branches: [ master ]
     paths:
@@ -26,11 +34,15 @@ jobs:
       - 
         name: set CUDA version
         id: cuda
-        run: echo "CUDA_VERSION=11.8.0" >> $GITHUB_ENV
+        run: echo "CUDA_VERSION=${{ github.event.inputs.cuda_version }}" >> $GITHUB_ENV
       - 
         name: set CUDNN version
         id: cudnn
-        run: echo "CUDNN_VERSION=8" >> $GITHUB_ENV
+        run: echo "CUDNN_VERSION=${{ github.event.inputs.cudnn_version }}" >> $GITHUB_ENV
+      - 
+        name: set rocm version
+        id: rocm
+        run: echo "ROCM_VERSION=5.7" >> $GITHUB_ENV
       - 
         name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
@@ -92,17 +104,29 @@ jobs:
             icecube/icetray-base:devel-ubuntu22.04,
             icecube/icetray-base:devel-ubuntu22.04-${{ env.current_date }}
       -
-        name: Build and push base devel 22 04 GPU 
+        name: Build and push base devel 22 04 CUDA 
         uses: docker/build-push-action@v3
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-22.04
-          platforms: linux/amd64,linux/arm64/v8
+          platforms: ${{ github.event.inputs.platforms }}
           build-args: |
-            BASE_IMAGE=nvidia/cuda:${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-devel-ubuntu22.04
+            BASE_IMAGE=nvidia/cuda:${{github.event.inputs.cuda_version}}-cudnn${{env.CUDNN_VERSION}}-devel-ubuntu22.04
           tags: >
-            icecube/icetray-base:devel-ubuntu22.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
-            icecube/icetray-base:devel-ubuntu22.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
+            icecube/icetray-base:devel-ubuntu22.04-cuda${{github.event.inputs.cuda_version}}-cudnn${{env.CUDNN_VERSION}},
+            icecube/icetray-base:devel-ubuntu22.04-cuda${{github.event.inputs.cuda_version}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
+      -
+        name: Build and push base devel 22 04 ROCm 
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icetray_base/Dockerfile_base-devel-22.04
+          platforms: ${{ github.event.inputs.platforms }}
+          build-args: |
+            BASE_IMAGE=rocm/dev-ubuntu-22.04:${{ env.ROCM_VERSION }}-complete
+          tags: >
+            icecube/icetray-base:devel-ubuntu22.04-rocm${{ env.ROCM_VERSION }},
+            icecube/icetray-base:devel-ubuntu22.04-rocm${{ env.ROCM_VERSION }}-${{ env.current_date }}
       -
         name: Build and push base prod 22 04
         uses: docker/build-push-action@v3
