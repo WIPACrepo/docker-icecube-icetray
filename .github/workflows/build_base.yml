@@ -11,6 +11,7 @@ on:
         options:
         - linux/amd64
         - linux/amd64,linux/arm64/v8
+        - linux/arm64/v8
       cuda_version:
         description: 'CUDA Version to use'
         default: '11.8.0'
