@@ -57,7 +57,7 @@ jobs:
         run: echo "ROCM_VERSION=${{ github.event.inputs.rocm_version || env.ROCM_VERSION_DEFAULT }}" >> $GITHUB_ENV
       - 
         name: set platforms
-        id: rocm
+        id: platforms
         run: echo "PLATFORMS=${{ github.event.inputs.platforms || env.PLATFORMS_DEFAULT }}" >> $GITHUB_ENV       
       - 
         name: Free Disk Space (Ubuntu)
