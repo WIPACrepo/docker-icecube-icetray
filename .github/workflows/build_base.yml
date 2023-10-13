@@ -1,5 +1,12 @@
 name: build_base_images
 
+env:
+  PLATFORMS_DEFAULT: linux/amd64
+  CUDA_VERSION_DEFAULT: 11.8
+  CUDNN_VERSION_DEFAULT: 8
+  ROCM_VERSION_DEFAULT: 5.7
+
+
 on:
   workflow_dispatch:
     inputs:
@@ -20,6 +27,10 @@ on:
         description: 'cuDNN Version to use'
         default: '8'
         required: true
+      rocm_version:
+          description: 'rocm Version to use'
+          default: '5.7'
+          required: true
   push:
     branches: [ master ]
     paths:
@@ -35,15 +46,19 @@ jobs:
       - 
         name: set CUDA version
         id: cuda
-        run: echo "CUDA_VERSION=${{ github.event.inputs.cuda_version }}" >> $GITHUB_ENV
+        run: echo "CUDA_VERSION=${{ github.event.inputs.cuda_version || env.CUDA_VERSION_DEFAULT }}" >> $GITHUB_ENV
       - 
         name: set CUDNN version
         id: cudnn
-        run: echo "CUDNN_VERSION=${{ github.event.inputs.cudnn_version }}" >> $GITHUB_ENV
+        run: echo "CUDNN_VERSION=${{ github.event.inputs.cudnn_version || env.CUDNN_VERSION_DEFAULT }}" >> $GITHUB_ENV
       - 
         name: set rocm version
         id: rocm
-        run: echo "ROCM_VERSION=5.7" >> $GITHUB_ENV
+        run: echo "ROCM_VERSION=${{ github.event.inputs.rocm_version || env.ROCM_VERSION_DEFAULT }}" >> $GITHUB_ENV
+      - 
+        name: set platforms
+        id: rocm
+        run: echo "PLATFORMS=${{ github.event.inputs.platforms || env.PLATFORMS_DEFAULT }}" >> $GITHUB_ENV       
       - 
         name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
@@ -80,7 +95,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-20.04
-          platforms: ${{ github.event.inputs.platforms }}
+          platforms: ${{ env.PLATFORMS }}
           tags: >
             icecube/icetray-base:devel-ubuntu20.04,
             icecube/icetray-base:devel-ubuntu20.04-${{ env.current_date }}
@@ -90,7 +105,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-prod-20.04
-          platforms: ${{ github.event.inputs.platforms }}
+          platforms: ${{ env.PLATFORMS }}
           tags: >
             icecube/icetray-base:prod-ubuntu20.04,
             icecube/icetray-base:prod-ubuntu20.04-${{ env.current_date }}
@@ -100,7 +115,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-22.04
-          platforms: ${{ github.event.inputs.platforms }}
+          platforms: ${{ env.PLATFORMS }}
           tags: >
             icecube/icetray-base:devel-ubuntu22.04,
             icecube/icetray-base:devel-ubuntu22.04-${{ env.current_date }}
@@ -110,19 +125,19 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-22.04
-          platforms: ${{ github.event.inputs.platforms }}
+          platforms: ${{ env.PLATFORMS }}
           build-args: |
-            BASE_IMAGE=nvidia/cuda:${{github.event.inputs.cuda_version}}-cudnn${{env.CUDNN_VERSION}}-devel-ubuntu22.04
+            BASE_IMAGE=nvidia/cuda:${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-devel-ubuntu22.04
           tags: >
-            icecube/icetray-base:devel-ubuntu22.04-cuda${{github.event.inputs.cuda_version}}-cudnn${{env.CUDNN_VERSION}},
-            icecube/icetray-base:devel-ubuntu22.04-cuda${{github.event.inputs.cuda_version}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
+            icecube/icetray-base:devel-ubuntu22.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
+            icecube/icetray-base:devel-ubuntu22.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
       -
         name: Build and push base devel 22 04 ROCm 
         uses: docker/build-push-action@v3
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-22.04
-          platforms: ${{ github.event.inputs.platforms }}
+          platforms: ${{ env.PLATFORMS }}
           build-args: |
             BASE_IMAGE=rocm/dev-ubuntu-22.04:${{ env.ROCM_VERSION }}-complete
           tags: >
@@ -134,7 +149,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-prod-22.04
-          platforms: ${{ github.event.inputs.platforms }}
+          platforms: ${{ env.PLATFORMS }}
           tags: >
             icecube/icetray-base:prod-ubuntu22.04,
             icecube/icetray-base:prod-ubuntu22.04-${{ env.current_date }}
@@ -145,7 +160,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-rocky8
-          platforms: ${{ github.event.inputs.platforms }}
+          platforms: ${{ env.PLATFORMS }}
           tags: >
             icecube/icetray-base:devel-rocky8,
             icecube/icetray-base:devel-rocky8-${{ env.current_date }}
@@ -155,7 +170,7 @@ jobs:
         with:
           push: true
           file: icetray_base/Dockerfile_base-devel-rocky9
-          platforms: ${{ github.event.inputs.platforms }}
+          platforms: ${{ env.PLATFORMS }}
           tags: >
             icecube/icetray-base:devel-rocky9,
             icecube/icetray-base:devel-rocky9-${{ env.current_date }}
