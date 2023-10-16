@@ -1,8 +1,8 @@
 #### Create a "developer" base for Rocky 9
 # Why Rocky. NVIDIA uses Rocky 8 as the base image
 # This is mostly meant as a image for grid computing
-
-FROM rockylinux:9 as base-devel
+ARG BASE_IMAGE=rockylinux:9
+FROM ${BASE_IMAGE} as base-devel
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
