@@ -33,7 +33,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
   hdf5-tools \
   libcfitsio-dev libhdf5-dev libhealpix-cxx-dev \
   opencl-headers opencl-c-headers opencl-clhpp-headers \
-  opencl-dev pocl-opencl-icd \
+  opencl-dev pocl-opencl-icd clinfo \
   libzmq5 libzmq3-dev \
   nano vim sudo man-db lsb-release ninja-build pkg-config doxygen\
   && apt-get clean
