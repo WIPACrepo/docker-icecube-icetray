@@ -43,20 +43,20 @@ jobs:
           haskell: true
           large-packages: false
           swap-storage: true
-      - name: manually remove gcloud
-        shell: bash
-        run: sudo apt-get remove google-cloud-cli
-      - name: same as 'large-packages' but without 'google-cloud-sdk'
-        shell: bash
-        run: | 
-          sudo apt-get remove -y '^dotnet-.*'
-          sudo apt-get remove -y '^llvm-.*'
-          sudo apt-get remove -y 'php.*'
-          sudo apt-get remove -y '^mongodb-.*'
-          sudo apt-get remove -y '^mysql-.*'
-          sudo apt-get remove -y azure-cli google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri
-          sudo apt-get autoremove -y
-          sudo apt-get clean
+      # - name: manually remove gcloud
+      #   shell: bash
+      #   run: sudo apt-get remove google-cloud-cli
+      # - name: same as 'large-packages' but without 'google-cloud-sdk'
+      #   shell: bash
+      #   run: | 
+      #     sudo apt-get remove -y '^dotnet-.*'
+      #     sudo apt-get remove -y '^llvm-.*'
+      #     sudo apt-get remove -y 'php.*'
+      #     sudo apt-get remove -y '^mongodb-.*'
+      #     sudo apt-get remove -y '^mysql-.*'
+      #     sudo apt-get remove -y azure-cli google-chrome-stable firefox powershell mono-devel libgl1-mesa-dri
+      #     sudo apt-get autoremove -y
+      #     sudo apt-get clean
       - name: Set IceTray Version
         run: echo "ICETRAY_VERSION=$(
                if [ ${{ github.event.inputs.icetray_version }} != ${{ env.ICETRAY_VERSION_DEFAULT}} ]; then
