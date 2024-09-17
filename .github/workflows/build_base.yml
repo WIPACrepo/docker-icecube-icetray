@@ -182,10 +182,10 @@ jobs:
           file: icetray_base/Dockerfile_base-devel-24.04
           platforms: ${{ env.PLATFORMS }}
           build-args: |
-            BASE_IMAGE=nvidia/cuda:${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-devel-ubuntu24.04
+            BASE_IMAGE=nvidia/cuda:${{env.CUDA_VERSION}}-cudnn-devel-ubuntu24.04
           tags: >
-            icecube/icetray-base:devel-ubuntu24.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
-            icecube/icetray-base:devel-ubuntu24.04-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
+            icecube/icetray-base:devel-ubuntu24.04-cuda${{env.CUDA_VERSION}},
+            icecube/icetray-base:devel-ubuntu24.04-cuda${{env.CUDA_VERSION}}-${{ env.current_date }}
       -
         name: Build and push base devel 22 04 ROCm
         uses: docker/build-push-action@v3
