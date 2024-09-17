@@ -170,18 +170,18 @@ jobs:
           tags: >
             icecube/icetray-base:devel-ubuntu22.04-pytorch${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
             icecube/icetray-base:devel-ubuntu22.04-pytorch${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
-      -
-        name: Build and push base devel 22 04 tensorflow 
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          file: icetray_base/Dockerfile_base-devel-22.04
-          platforms: ${{ env.PLATFORMS }}
-          build-args: |
-            BASE_IMAGE=tensorflow/tensorflow:${{TENSORFLOW_VERSION}}-gpu
-          tags: >
-            icecube/icetray-base:devel-ubuntu22.04-tensorflow${{TENSORFLOW_VERSION}},
-            icecube/icetray-base:devel-ubuntu22.04-tensorflow${{TENSORFLOW_VERSION}}-${{ env.current_date }}
+      # -
+      #   name: Build and push base devel 22 04 tensorflow 
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: true
+      #     file: icetray_base/Dockerfile_base-devel-22.04
+      #     platforms: ${{ env.PLATFORMS }}
+      #     build-args: |
+      #       BASE_IMAGE=tensorflow/tensorflow:${{TENSORFLOW_VERSION}}-gpu
+      #     tags: >
+      #       icecube/icetray-base:devel-ubuntu22.04-tensorflow${{TENSORFLOW_VERSION}},
+      #       icecube/icetray-base:devel-ubuntu22.04-tensorflow${{TENSORFLOW_VERSION}}-${{ env.current_date }}
       -
         name: Build and push base devel 24 04 CUDA
         uses: docker/build-push-action@v3
