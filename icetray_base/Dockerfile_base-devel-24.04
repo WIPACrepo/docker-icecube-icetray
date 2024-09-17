@@ -59,7 +59,7 @@ RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.4.tar.gz | 
     cd nuflux-2.0.4 && \
     meson build && \
     ninja -C build install && \
-    pip install .
+    pip install --break-system-packages .
 
 # build SQuIDS
 RUN curl -L https://github.com/jsalvado/SQuIDS/archive/refs/tags/v1.3.0.tar.gz | tar xz && \
