@@ -13,10 +13,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
   less build-essential cmake libbz2-dev libzstd-dev \
   libxml2-dev subversion git \
   libboost-python1.83.0 \
-  libboost-python1.74-dev libboost-system1.74-dev libboost-thread1.74-dev libboost-numpy1.74-dev \
-  libboost-date-time1.74-dev libboost-serialization1.74-dev \
-  libboost-filesystem1.74-dev libboost-program-options1.74-dev \
-  libboost-regex1.74-dev libboost-iostreams1.74-dev libgsl0-dev \
+  libboost-python1.83-dev libboost-system1.83-dev libboost-thread1.83-dev libboost-numpy1.83-dev \
+  libboost-date-time1.83-dev libboost-serialization1.83-dev \
+  libboost-filesystem1.83-dev libboost-program-options1.83-dev \
+  libboost-regex1.83-dev libboost-iostreams1.83-dev libgsl0-dev \
   libcdk5-dev libarchive-dev python3-scipy ipython3 \
   libboost-date-time-dev libboost-filesystem-dev libboost-iostreams-dev \
   libboost-numpy-dev libboost-program-options-dev libboost-python-dev \
