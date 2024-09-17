@@ -65,11 +65,11 @@ jobs:
         run: echo "ROCM_VERSION=${{ github.event.inputs.rocm_version || env.ROCM_VERSION_DEFAULT }}" >> $GITHUB_ENV
       - 
         name: set pytorch version
-        id: rocm
+        id: pytorch
         run: echo "PYTORCH_VERSION=${{ github.event.inputs.pytorch_version || env.PYTORCH_VERSION_DEFAULT }}" >> $GITHUB_ENV
       - 
         name: set tensorflow version
-        id: rocm
+        id: tensorflow
         run: echo "TENSORFLOW_VERSION=${{ github.event.inputs.tensorflow_version || env.TENSORFLOW_VERSION_DEFAULT }}" >> $GITHUB_ENV
       - 
         name: set platforms
