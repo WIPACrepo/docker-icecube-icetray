@@ -1,6 +1,6 @@
 #### Create a "developer" base
 ARG BASE_IMAGE=ubuntu:22.04
-FROM ${BASE_IMAGE} as base-devel
+FROM ${BASE_IMAGE} AS base-devel
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
 
