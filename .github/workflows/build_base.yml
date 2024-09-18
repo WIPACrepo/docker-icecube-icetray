@@ -165,8 +165,7 @@ jobs:
           file: icetray_base/Dockerfile_base-devel-22.04
           platforms: ${{ env.PLATFORMS }}
           build-args: |
-            BASE_IMAGE=pytorch/pytorch:${{env.PYTORCH_VERSION}}-cuda{{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-devel
-            nvidia/cuda:${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-devel-ubuntu22.04
+            BASE_IMAGE=pytorch/pytorch:${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION%.*}}-cudnn${{env.CUDNN_VERSION}}-devel
           tags: >
             icecube/icetray-base:devel-ubuntu22.04-pytorch${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
             icecube/icetray-base:devel-ubuntu22.04-pytorch${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
