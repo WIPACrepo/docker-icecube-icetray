@@ -57,8 +57,10 @@ jobs:
         run: echo "CUDA_VERSION=${{github.event.inputs.cuda_version || env.CUDA_VERSION_DEFAULT}}" >> $GITHUB_ENV
       - name: set short CUDA version
         id: cuda_short
-        run: short="${{github.event.inputs.cuda_version || env.CUDA_VERSION_DEFAULT}%.*}
-        echo "CUDA_VERSION_SHORT=${short}" >> $GITHUB_ENV
+        run: | 
+          short="${{github.event.inputs.cuda_version || env.CUDA_VERSION_DEFAULT}%.*} 
+          echo "CUDA_VERSION_SHORT=${short}" >> $GITHUB_ENV
+        shell: bash
       - 
         name: set CUDNN version
         id: cudnn
