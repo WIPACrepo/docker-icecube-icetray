@@ -54,7 +54,10 @@ jobs:
       - 
         name: set CUDA version
         id: cuda
-        run: echo "CUDA_VERSION=${{ github.event.inputs.cuda_version || env.CUDA_VERSION_DEFAULT }}" >> $GITHUB_ENV
+        run: echo "CUDA_VERSION=${{github.event.inputs.cuda_version || env.CUDA_VERSION_DEFAULT}}" >> $GITHUB_ENV
+      - name: set short CUDA version
+        id: cuda_short
+        run: echo "CUDA_VERSION_SHORT=${{github.event.inputs.cuda_version || env.CUDA_VERSION_DEFAULT}%.*}" >> $GITHUB_ENV
       - 
         name: set CUDNN version
         id: cudnn
@@ -165,7 +168,7 @@ jobs:
           file: icetray_base/Dockerfile_base-devel-22.04
           platforms: ${{ env.PLATFORMS }}
           build-args: |
-            BASE_IMAGE=pytorch/pytorch:${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION%.*}}-cudnn${{env.CUDNN_VERSION}}-devel
+            BASE_IMAGE=pytorch/pytorch:${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION_SHORT}}-cudnn${{env.CUDNN_VERSION}}-devel
           tags: >
             icecube/icetray-base:devel-ubuntu22.04-pytorch${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
             icecube/icetray-base:devel-ubuntu22.04-pytorch${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
