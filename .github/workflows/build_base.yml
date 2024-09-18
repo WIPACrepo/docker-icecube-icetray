@@ -183,10 +183,10 @@ jobs:
           file: icetray_base/Dockerfile_base-devel-22.04
           platforms: ${{ env.PLATFORMS }}
           build-args: |
-            BASE_IMAGE=tensorflow/tensorflow:${{TENSORFLOW_VERSION}}-gpu
+            BASE_IMAGE=tensorflow/tensorflow:${{env.TENSORFLOW_VERSION}}-gpu
           tags: >
-            icecube/icetray-base:devel-ubuntu22.04-tensorflow${{TENSORFLOW_VERSION}},
-            icecube/icetray-base:devel-ubuntu22.04-tensorflow${{TENSORFLOW_VERSION}}-${{ env.current_date }}
+            icecube/icetray-base:devel-ubuntu22.04-tensorflow${{env.TENSORFLOW_VERSION}},
+            icecube/icetray-base:devel-ubuntu22.04-tensorflow${{env.TENSORFLOW_VERSION}}-${{ env.current_date }}
       -
         name: Build and push base devel 24 04 CUDA
         uses: docker/build-push-action@v3
