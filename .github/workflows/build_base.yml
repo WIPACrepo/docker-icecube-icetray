@@ -211,18 +211,18 @@ jobs:
           tags: >
             icecube/icetray-base:devel-ubuntu22.04-rocm${{ env.ROCM_VERSION }},
             icecube/icetray-base:devel-ubuntu22.04-rocm${{ env.ROCM_VERSION }}-${{ env.current_date }}
-      -
-        name: Build and push base devel 24 04 ROCm
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          file: icetray_base/Dockerfile_base-devel-24.04
-          platforms: ${{ env.PLATFORMS }}
-          build-args: |
-            BASE_IMAGE=rocm/dev-ubuntu-24.04:${{ env.ROCM_VERSION }}-complete
-          tags: >
-            icecube/icetray-base:devel-ubuntu24.04-rocm${{ env.ROCM_VERSION }},
-            icecube/icetray-base:devel-ubuntu24.04-rocm${{ env.ROCM_VERSION }}-${{ env.current_date }}
+      # -
+      #   name: Build and push base devel 24 04 ROCm
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: true
+      #     file: icetray_base/Dockerfile_base-devel-24.04
+      #     platforms: ${{ env.PLATFORMS }}
+      #     build-args: |
+      #       BASE_IMAGE=rocm/dev-ubuntu-24.04:${{ env.ROCM_VERSION }}-complete
+      #     tags: >
+      #       icecube/icetray-base:devel-ubuntu24.04-rocm${{ env.ROCM_VERSION }},
+      #       icecube/icetray-base:devel-ubuntu24.04-rocm${{ env.ROCM_VERSION }}-${{ env.current_date }}
       -
         name: Build and push base prod 22 04
         uses: docker/build-push-action@v3
