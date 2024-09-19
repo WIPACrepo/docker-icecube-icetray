@@ -19,7 +19,7 @@ ENV I3_DATA /opt/i3-data
 ENV TMPDIR /scratch
 
 # build the matplotlib font cache (prevents warnings about the font cache on startup)
-RUN python3 -c 'from matplotlib import pyplot'
+# RUN python3 -c 'from matplotlib import pyplot'
 
 # create the scratch directory
 RUN mkdir -p /scratch
