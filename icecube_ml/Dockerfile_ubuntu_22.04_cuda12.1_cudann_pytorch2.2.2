@@ -1,0 +1,29 @@
+ARG VERSION=current
+FROM icecube/icetray:icetray-prod-${VERSION}-ubuntu22.04-X64 as icetray-build
+FROM icecube/icetray-base:devel-ubuntu22.04-pytorch2.2.2-cuda12.1.0-cudnn8 as pytorch-cuda
+
+MAINTAINER IceCube <developers@icecube.wisc.edu>
+
+WORKDIR /root
+
+RUN mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+
+# stage in icetray
+COPY --from=icetray-build /usr/local/icetray /usr/local/icetray
+COPY --from=icetray-build /usr/local/icetray_src /usr/local/icetray_src
+COPY --from=icetray-build /opt/i3-data /opt/i3-data
+
+# set environment variables
+ENV LD_LIBRARY_PATH /usr/local/lib
+ENV I3_DATA /opt/i3-data
+ENV TMPDIR /scratch
+
+# build the matplotlib font cache (prevents warnings about the font cache on startup)
+RUN python3 -c 'from matplotlib import pyplot'
+
+# create the scratch directory
+RUN mkdir -p /scratch
+
+# provide the entry point to run commands
+ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
+CMD ["/bin/bash"]
