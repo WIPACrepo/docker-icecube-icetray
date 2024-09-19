@@ -110,7 +110,19 @@ jobs:
           tags: >
             icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-rocm5.7-ubuntu22.04-devel,
             icecube/icetray-ml:icetray-current-rocm5.7-ubuntu22.04-devel,
-            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-rocm5.7-ubuntu22.04-devel-${{ env.current_date }}      
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-rocm5.7-ubuntu22.04-devel-${{ env.current_date }}
+      -
+        name: Build and push icetray ml for 22 04 pytorch
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icecube_ml/Dockerfile_ubuntu_22.04_cuda12.1_cudann_pytorch2.2.2
+          build-args: |
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudann-pytorch2.2.2-ubuntu22.04-devel,
+            icecube/icetray-ml:icetray-current-cuda12.1-cudann-pytorch2.2.2-ubuntu22.04-devel,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudann-pytorch2.2.2-ubuntu22.04-devel-${{ env.current_date }}
       # -
       #   name: Build and push icetray ml  20 04
       #   uses: docker/build-push-action@v3
