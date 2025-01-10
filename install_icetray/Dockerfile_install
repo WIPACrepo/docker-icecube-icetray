@@ -7,8 +7,7 @@ ARG VERSION=v1.7.2
 WORKDIR /root
 
 # set up test data directory
-RUN mkdir /opt/i3-data
-RUN mkdir /opt/i3-data/i3-test-data
+RUN mkdir /opt/i3-data && mkdir /opt/i3-data/i3-test-data && mkdir /opt/icetray
 
 # check out icetray
 RUN mkdir /root/icetray && mkdir /root/icetray/build
@@ -18,23 +17,23 @@ RUN mkdir /root/icetray && mkdir /root/icetray/build
 RUN echo $CMAKE_CXX_STANDARD
 RUN echo $VERSION
 
-RUN mkdir /usr/local/icetray_src
-WORKDIR /usr/local/icetray_src
+RUN mkdir /opt/icetray_src
+WORKDIR /opt/icetray_src
 RUN git init && git checkout -b ${VERSION} && git config advice.detachedHead false
 RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) && curl -sS -f -I -H "Authorization: token ${GHTOKEN}" https://api.github.com && \
     git pull --depth 1 https://${GHTOKEN}@github.com/icecube/icetray.git ${VERSION}
-RUN echo ${VERSION} > /usr/local/icetray_src/version_tag
-RUN echo ${CMAKE_CXX_STANDARD} > /usr/local/icetray_src/cxx_standard
+RUN echo ${VERSION} > /opt/icetray_src/version_tag
+RUN echo ${CMAKE_CXX_STANDARD} > /opt/icetray_src/cxx_standard
 
 RUN env | sort
 
 # build icetray
 WORKDIR /root/icetray/build
-RUN cmake /usr/local/icetray_src \
+RUN cmake /opt/icetray_src \
       -DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD} \
       -DCMAKE_BUILD_TYPE=Release \
       -DINSTALL_TOOL_LIBS=OFF \
-      -DCMAKE_INSTALL_PREFIX=/usr/local \
+      -DCMAKE_INSTALL_PREFIX=/opt/icetray \
     && make -j4
 
 # install icetray
@@ -69,5 +68,5 @@ WORKDIR /root
 # Cleanup!
 RUN rm -rf /root/icetray
 # provide the entry point to run commands
-ENTRYPOINT ["/bin/bash", "/usr/local/bin/icetray-shell", "exec"]
+ENTRYPOINT ["/bin/bash", "/opt/icetray/bin/icetray-shell", "exec"]
 CMD ["/bin/bash"]
