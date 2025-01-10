@@ -5,7 +5,6 @@
 
 ARG BASE_CONT=icecube/icetray-ml:icetray-ml-base-current-ubuntu20.04
 FROM ${BASE_CONT} as icetray_base
-MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
