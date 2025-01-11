@@ -1,17 +1,13 @@
-ARG TARGET_UBUNTU=ubuntu20.04
+ARG TARGET_UBUNTU=ubuntu22.04
 FROM icecube/icetray-base:devel-${TARGET_UBUNTU} as install
 
 ARG CMAKE_CXX_STANDARD=17
 ARG VERSION=v1.7.2
 
-
-MAINTAINER IceCube <developers@icecube.wisc.edu>
-
 WORKDIR /root
 
 # set up test data directory
-RUN mkdir /opt/i3-data
-RUN mkdir /opt/i3-data/i3-test-data
+RUN mkdir /opt/i3-data && mkdir /opt/i3-data/i3-test-data && mkdir /opt/icetray
 
 # check out icetray
 RUN mkdir /root/icetray && mkdir /root/icetray/build
@@ -21,23 +17,23 @@ RUN mkdir /root/icetray && mkdir /root/icetray/build
 RUN echo $CMAKE_CXX_STANDARD
 RUN echo $VERSION
 
-RUN mkdir /usr/local/icetray_src
-WORKDIR /usr/local/icetray_src
+RUN mkdir /opt/icetray_src
+WORKDIR /opt/icetray_src
 RUN git init && git checkout -b ${VERSION} && git config advice.detachedHead false
 RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) && curl -sS -f -I -H "Authorization: token ${GHTOKEN}" https://api.github.com && \
     git pull --depth 1 https://${GHTOKEN}@github.com/icecube/icetray.git ${VERSION}
-RUN echo ${VERSION} > /usr/local/icetray_src/version_tag
-RUN echo ${CMAKE_CXX_STANDARD} > /usr/local/icetray_src/cxx_standard
+RUN echo ${VERSION} > /opt/icetray_src/version_tag
+RUN echo ${CMAKE_CXX_STANDARD} > /opt/icetray_src/cxx_standard
 
 RUN env | sort
 
 # build icetray
 WORKDIR /root/icetray/build
-RUN cmake /usr/local/icetray_src \
+RUN cmake /opt/icetray_src \
       -DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD} \
       -DCMAKE_BUILD_TYPE=Release \
       -DINSTALL_TOOL_LIBS=OFF \
-      -DCMAKE_INSTALL_PREFIX=/usr/local/icetray \
+      -DCMAKE_INSTALL_PREFIX=/opt/icetray \
     && make -j4
 
 # install icetray
@@ -45,21 +41,21 @@ RUN make install
 
 # set environment variables
 ENV I3_DATA /opt/i3-data
-ENV I3_TESTDATA /opt/i3-data/i3-test-data
+# ENV I3_TESTDATA /opt/i3-data/i3-test-data
 ENV TMPDIR /scratch
 
 # install photon tables
-RUN mkdir -p /opt/i3-data/photon-tables/splines
+# RUN mkdir -p /opt/i3-data/photon-tables/splines
 #    wget -nv -t 5 -O /opt/i3-data/photon-tables/splines/ems_mie_z20_a10.abs.fits       http://prod-exe.icecube.wisc.edu/spline-tables/ems_mie_z20_a10.abs.fits && \
 #    wget -nv -t 5 -O /opt/i3-data/photon-tables/splines/ems_mie_z20_a10.prob.fits      http://prod-exe.icecube.wisc.edu/spline-tables/ems_mie_z20_a10.prob.fits
 
 # install baseline GCDs
-#RUN mkdir /opt/i3-data/baseline_gcds && \
+# RUN mkdir /opt/i3-data/baseline_gcds && \
 #    wget -nv -N -t 5 -P /opt/i3-data/baseline_gcds -r -l 1 -A *.i3* -nd https://icecube:skua@convey.icecube.wisc.edu/data/user/followup/baseline_gcds/ && \
 #    chmod -R u+rwX,go+rX,go-w /opt/i3-data/baseline_gcds
 
 # install test data
-RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/trunk/ /opt/i3-data/i3-test-data/
+# RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/trunk/ /opt/i3-data/i3-test-data/
 
 # build the matplotlib font cache (prevents warnings about the font cache on startup)
 RUN python3 -c 'from matplotlib import pyplot'
@@ -72,5 +68,5 @@ WORKDIR /root
 # Cleanup!
 RUN rm -rf /root/icetray
 # provide the entry point to run commands
-ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
+ENTRYPOINT ["/bin/bash", "/opt/icetray/bin/icetray-shell", "exec"]
 CMD ["/bin/bash"]
