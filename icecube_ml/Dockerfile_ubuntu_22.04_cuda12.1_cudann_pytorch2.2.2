@@ -1,5 +1,5 @@
 ARG VERSION=current
-FROM icecube/icetray:icetray-prod-${VERSION}-ubuntu22.04-X64 as icetray-build
+FROM icecube/icetray:icetray-devel-${VERSION}-ubuntu22.04-X64 as icetray-build
 FROM icecube/icetray-base:devel-ubuntu22.04-pytorch2.2.2-cuda12.1.0-cudnn8 as pytorch-cuda
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
