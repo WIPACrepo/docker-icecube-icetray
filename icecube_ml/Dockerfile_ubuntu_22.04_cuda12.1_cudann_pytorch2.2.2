@@ -1,5 +1,5 @@
 ARG VERSION=current
-FROM icecube/icetray:icetray-prod-${VERSION}-ubuntu22.04-X64 as icetray-build
+FROM icecube/icetray:icetray-devel-${VERSION}-ubuntu22.04-X64 as icetray-build
 FROM icecube/icetray-base:devel-ubuntu22.04-pytorch2.2.2-cuda12.1.0-cudnn8 as pytorch-cuda
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
@@ -9,8 +9,8 @@ WORKDIR /root
 RUN mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 # stage in icetray
-COPY --from=icetray-build /usr/local/icetray /usr/local/icetray
-COPY --from=icetray-build /usr/local/icetray_src /usr/local/icetray_src
+COPY --from=icetray-build /opt/icetray /opt/icetray
+COPY --from=icetray-build /opt/icetray_src /opt/icetray_src
 COPY --from=icetray-build /opt/i3-data /opt/i3-data
 
 # set environment variables
@@ -25,5 +25,5 @@ ENV TMPDIR /scratch
 RUN mkdir -p /scratch
 
 # provide the entry point to run commands
-ENTRYPOINT ["/bin/bash", "/usr/local/icetray/env-shell.sh", "exec"]
+ENTRYPOINT ["/bin/bash", "/opt/icetray/bin/icetray-shell", "exec"]
 CMD ["/bin/bash"]

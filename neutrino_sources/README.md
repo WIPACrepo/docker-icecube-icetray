@@ -3,7 +3,7 @@ IceTray docker images for neutrino sources
 
 Supported
 ---------
-* Ubuntu 20.04
+* Ubuntu 22.04
 
 These images add standard nu-sources tools to icetray images
 
