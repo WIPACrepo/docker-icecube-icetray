@@ -1,8 +1,7 @@
 name: build_icetray_ml
 
 env:
-  ICETRAY_VERSION: v1.13.0
-  PUSH: true
+  ICETRAY_VERSION: v1.8.1
 
 on:
   workflow_dispatch:
@@ -40,71 +39,83 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # -
+      #   name: Build and push icetray ml cuda 11.6 for 20 04
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: true
+      #     file: icecube_ml/Dockerfile_ubuntu_20.04_cuda11.6
+      #     build-args: |
+      #       VERSION=${{ env.ICETRAY_VERSION }}
+      #     tags: >
+      #       icecube/icetray-ml:icetray-cuda11.6-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+      #       icecube/icetray-ml:icetray-cuda11.6-current-ubuntu20.04,
+      #       icecube/icetray-ml:icetray-cuda11.6-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}
       -
-        name: Build and push icetray ml cuda 12.1 for 22 04
+        name: Build and push icetray ml cuda 11.8 for 22 04
         uses: docker/build-push-action@v3
         with:
-          push: ${{env.PUSH}}
+          push: true
           file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8_cudann8
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudnn8-ubuntu22.04,
-            icecube/icetray-ml:icetray-current-cuda12.1-cudnn8-ubuntu22.04,
-            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudnn8-ubuntu22.04-${{ env.current_date }}
-      # -
-      #   name: Build and push icetray ml cuda 11.8 for 22 04 with graphnet
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     push: ${{env.PUSH}}
-      #     file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8_cudann8_icetray_graphnet
-      #     build-args: |
-      #       VERSION=${{ env.ICETRAY_VERSION }}
-      #     tags: >
-      #       icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-graphnet-ubuntu22.04,
-      #       icecube/icetray-ml:icetray-current-cuda11.8-cudnn8-graphnet-ubuntu22.04,
-      #       icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-graphnet-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-ubuntu22.04,
+            icecube/icetray-ml:icetray-current-cuda11.8-cudnn8-ubuntu22.04,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-ubuntu22.04-${{ env.current_date }}
       -
-        name: Build and push icetray ml cuda 12.1 for 22 04 with tensorflow
+        name: Build and push icetray ml cuda 11.8 for 22 04 with graphnet
         uses: docker/build-push-action@v3
         with:
-          push: ${{env.PUSH}}
+          push: true
+          file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8_cudann8_icetray_graphnet
+          build-args: |
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-graphnet-ubuntu22.04,
+            icecube/icetray-ml:icetray-current-cuda11.8-cudnn8-graphnet-ubuntu22.04,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-graphnet-ubuntu22.04-${{ env.current_date }}
+      -
+        name: Build and push icetray ml cuda 11.8 for 22 04 with tensorflow
+        uses: docker/build-push-action@v3
+        with:
+          push: true
           file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8_cudann8_icetray_tensorflow
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudnn8-tf-ubuntu22.04,
-            icecube/icetray-ml:icetray-current-cuda12.1-cudnn8-tf-ubuntu22.04,
-            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudnn8-tf-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-tf-ubuntu22.04,
+            icecube/icetray-ml:icetray-current-cuda11.8-cudnn8-tf-ubuntu22.04,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-tf-ubuntu22.04-${{ env.current_date }}
       -
-        name: Build and push icetray ml cuda 12.1 for 22 04 with graphnet dev
+        name: Build and push icetray ml cuda 11.8 for 22 04 with graphnet dev
         uses: docker/build-push-action@v3
         with:
-          push: ${{env.PUSH}}
+          push: true
           file: icecube_ml/Dockerfile_ubuntu_22.04_cuda11.8_cudann8_icetray_graphnet-devel
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
           tags: >
-            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudnn8-graphnet-ubuntu22.04-devel,
-            icecube/icetray-ml:icetray-current-cuda12.1-cudnn8-graphnet-ubuntu22.04-devel,
-            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudnn8-graphnet-ubuntu22.04-devel-${{ env.current_date }}
-      # -
-      #   name: Build and push icetray ml for 22 04 rocm
-      #   uses: docker/build-push-action@v3
-      #   with:
-      #     push: ${{env.PUSH}}
-      #     file: icecube_ml/Dockerfile_ubuntu_22.04_rocm5.7
-      #     build-args: |
-      #       VERSION=${{ env.ICETRAY_VERSION }}
-      #     tags: >
-      #       icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-rocm5.7-ubuntu22.04-devel,
-      #       icecube/icetray-ml:icetray-current-rocm5.7-ubuntu22.04-devel,
-      #       icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-rocm5.7-ubuntu22.04-devel-${{ env.current_date }}
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-graphnet-ubuntu22.04-devel,
+            icecube/icetray-ml:icetray-current-cuda11.8-cudnn8-graphnet-ubuntu22.04-devel,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda11.8-cudnn8-graphnet-ubuntu22.04-devel-${{ env.current_date }}
+      -
+        name: Build and push icetray ml for 22 04 rocm
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: icecube_ml/Dockerfile_ubuntu_22.04_rocm5.7
+          build-args: |
+            VERSION=${{ env.ICETRAY_VERSION }}
+          tags: >
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-rocm5.7-ubuntu22.04-devel,
+            icecube/icetray-ml:icetray-current-rocm5.7-ubuntu22.04-devel,
+            icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-rocm5.7-ubuntu22.04-devel-${{ env.current_date }}
       -
         name: Build and push icetray ml for 22 04 pytorch
         uses: docker/build-push-action@v3
         with:
-          push: ${{env.PUSH}}
+          push: true
           file: icecube_ml/Dockerfile_ubuntu_22.04_cuda12.1_cudann_pytorch2.2.2
           build-args: |
             VERSION=${{ env.ICETRAY_VERSION }}
@@ -112,3 +123,15 @@ jobs:
             icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudann-pytorch2.2.2-ubuntu22.04-devel,
             icecube/icetray-ml:icetray-current-cuda12.1-cudann-pytorch2.2.2-ubuntu22.04-devel,
             icecube/icetray-ml:icetray-${{ env.ICETRAY_VERSION }}-cuda12.1-cudann-pytorch2.2.2-ubuntu22.04-devel-${{ env.current_date }}
+      # -
+      #   name: Build and push icetray ml  20 04
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: true
+      #     file: icecube_ml/Dockerfile_ubuntu_20.04_icecube_ml
+      #     build-args: |
+      #       VERSION=${{ env.ICETRAY_VERSION }}
+      #     tags: >
+      #       icecube/icetray-ml:icetray-ml-base-${{ env.ICETRAY_VERSION }}-ubuntu20.04,
+      #       icecube/icetray-ml:icetray-ml-base-current-ubuntu20.04,
+      #       icecube/icetray-ml:icetray-ml-base-${{ env.ICETRAY_VERSION }}-ubuntu20.04-${{ env.current_date }}

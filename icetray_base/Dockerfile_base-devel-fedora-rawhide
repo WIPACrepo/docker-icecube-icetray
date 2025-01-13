@@ -1,0 +1,96 @@
+FROM fedora:rawhide as base-devel
+
+MAINTAINER IceCube <developers@icecube.wisc.edu>
+
+WORKDIR /root
+
+RUN dnf -y update
+
+RUN dnf -y group install "Development Tools" "Engineering and Scientific"
+
+RUN dnf -y install astropy-tools \
+           bc \
+           binutils \
+           binutils-devel \
+           blas \
+           blas-devel \
+           boost-date-time \
+           boost-devel \
+           boost-system \ 
+           boost-thread \
+           boost-filesystem \
+           boost-program-options \
+           boost-regex \
+           boost-iostreams \
+           boost-python3-devel \
+           bzip2-devel \
+           cfitsio-devel \
+           cmake \
+           cppzmq-devel \
+           curl \
+           davix-devel \
+           dcap-devel \
+           fontconfig \
+           gcc \
+           gcc-c++ \
+           gcc-gfortran \
+           git \
+           glib2-devel \
+           graphviz \ 
+           gsl-devel \
+           json-c-devel \
+           hdf5 \
+           lapack \
+           lapack-devel \
+           libaec-devel \
+           libarchive \
+           libattr-devel \
+           libgfortran \
+           libicu \
+           libtool \
+           libtool-ltdl \
+           libtool-ltdl-devel \
+           libuuid-devel \
+           libxml2 \
+           libxml2-devel \
+           make \
+           meson \
+           ocl-icd \ 
+           ocl-icd-devel \
+           opencl-headers \
+           openssl \
+           p7zip \
+           p7zip-plugins \     
+           python3-astropy \
+           python3-breathe \
+           python3-devel \
+           python3-numpy \
+           python3-matplotlib \
+           python3-matplotlib-data \
+           python3-scipy \
+           python3-setuptools \
+           redhat-lsb \
+           redhat-lsb-core \
+           srm-ifce-devel \
+           # starlink-pal \
+           suitesparse \
+           wget \
+           xrootd-client-devel \
+           zlib-devel
+
+RUN wget https://github.com/zeromq/cppzmq/archive/master.tar.gz && \
+    tar -zxf master.tar.gz && cd cppzmq-master && \
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local . && make install
+
+# install photospline
+RUN curl -L https://github.com/icecube/photospline/archive/refs/tags/v2.1.0.tar.gz | tar xz && \
+  cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
+
+# build NuFlux
+RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.4.tar.gz | tar xz && \ 
+    cd nuflux-2.0.4 && meson build && ninja -C build install && pip3 install --prefix=/usr/local/ .
+
+# set environment variables
+ENV LD_LIBRARY_PATH /usr/local/lib
+# provide the entry point
+CMD ["/bin/bash"]
