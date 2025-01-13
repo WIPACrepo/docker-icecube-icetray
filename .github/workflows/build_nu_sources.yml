@@ -1,8 +1,5 @@
 name: build_nu_souces_images
 
-env:
-  PUSH: true
-
 on:
   workflow_dispatch:
   push:
@@ -43,7 +40,7 @@ jobs:
         name: Build and push neutrino-sources base 22.04
         uses: docker/build-push-action@v4
         with:
-          push: ${{env.PUSH}}
+          push: true
           file: neutrino_sources/Dockerfile
           secrets: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}

@@ -1,7 +1,7 @@
-#### Create a "developer" base for Rocky 9
+#### Create a "developer" base for Rocky 8
 # Why Rocky. NVIDIA uses Rocky 8 as the base image
 # This is mostly meant as a image for grid computing
-ARG BASE_IMAGE=rockylinux:9
+ARG BASE_IMAGE=rockylinux:8
 FROM ${BASE_IMAGE} as base-devel
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>
@@ -11,18 +11,22 @@ WORKDIR /root
 RUN dnf install -y epel-release
 RUN dnf install -y dnf-plugins-core
 
-RUN dnf config-manager --enable -y crb
+RUN dnf config-manager --enable -y powertools
 RUN dnf config-manager --enable -y epel
 RUN dnf config-manager --enable -y extras
 
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el9-release-latest.rpm; fi
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm; fi
 
-# RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el9-release-latest.rpm
+# RUN dnf -y install http://repo.opensciencegrid.org/osg/3.6/osg-3.6-el8-release-latest.rpm
 
 RUN dnf -y group install "Development Tools" "Scientific Support"
 
-RUN dnf -y --allowerasing install \
-           # astropy-tools \
+RUN dnf -y update
+
+RUN dnf -y upgrade
+
+RUN dnf -y install \
+           astropy-tools \
            bc \
            binutils \
            binutils-devel \
@@ -37,9 +41,9 @@ RUN dnf -y --allowerasing install \
            boost-program-options \
            boost-regex \
            boost-iostreams \
+           boost-python3 \
            boost-python3-devel \
            bzip2-devel \
-           cfitsio \
            cfitsio-devel \
            cmake \
            cppzmq-devel \
@@ -52,8 +56,7 @@ RUN dnf -y --allowerasing install \
            gcc-gfortran \
            git \
            glib2-devel \
-           graphviz \
-           gfal2 \ 
+           graphviz \ 
            gsl-devel \
            json-c-devel \
            hdf5 \
@@ -74,27 +77,29 @@ RUN dnf -y --allowerasing install \
            meson \
            ocl-icd \ 
            ocl-icd-devel \
+           opencl-headers \
            openssl \
-           # osg-wn-client \
            p7zip \
            p7zip-plugins \
-           # python3-astropy \
+           python3 \
            python3-devel \
-           # python3-numpy \
-           # python3-matplotlib\
-           # python3-scipy \
-           # redhat-lsb \
-           # redhat-lsb-core \
+           python3-astropy \
+           python3-numpy \
+           python3-matplotlib \
+           python3-matplotlib-data \
+           python3-scipy \
+           redhat-lsb \
+           redhat-lsb-core \
            srm-ifce-devel \
            # starlink-pal \
-           # stashcache-client \
            suitesparse \
            wget \
            xrootd-client-devel \
-           zlib-devel 
+           zlib-devel
 
-RUN pip3 install numpy scipy matplotlib astropy 'setuptools>=59.5' sphinx breathe 'meson>=1.2.0'
+RUN pip3 install --upgrade 'setuptools>=59.5' sphinx breathe meson
 
+# OSG-specfic stuff
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then dnf -y install osg-wn-client stashcache-client condor libquadmath; fi && rm -f /etc/grid-security/certificates/*.r0
 
 # RUN dnf -y install osg-wn-client stashcache-client condor libquadmath
@@ -120,11 +125,9 @@ RUN mkdir cppzmq-master && \
     cd cppzmq-master && \
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/local . && make install
 
-
 # install photospline
 RUN curl -L https://github.com/icecube/photospline/archive/refs/tags/v2.1.0.tar.gz | tar xz && \
-  cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/ && make && make install
-
+  cd photospline-2.1.0 && cmake . -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
 
 # RUN curl -L https://github.com/icecube/nuflux/archive/refs/tags/v2.0.3.tar.gz | tar xz && \
 #     cd nuflux-2.0.3 && \

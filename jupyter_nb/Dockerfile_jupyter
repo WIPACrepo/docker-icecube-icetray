@@ -5,6 +5,7 @@
 
 ARG BASE_CONT=icecube/icetray-ml:icetray-ml-base-current-ubuntu20.04
 FROM ${BASE_CONT} as icetray_base
+MAINTAINER IceCube <developers@icecube.wisc.edu>
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -20,7 +21,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     fonts-liberation \
-    dvipng texlive-latex-extra texlive-fonts-recommended cm-super \
     locales \
     pandoc \
     run-one \
