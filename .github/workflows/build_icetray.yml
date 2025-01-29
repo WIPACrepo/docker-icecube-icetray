@@ -70,9 +70,9 @@ jobs:
           secrets: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
           tags: >
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }},
-            icecube/icetray:icetray-devel-current-ubuntu22.04-${{ runner.arch }},
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ runner.arch }}-${{ env.current_date }}
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
+            icecube/icetray:icetray-devel-current-ubuntu22.04,
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
   # manifest-docker:
   #   needs: [docker]
   #   runs-on: ubuntu-latest
