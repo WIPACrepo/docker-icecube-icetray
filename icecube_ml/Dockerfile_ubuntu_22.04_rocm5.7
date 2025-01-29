@@ -1,5 +1,5 @@
 ARG VERSION=current
-FROM icecube/icetray:icetray-prod-${VERSION}-ubuntu22.04-X64 as icetray-build
+FROM icecube/icetray:icetray-prod-${VERSION}-ubuntu22.04 as icetray-build
 FROM icecube/icetray-base:devel-ubuntu22.04-rocm5.7 as rocm5.7
 
 MAINTAINER IceCube <developers@icecube.wisc.edu>

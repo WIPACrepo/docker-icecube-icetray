@@ -1,4 +1,4 @@
-ARG BASEIMAGE=icecube/icetray:icetray-devel-current-ubuntu22.04-X64
+ARG BASEIMAGE=icecube/icetray:icetray-devel-current-ubuntu22.04
 FROM ${BASEIMAGE} as icetray_base
 
 #Add some standard nu-sources tools
