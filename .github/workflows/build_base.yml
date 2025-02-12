@@ -6,7 +6,7 @@ env:
   CUDNN_VERSION_DEFAULT: 8
   #ROCM_VERSION_DEFAULT: 5.7
   PYTORCH_VERSION_DEFAULT: 2.2.2
-  TENSORFLOW_VERSION_DEFAULT: 2.17.0
+  #TENSORFLOW_VERSION_DEFAULT: 2.17.0
   PUSH: true
 
 
@@ -38,10 +38,10 @@ on:
           description: 'pytorch Version to use'
           default: '2.2.2'
           required: true  
-      tensorflow_version:
-          description: 'tensorflow Version to use'
-          default: '2.17.0'
-          required: true     
+#      tensorflow_version:
+#          description: 'tensorflow Version to use'
+#          default: '2.17.0'
+#          required: true     
   push:
     branches: [ master ]
     paths:
@@ -151,18 +151,19 @@ jobs:
             icecube/icetray-base:devel-ubuntu22.04-pytorch${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}},
             icecube/icetray-base:devel-ubuntu22.04-pytorch${{env.PYTORCH_VERSION}}-cuda${{env.CUDA_VERSION}}-cudnn${{env.CUDNN_VERSION}}-${{ env.current_date }}
       -
-        name: Build and push base devel 22 04 tensorflow 
-        uses: docker/build-push-action@v3
-        with:
-          push: ${{env.PUSH}}
-          file: icetray_base/Dockerfile_base-devel-22.04
-          platforms: ${{ env.PLATFORMS }}
-          build-args: |
-            BASE_IMAGE=tensorflow/tensorflow:${{env.TENSORFLOW_VERSION}}-gpu
-          tags: >
-            icecube/icetray-base:devel-ubuntu22.04-tensorflow${{env.TENSORFLOW_VERSION}},
-            icecube/icetray-base:devel-ubuntu22.04-tensorflow${{env.TENSORFLOW_VERSION}}-${{ env.current_date }}
-      -
+      # Not used currently...rather TF added to cuda full image.
+      #   name: Build and push base devel 22 04 tensorflow 
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     push: ${{env.PUSH}}
+      #     file: icetray_base/Dockerfile_base-devel-22.04
+      #     platforms: ${{ env.PLATFORMS }}
+      #     build-args: |
+      #       BASE_IMAGE=tensorflow/tensorflow:${{env.TENSORFLOW_VERSION}}-gpu
+      #     tags: >
+      #       icecube/icetray-base:devel-ubuntu22.04-tensorflow${{env.TENSORFLOW_VERSION}},
+      #       icecube/icetray-base:devel-ubuntu22.04-tensorflow${{env.TENSORFLOW_VERSION}}-${{ env.current_date }}
+      # -
 #        name: Build and push base devel 22 04 ROCm
 #        uses: docker/build-push-action@v3
 #        with:

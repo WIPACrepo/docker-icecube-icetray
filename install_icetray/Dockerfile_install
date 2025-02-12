@@ -44,6 +44,7 @@ ENV I3_DATA /opt/i3-data
 # ENV I3_TESTDATA /opt/i3-data/i3-test-data
 ENV TMPDIR /scratch
 
+## No syncing to /opt/i3-data for now.  Makes large images and most people mount /cvmfs
 # install photon tables
 # RUN mkdir -p /opt/i3-data/photon-tables/splines
 #    wget -nv -t 5 -O /opt/i3-data/photon-tables/splines/ems_mie_z20_a10.abs.fits       http://prod-exe.icecube.wisc.edu/spline-tables/ems_mie_z20_a10.abs.fits && \

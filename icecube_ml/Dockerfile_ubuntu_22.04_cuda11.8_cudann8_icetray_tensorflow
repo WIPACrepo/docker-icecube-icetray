@@ -12,7 +12,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install numpy wheel packaging requests opt_einsum 
 RUN pip3 install keras_preprocessing --no-deps
 
-RUN pip3 install tensorflow==2.13.0
+RUN pip3 install tensorflow==2.17.0
 
 # Default command for executing container.
 CMD [ "/bin/bash" ]
