@@ -11,9 +11,8 @@ WORKDIR /root
 # set up test data directory
 RUN mkdir /opt/i3-data && mkdir /opt/i3-data/i3-test-data && mkdir /opt/icetray_build
 
-# create and populate a virtual env and fill with goodies.
-RUN 'python3 -m venv --system-site-packages /opt/realtime_env' && source /opt/realtime_env/bin/activate
-RUN pip install pygcn hop-client gcn_kafka
+# populate python env with goodies.
+RUN pip3 install pygcn hop-client gcn_kafka
 
 # check out + build icetray
 ## GitHub clone
