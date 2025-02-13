@@ -1,0 +1,89 @@
+ARG TARGET_UBUNTU=ubuntu22.04
+FROM icecube/icetray-base:devel-${TARGET_UBUNTU} as install
+
+ARG CMAKE_CXX_STANDARD=17
+ARG ICETRAY_VERSION=v1.13.0
+## note eventually let's use tagged release of realtime - for now, main
+ARG REALTIME_VERSION=main
+
+WORKDIR /root
+
+# set up test data directory
+RUN mkdir /opt/i3-data && mkdir /opt/i3-data/i3-test-data && mkdir /opt/icetray_build
+
+# create and populate a virtual env and fill with goodies.
+RUN python3 -m venv --system-site-packages /opt/realtime_env && source /opt/realtime_env/bin/activate
+RUN pip install pygcn hop-client gcn_kafka
+
+# check out + build icetray
+## GitHub clone
+## Most recent release..
+RUN echo $CMAKE_CXX_STANDARD
+RUN echo $ICETRAY_VERSION
+
+RUN mkdir /opt/icetray_src
+WORKDIR /opt/icetray_src
+RUN git init && git checkout -b ${ICETRAY_VERSION} && git config advice.detachedHead false
+RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) && curl -sS -f -I -H "Authorization: token ${GHTOKEN}" https://api.github.com && \
+    git pull --depth 1 https://${GHTOKEN}@github.com/icecube/icetray.git ${ICETRAY_VERSION}
+RUN echo ${ICETRAY_VERSION} > /opt/icetray_src/version_tag
+RUN echo ${CMAKE_CXX_STANDARD} > /opt/icetray_src/cxx_standard
+
+RUN env | sort
+
+# build icetray
+WORKDIR /opt/icetray_build
+RUN cmake /opt/icetray_src \
+      -DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD} \
+      -DCMAKE_BUILD_TYPE=Release
+    && make -j4
+
+# checkout and build realtime
+RUN mkdir /opt/realtime_src && mkdir /opt/realtime_build
+WORKDIR /opt/realtime_src
+RUN git init && git checkout -b ${REALTIME_VERSION} && git config advice.detachedHead false
+RUN --mount=type=secret,id=GHTOKEN GHTOKEN=$(cat /run/secrets/GHTOKEN) && curl -sS -f -I -H "Authorization: token ${GHTOKEN}" https://api.github.com && \
+    git pull --depth 1 https://${GHTOKEN}@github.com/icecube/realtime.git ${REALTIME_VERSION}
+RUN echo ${REALTIME_VERSION} > /opt/realtime_src/version_tag
+RUN echo ${CMAKE_CXX_STANDARD} > /opt/realtime_src/cxx_standard
+
+# build the parasite that is realtime
+WORKDIR /opt/realtime_build
+RUN cmake /opt/realtime_src \
+      -DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD} \
+      -DCMAKE_BUILD_TYPE=Release
+      -DMETAPROJECT=/opt/icetray_build/ \
+      -DI3_SOURCE_DIR=/opt/icetray_src \
+      -DCMAKE_INSTALL_PREFIX=icetray-plus
+    && make
+
+# set environment variables
+ENV I3_DATA /opt/i3-data
+# ENV I3_TESTDATA /opt/i3-data/i3-test-data
+ENV TMPDIR /scratch
+
+## No syncing to /opt/i3-data for now.  Makes large images and most people mount /cvmfs
+# install photon tables
+# RUN mkdir -p /opt/i3-data/photon-tables/splines
+#    wget -nv -t 5 -O /opt/i3-data/photon-tables/splines/ems_mie_z20_a10.abs.fits       http://prod-exe.icecube.wisc.edu/spline-tables/ems_mie_z20_a10.abs.fits && \
+#    wget -nv -t 5 -O /opt/i3-data/photon-tables/splines/ems_mie_z20_a10.prob.fits      http://prod-exe.icecube.wisc.edu/spline-tables/ems_mie_z20_a10.prob.fits
+
+# install baseline GCDs
+# RUN mkdir /opt/i3-data/baseline_gcds && \
+#    wget -nv -N -t 5 -P /opt/i3-data/baseline_gcds -r -l 1 -A *.i3* -nd https://icecube:skua@convey.icecube.wisc.edu/data/user/followup/baseline_gcds/ && \
+#    chmod -R u+rwX,go+rX,go-w /opt/i3-data/baseline_gcds
+
+# install test data
+# RUN rsync -vrlpt --delete code.icecube.wisc.edu::Offline/test-data/trunk/ /opt/i3-data/i3-test-data/
+
+# build the matplotlib font cache (prevents warnings about the font cache on startup)
+RUN python3 -c 'from matplotlib import pyplot'
+
+# create the scratch directory
+RUN mkdir -p /scratch
+
+
+WORKDIR /root
+# provide the entry point to run commands
+ENTRYPOINT ["/bin/bash", "/opt/realtime_build/env-shell.sh", "exec"]
+CMD ["/bin/bash"]
