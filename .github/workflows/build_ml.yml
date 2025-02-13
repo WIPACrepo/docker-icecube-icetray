@@ -6,10 +6,11 @@ env:
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ master ]
-    paths:
-      - 'icecube_ml/Dockerfile*'
+# commented out, currently images too large, @blaufuss can build and push from UMD machine...
+#  push:
+#    branches: [ master ]
+#    paths:
+#      - 'icecube_ml/Dockerfile*'
 
 jobs:
   docker:
