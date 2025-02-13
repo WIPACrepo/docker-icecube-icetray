@@ -51,7 +51,7 @@ RUN echo ${CMAKE_CXX_STANDARD} > /opt/realtime_src/cxx_standard
 WORKDIR /opt/realtime_build
 RUN cmake /opt/realtime_src \
       -DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD} \
-      -DCMAKE_BUILD_TYPE=Release
+      -DCMAKE_BUILD_TYPE=Release \
       -DMETAPROJECT=/opt/icetray_build/ \
       -DI3_SOURCE_DIR=/opt/icetray_src \
       -DCMAKE_INSTALL_PREFIX=icetray-plus \
