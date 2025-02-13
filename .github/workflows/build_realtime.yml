@@ -87,4 +87,4 @@ jobs:
           tags: >
             icecube/icetray-realtime:icetray-${{ env.ICETRAY_VERSION }}-realtime-${{ env.REALTIME_VERSION }}-ubuntu22.04,
             icecube/icetray-realtime:icetray-realtime-current-ubuntu22.04,
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-realtime-${{ env.REALTIME_VERSION }}-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-realtime:icetray-devel-${{ env.ICETRAY_VERSION }}-realtime-${{ env.REALTIME_VERSION }}-ubuntu22.04-${{ env.current_date }}
