@@ -19,7 +19,7 @@ on:
   push:
     branches: [ master ]
     paths:
-      - 'install_icetray/Dockerfile*'
+      - 'realtime_image/Dockerfile*'
 
 jobs:
   docker:
