@@ -35,7 +35,7 @@ RUN env | sort
 WORKDIR /opt/icetray_build
 RUN cmake /opt/icetray_src \
       -DCMAKE_CXX_STANDARD=${CMAKE_CXX_STANDARD} \
-      -DCMAKE_BUILD_TYPE=Release
+      -DCMAKE_BUILD_TYPE=Release \
     && make -j4
 
 # checkout and build realtime
@@ -54,7 +54,7 @@ RUN cmake /opt/realtime_src \
       -DCMAKE_BUILD_TYPE=Release
       -DMETAPROJECT=/opt/icetray_build/ \
       -DI3_SOURCE_DIR=/opt/icetray_src \
-      -DCMAKE_INSTALL_PREFIX=icetray-plus
+      -DCMAKE_INSTALL_PREFIX=icetray-plus \
     && make
 
 # set environment variables
