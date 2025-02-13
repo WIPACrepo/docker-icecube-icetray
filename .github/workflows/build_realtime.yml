@@ -1,4 +1,4 @@
-name: build_icetray_images
+name: build_realtime_images
 
 env:
   ICETRAY_VERSION_DEFAULT: v1.13.0
@@ -79,11 +79,12 @@ jobs:
           file: realtime_image/Dockerfile_realtime
           build-args: |
             TARGET_UBUNTU=ubuntu22.04
-            VERSION=${{ env.ICETRAY_VERSION }}
+            ICETRAY_VERSION=${{ env.ICETRAY_VERSION }}
+            REALTIME_VERSION=${{ env.REALTIME_VERSION }}
             CMAKE_CXX_STANDARD=17
           secrets: |
             GHTOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }}
           tags: >
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04,
-            icecube/icetray:icetray-devel-current-ubuntu22.04,
-            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-ubuntu22.04-${{ env.current_date }}
+            icecube/icetray-realtime:icetray-${{ env.ICETRAY_VERSION }}-realtime-${{ env.REALTIME_VERSION }}-ubuntu22.04,
+            icecube/icetray-realtime:icetray-realtime-current-ubuntu22.04,
+            icecube/icetray:icetray-devel-${{ env.ICETRAY_VERSION }}-realtime-${{ env.REALTIME_VERSION }}-ubuntu22.04-${{ env.current_date }}
