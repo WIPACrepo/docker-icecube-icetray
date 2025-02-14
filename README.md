@@ -23,4 +23,6 @@ Several image collection are included here, as subdirectories, as well as github
 * jupyter_nb (see [jupyter_nb/README.md](/jupyter_nb/README.md) ) - Add Jupyter notebook tools to existing images (ML images, and neutrino sources), generates:
   * icecube/icetray-nb:icetray-ml-base-current-ubuntu20.04
   * icecube/icetray-nb:nu-sources-nb-current-ubuntu22.04,
+* realtime_images (see [realtime_images/README.md](realtime_images/README.md) ) - Compile Icetray and use it for a parasitic build of realtime metaproject.  It also adds needed python/system packages and reference files. Generates:
+  * icecube/icetray-realtime:icetray-realtime-current-ubuntu22.04
 
