@@ -98,5 +98,5 @@ USER ${NB_UID}
 
 WORKDIR "${HOME}"
 # Configure container startup
-ENTRYPOINT ["tini", "-g", "--", "/usr/local/icetray/env-shell.sh"]
+ENTRYPOINT ["tini", "-g", "--", "/opt/icetray/bin/icetray-shell"]
 CMD ["start-singleuser.sh"]
